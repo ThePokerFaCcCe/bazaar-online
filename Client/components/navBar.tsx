@@ -1,8 +1,11 @@
+import * as React from "react";
 import { Box, Grid, Button } from "@mui/material";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import styles from "../styles/NavBar.module.css";
+import MyBazzarMenu from "./common/NavBar/myBazzarMenu";
+
 const NavBar = (): JSX.Element => {
   return (
     <Box sx={{ padding: "1rem 2rem", borderBottom: "1px solid #EAEAEA" }}>
@@ -35,7 +38,7 @@ const NavBar = (): JSX.Element => {
             >
               |
             </Grid>
-            <Grid item sx={{marginRight: '5px'}}>
+            <Grid item sx={{ marginRight: "5px" }}>
               <Button className={styles.nav__items} variant="text">
                 <LocationOnOutlinedIcon />
                 <span className={styles.navbtn__text}>انتخاب شهر</span>
@@ -45,15 +48,20 @@ const NavBar = (): JSX.Element => {
         </Grid>
         <Grid item>
           <Grid container direction="row" alignItems="center" spacing={2}>
-            <Grid item>
+            <Grid item className={styles.dropdown}>
               <Button className={styles.nav__items} variant="text">
-                <span>
-                  <PersonOutlineOutlinedIcon />
-                </span>
-
-                <span className={styles.navbtn__text}>بازاره من</span>
+                <div>
+                  <span>
+                    <PersonOutlineOutlinedIcon />
+                  </span>
+                  <span className={styles.navbtn__text}>بازاره من</span>
+                </div>
               </Button>
+              <div className={styles.dropdown__content}>
+                <MyBazzarMenu />
+              </div>
             </Grid>
+
             <Grid item>
               <Button className={styles.nav__items} variant="text">
                 <span>
@@ -66,7 +74,7 @@ const NavBar = (): JSX.Element => {
               <Button className={styles.nav__items}>پشتیبانی</Button>
             </Grid>
             <Grid item>
-              <Button className={styles.navbar__btn}  variant="contained">
+              <Button className={styles.navbar__btn} variant="contained">
                 ثبت آگهی
               </Button>
             </Grid>
