@@ -1,8 +1,19 @@
 .nav__items { 
     color: #818181;
-    font-weight: bold
+    font-weight: bold;
+    font-size: 12px;
+    font-weight: 500;
 }
 
 .navbtn__text { 
     margin-right: 8px;
+}
+
+.navbar__btn { 
+    background: #A62626;
+    transition: background 0.4s
+}
+.navbar__btn:hover {
+    background: #be3737; 
+
 }

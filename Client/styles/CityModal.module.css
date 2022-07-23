@@ -1,0 +1,10 @@
+.city__names {
+  border-bottom: 1px solid #ccc;
+  margin-top: 5px;
+  padding-bottom: 10px;
+  cursor: pointer;
+}
+
+.city__modal > .ant-modal-content > .ant-modal-body {
+  background-color: red;
+}
