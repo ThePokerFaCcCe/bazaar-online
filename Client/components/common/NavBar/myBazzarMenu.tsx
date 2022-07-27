@@ -9,25 +9,22 @@ import {
   Divider,
 } from "@mui/material";
 import { Col, Row } from "antd";
-import LoginIcon from "@mui/icons-material/Login";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
-import NoteAltIcon from "@mui/icons-material/NoteAlt";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import { Menus } from "../../../typealias/allTypes";
+import {Login,Bookmark,NoteAlt,RemoveRedEye} from '@mui/icons-material'
+import { Menus } from "../../../type/allTypes";
 
 const menus: Menus = [
-  { title: "ورود", icon: <LoginIcon /> },
-  { title: "نشان شده ها", icon: <BookmarkIcon /> },
-  { title: "یادداشت شده ها", icon: <NoteAltIcon /> },
-  { title: "بازدید های اخیر", icon: <RemoveRedEyeIcon /> },
+  { title: "ورود", icon: <Login /> },
+  { title: "نشان شده ها", icon: <Bookmark /> },
+  { title: "یادداشت شده ها", icon: <NoteAlt /> },
+  { title: "بازدید های اخیر", icon: <RemoveRedEye /> },
 ];
 
 const MyBazzarMenu = (): JSX.Element => (
   <Box
     sx={{
       position: "absolute",
-      width: "250px",
-      left: "-180px",
+      width: "224px",
+      left: "-160px",
       marginTop: "10px",
       fontSize: "5px",
       backgroundColor: "#fff",

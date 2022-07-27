@@ -3,9 +3,11 @@ import NavBar from "../components/navBar";
 import { Container } from "@mui/material";
 import { Provider } from "react-redux";
 import store from "../store/configureStore";
+import { MegaMenu } from "primereact/megamenu";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "antd/dist/antd.css";
 import "../styles/globals.css";
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>

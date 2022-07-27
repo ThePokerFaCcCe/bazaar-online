@@ -1,14 +1,24 @@
-import * as React from "react";
+import { useState } from "react";
 import { Box, Grid, Button } from "@mui/material";
-import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
-import styles from "../styles/NavBar.module.css";
+import {
+  LocationOnOutlined,
+  PersonOutlineOutlined,
+  ChatBubbleOutlineOutlined,
+  ExpandMore,
+  ExpandLess,
+  Search,
+} from "@mui/icons-material";
+import { Input } from "antd";
+import MegaMenu from "./common/NavBar/megaMenu";
 import MyBazzarMenu from "./common/NavBar/myBazzarMenu";
-
+import styles from "../styles/NavBar.module.css";
 const NavBar = (): JSX.Element => {
+  const [showMenu, setShowMenu] = useState(false);
+  const [showMegaMenu, setShowMegaMenu] = useState(false);
+  const [megaMenu2Display, setMegaMenu2Display] = useState("");
+
   return (
-    <Box sx={{ padding: "1rem 2rem", borderBottom: "1px solid #EAEAEA" }}>
+    <Box sx={{ padding: "1rem 0", borderBottom: "1px solid #EAEAEA" }}>
       <Grid
         container
         direction="row"
@@ -40,32 +50,73 @@ const NavBar = (): JSX.Element => {
             </Grid>
             <Grid item sx={{ marginRight: "5px" }}>
               <Button className={styles.nav__items} variant="text">
-                <LocationOnOutlinedIcon />
+                <LocationOnOutlined />
                 <span className={styles.navbtn__text}>انتخاب شهر</span>
               </Button>
+            </Grid>
+            <Grid item>
+              <Button className={styles.nav__items}>
+                <a
+                  onClick={(e) => {
+                    setShowMegaMenu(!showMegaMenu);
+                    e.preventDefault();
+                  }}
+                >
+                  <Box>
+                    <Grid container spacing={0.5} alignItems="center">
+                      <Grid item>دسته ها</Grid>
+                      <Grid item>
+                        {showMegaMenu ? <ExpandLess /> : <ExpandMore />}
+                      </Grid>
+                    </Grid>
+                  </Box>
+                </a>
+              </Button>
+              <Box
+                className={
+                  showMegaMenu ? styles.megamenu__dropdown_content : "d-none"
+                }
+              >
+                <MegaMenu
+                  onSetShowMegaMenu={setShowMegaMenu}
+                  onSetMegaMenu2Display={setMegaMenu2Display}
+                />
+              </Box>
+            </Grid>
+            <Grid item>
+              <Input
+                className={styles.search__input}
+                size="large"
+                placeholder="جستجو در همه آگهی ها"
+                style={{ width: "25vw" }}
+                prefix={<Search sx={{ color: "#BCBCBC" }} />}
+              />
             </Grid>
           </Grid>
         </Grid>
         <Grid item>
-          <Grid container direction="row" alignItems="center" spacing={2}>
+          <Grid container direction="row" alignItems="center" spacing={1}>
             <Grid item className={styles.dropdown}>
-              <Button className={styles.nav__items} variant="text">
+              <Button
+                className={styles.nav__items}
+                onClick={() => setShowMenu(!showMenu)}
+                variant="text"
+              >
                 <div>
                   <span>
-                    <PersonOutlineOutlinedIcon />
+                    <PersonOutlineOutlined />
                   </span>
                   <span className={styles.navbtn__text}>بازاره من</span>
                 </div>
               </Button>
-              <div className={styles.dropdown__content}>
+              <div className={showMenu ? styles.dropdown__content : "d-none"}>
                 <MyBazzarMenu />
               </div>
             </Grid>
-
             <Grid item>
               <Button className={styles.nav__items} variant="text">
                 <span>
-                  <ChatBubbleOutlineOutlinedIcon />
+                  <ChatBubbleOutlineOutlined />
                 </span>
                 <span className={styles.navbtn__text}>چت</span>
               </Button>

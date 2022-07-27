@@ -3,7 +3,7 @@ import { Input } from "antd";
 import SearchIcon from "@mui/icons-material/Search";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import styles from "../../../styles/CityModal.module.css";
-import { ShowCity } from "../../../typealias/allTypes";
+import { ShowCity } from "../../../type/allTypes";
 
 const SelectState = ({ onShowCity }: ShowCity): JSX.Element => (
   <>

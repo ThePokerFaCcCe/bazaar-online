@@ -1,6 +1,6 @@
 import { Box, Grid, Divider, Checkbox } from "@mui/material";
 import { Input } from "antd";
-import { ShowCity } from "../../../typealias/allTypes";
+import { ShowCity } from "../../../type/allTypes";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import styles from "../../../styles/CityModal.module.css";

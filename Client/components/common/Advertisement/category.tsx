@@ -7,72 +7,26 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from "@mui/material";
-import styles from "../../../styles/Advertisement.module.css";
-import HouseOutlinedIcon from "@mui/icons-material/HouseOutlined";
-import DirectionsCarFilledOutlinedIcon from "@mui/icons-material/DirectionsCarFilledOutlined";
-import PhoneIphoneOutlinedIcon from "@mui/icons-material/PhoneIphoneOutlined";
-import BlenderOutlinedIcon from "@mui/icons-material/BlenderOutlined";
-import FormatPaintOutlinedIcon from "@mui/icons-material/FormatPaintOutlined";
-import WatchOutlinedIcon from "@mui/icons-material/WatchOutlined";
-import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import CasinoOutlinedIcon from "@mui/icons-material/CasinoOutlined";
-import HomeRepairServiceOutlinedIcon from "@mui/icons-material/HomeRepairServiceOutlined";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import {
+  HouseOutlined,
+  DirectionsCarFilledOutlined,
+  PhoneIphoneOutlined,
+  BlenderOutlined,
+  FormatPaintOutlined,
+  WatchOutlined,
+  PeopleOutlined,
+  CasinoOutlined,
+  HomeRepairServiceOutlined,
+  ExpandMore,
+} from "@mui/icons-material";
 import { Input } from "antd";
-import { Category } from "../../../typealias/allTypes";
-
-const category: Category = [
-  {
-    title: "املاک",
-    link: "/",
-    icon: <HouseOutlinedIcon className={styles.ad_icons} />,
-  },
-  {
-    title: "وسایل نقلیه",
-    link: "/",
-    icon: <DirectionsCarFilledOutlinedIcon className={styles.ad_icons} />,
-  },
-  {
-    title: "کالای دیجیتال",
-    link: "/",
-    icon: <PhoneIphoneOutlinedIcon className={styles.ad_icons} />,
-  },
-  {
-    title: "خانه و آشپزخانه",
-    link: "/",
-    icon: <BlenderOutlinedIcon className={styles.ad_icons} />,
-  },
-  {
-    title: "خدمات",
-    link: "/",
-    icon: <FormatPaintOutlinedIcon className={styles.ad_icons} />,
-  },
-  {
-    title: "وسایل شخصی",
-    link: "/",
-    icon: <WatchOutlinedIcon className={styles.ad_icons} />,
-  },
-  {
-    title: "سرگرمی و فراغت",
-    link: "/",
-    icon: <CasinoOutlinedIcon className={styles.ad_icons} />,
-  },
-  {
-    title: "اجتماعی",
-    link: "/",
-    icon: <PeopleOutlinedIcon className={styles.ad_icons} />,
-  },
-  {
-    title: "تجهیزات و صنعتی",
-    link: "/",
-    icon: <HomeRepairServiceOutlinedIcon className={styles.ad_icons} />,
-  },
-];
+import { Category } from "../../../type/allTypes";
+import styles from "../../../styles/Advertisement.module.css";
 
 const Category = (): JSX.Element => {
   return (
     <>
-      <Box sx={{ margin: "1rem 0 2rem" }}>
+      <Box sx={{ margin: "1rem 1rem 2rem" }}>
         <Typography
           sx={{ fontSize: "1rem", fontWeight: "500", margin: "1rem" }}
         >
@@ -99,86 +53,135 @@ const Category = (): JSX.Element => {
               </Grid>
             </Grid>
           ))}
+
+          <Accordion sx={{ margin: "10px 0", width: "100%" }}>
+            <AccordionSummary expandIcon={<ExpandMore />}>
+              <Typography>قیمت</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Box>
+                <Grid
+                  container
+                  direction="row"
+                  sx={{ margin: "20px 0" }}
+                  alignItems="center"
+                >
+                  <Grid item>
+                    <span>حداقل قیمت</span>
+                  </Grid>
+                  <Grid item sx={{ margin: "0 15px" }}>
+                    <Input
+                      style={{ width: "100%" }}
+                      placeholder="قیمت را وارد کنید"
+                    />
+                  </Grid>
+                </Grid>
+                <Grid
+                  container
+                  direction="row"
+                  sx={{ margin: "20px 0" }}
+                  alignItems="center"
+                >
+                  <Grid item>
+                    <span>حداکثر قیمت</span>
+                  </Grid>
+                  <Grid item sx={{ margin: "0 15px" }}>
+                    <Input
+                      style={{ width: "100%" }}
+                      placeholder="قیمت را وارد کنید"
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion sx={{ width: "100%" }}>
+            <AccordionSummary expandIcon={<ExpandMore />}>
+              <Typography>وضعیت آگهی</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Box>
+                <Grid
+                  container
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <Grid item>
+                    <Typography>فقط عکس دار</Typography>
+                  </Grid>
+                  <Grid item>
+                    <Switch />
+                  </Grid>
+                </Grid>
+                <Grid
+                  container
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <Grid item>
+                    <Typography>فقط فوری ها</Typography>
+                  </Grid>
+                  <Grid item>
+                    <Switch />
+                  </Grid>
+                </Grid>
+              </Box>
+            </AccordionDetails>
+          </Accordion>
         </Grid>
-        <Accordion sx={{ margin: "10px 0" }}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography>قیمت</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Box>
-              <Grid
-                container
-                direction="row"
-                sx={{ margin: "20px 0" }}
-                alignItems="center"
-              >
-                <Grid item>
-                  <span>حداقل قیمت</span>
-                </Grid>
-                <Grid item sx={{ margin: "0 15px" }}>
-                  <Input
-                    style={{ width: "100%" }}
-                    placeholder="قیمت را وارد کنید"
-                  />
-                </Grid>
-              </Grid>
-              <Grid
-                container
-                direction="row"
-                sx={{ margin: "20px 0" }}
-                alignItems="center"
-              >
-                <Grid item>
-                  <span>حداکثر قیمت</span>
-                </Grid>
-                <Grid item sx={{ margin: "0 15px" }}>
-                  <Input
-                    style={{ width: "100%" }}
-                    placeholder="قیمت را وارد کنید"
-                  />
-                </Grid>
-              </Grid>
-            </Box>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography>وضعیت آگهی</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Box>
-              <Grid
-                container
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Grid item>
-                  <Typography>فقط عکس دار</Typography>
-                </Grid>
-                <Grid item>
-                  <Switch />
-                </Grid>
-              </Grid>
-              <Grid
-                container
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Grid item>
-                  <Typography>فقط فوری ها</Typography>
-                </Grid>
-                <Grid item>
-                  <Switch />
-                </Grid>
-              </Grid>
-            </Box>
-          </AccordionDetails>
-        </Accordion>
       </Box>
     </>
   );
 };
 
 export default Category;
+
+const category: Category = [
+  {
+    title: "املاک",
+    link: "/",
+    icon: <HouseOutlined className={styles.ad_icons} />,
+  },
+  {
+    title: "وسایل نقلیه",
+    link: "/",
+    icon: <DirectionsCarFilledOutlined className={styles.ad_icons} />,
+  },
+  {
+    title: "کالای دیجیتال",
+    link: "/",
+    icon: <PhoneIphoneOutlined className={styles.ad_icons} />,
+  },
+  {
+    title: "خانه و آشپزخانه",
+    link: "/",
+    icon: <BlenderOutlined className={styles.ad_icons} />,
+  },
+  {
+    title: "خدمات",
+    link: "/",
+    icon: <FormatPaintOutlined className={styles.ad_icons} />,
+  },
+  {
+    title: "وسایل شخصی",
+    link: "/",
+    icon: <WatchOutlined className={styles.ad_icons} />,
+  },
+  {
+    title: "سرگرمی و فراغت",
+    link: "/",
+    icon: <CasinoOutlined className={styles.ad_icons} />,
+  },
+  {
+    title: "اجتماعی",
+    link: "/",
+    icon: <PeopleOutlined className={styles.ad_icons} />,
+  },
+  {
+    title: "تجهیزات و صنعتی",
+    link: "/",
+    icon: <HomeRepairServiceOutlined className={styles.ad_icons} />,
+  },
+];

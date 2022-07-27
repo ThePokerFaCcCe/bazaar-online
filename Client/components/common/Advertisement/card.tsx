@@ -1,9 +1,9 @@
 import { Box } from "@mui/material";
 import styles from "../../../styles/Advertisement.module.css";
-import { Card } from "../../../typealias/allTypes";
+import { Card } from "../../../type/allTypes";
 
 const Card = ({ title }: Card): JSX.Element => (
-  <div className="card" style={{ width: "410px", height: "165px" }}>
+  <div className="card mx-auto" style={{ width: "410px", height: "165px" }}>
     <div className="card-body overflow-hidden">
       <div className="d-flex justify-content-between">
         <div className="d-flex flex-column justify-content-between">
