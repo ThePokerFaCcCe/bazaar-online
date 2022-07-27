@@ -1,0 +1,62 @@
+.chat__name {
+  padding: 2rem 0;
+  cursor: pointer;
+}
+
+.chat__name:hover {
+  background-color: #f0faff;
+}
+
+.chat__messageBox {
+  position: relative;
+  padding: 1rem 1rem 0;
+  margin: 0.8rem 0 2rem;
+}
+
+.chat__message {
+  padding: 1rem 1rem 1rem 3rem;
+  position: relative;
+  background-color: #fceae0;
+  border-radius: 15px;
+}
+
+.chat__message_time {
+  position: absolute;
+  bottom: 0;
+  left: 5px;
+}
+
+.chat__text {
+  position: relative;
+  bottom: 10px;
+  left: 5px;
+}
+
+.chat__input {
+  height: 100%;
+  width: 60%;
+  outline: 0;
+  border: none;
+  padding: 0;
+}
+
+.borderBottom {
+  border-bottom: 1px solid #dee2e6;
+}
+
+.chat__message_self {
+  background-color: #5d86aa;
+  color: #fff;
+}
+
+.chat__holder {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+@media screen and (min-width: 768px) {
+  .chat__input {
+    width: 80%;
+    padding: 1rem;
+  }
+}

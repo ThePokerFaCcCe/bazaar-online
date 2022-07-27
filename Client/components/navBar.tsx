@@ -12,13 +12,15 @@ import { Input } from "antd";
 import MegaMenu from "./common/NavBar/megaMenu";
 import MyBazzarMenu from "./common/NavBar/myBazzarMenu";
 import styles from "../styles/NavBar.module.css";
+import Link from "next/link";
+
 const NavBar = (): JSX.Element => {
   const [showMenu, setShowMenu] = useState(false);
   const [showMegaMenu, setShowMegaMenu] = useState(false);
   const [megaMenu2Display, setMegaMenu2Display] = useState("");
 
   return (
-    <Box sx={{ padding: "1rem 0", borderBottom: "1px solid #EAEAEA" }}>
+    <Box sx={{ padding: "1rem 0.5rem", borderBottom: "1px solid #EAEAEA" }}>
       <Grid
         container
         direction="row"
@@ -34,7 +36,17 @@ const NavBar = (): JSX.Element => {
             alignItems="center"
           >
             <Grid item>
-              <h6 style={{ color: "#A62626" }}>بازار آنلاین</h6>
+              <Link href="/">
+                <h6
+                  style={{
+                    color: "#A62626",
+                    fontWeight: "500",
+                    cursor: "pointer",
+                  }}
+                >
+                  بازار آنلاین
+                </h6>
+              </Link>
             </Grid>
             <Grid
               item
@@ -114,12 +126,14 @@ const NavBar = (): JSX.Element => {
               </div>
             </Grid>
             <Grid item>
-              <Button className={styles.nav__items} variant="text">
-                <span>
-                  <ChatBubbleOutlineOutlined />
-                </span>
-                <span className={styles.navbtn__text}>چت</span>
-              </Button>
+              <Link href="/chat">
+                <Button className={styles.nav__items} variant="text">
+                  <span>
+                    <ChatBubbleOutlineOutlined />
+                  </span>
+                  <span className={styles.navbtn__text}>چت</span>
+                </Button>
+              </Link>
             </Grid>
             <Grid item>
               <Button className={styles.nav__items}>پشتیبانی</Button>

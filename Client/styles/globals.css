@@ -37,10 +37,6 @@ body {
   overflow-x: hidden;
 }
 
-body {
-  direction: rtl;
-}
-
 a {
   color: inherit;
   text-decoration: none;
@@ -50,6 +46,23 @@ a {
   box-sizing: border-box;
 }
 
+.mui__container {
+  padding: 0 !important;
+  margin: 0 !important;
+  direction: rtl;
+}
+
 .city__modal > .ant-modal-content > .ant-modal-body {
   padding: 0;
+}
+
+.nopadding {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+@media screen and (max-width: 583px) {
+  .borderBottom {
+    border-bottom: 1px solid #dee2e6;
+  }
 }
