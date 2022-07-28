@@ -33,7 +33,7 @@ const AD = ({ post }: AdvertisementListProps): JSX.Element => {
             <Link href="/">خانه</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
-            <Link href="/advertisement">آگهی ها</Link>
+            <Link href="/ad">آگهی ها</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>کلاچ اتوماتیک HAC PLUS CENTERAL</Breadcrumb.Item>
         </Breadcrumb>

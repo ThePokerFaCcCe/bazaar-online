@@ -20,3 +20,11 @@ export type MegaMenuProp = {
   onSetShowMegaMenu: Dispatch<SetStateAction<boolean>>;
   onSetMegaMenu2Display: Dispatch<SetStateAction<string>>;
 };
+
+export type StepsProp = {
+  onSetStep: Dispatch<SetStateAction<number>>;
+};
+
+export type RTLProps = {
+  children: JSX.Element;
+};

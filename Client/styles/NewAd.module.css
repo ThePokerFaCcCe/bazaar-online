@@ -1,0 +1,29 @@
+.section__title {
+  margin: 1rem 0;
+  font-weight: 500;
+}
+
+.section__text {
+  color: #6c757d;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.change__category {
+  font-size: 1rem;
+  color: rgb(166, 38, 38);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.category__name {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #6c757d;
+}
+
+.create__new_ad {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+}

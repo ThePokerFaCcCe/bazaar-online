@@ -139,9 +139,11 @@ const NavBar = (): JSX.Element => {
               <Button className={styles.nav__items}>پشتیبانی</Button>
             </Grid>
             <Grid item>
-              <Button className={styles.navbar__btn} variant="contained">
-                ثبت آگهی
-              </Button>
+              <Link href="/ad/new">
+                <Button className={styles.navbar__btn} variant="contained">
+                  ثبت آگهی
+                </Button>
+              </Link>
             </Grid>
           </Grid>
         </Grid>
