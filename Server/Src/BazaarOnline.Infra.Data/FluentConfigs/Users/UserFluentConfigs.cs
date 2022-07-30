@@ -55,7 +55,7 @@ namespace BazaarOnline.Infra.Data.FluentConfigs
         }
         private void ConfigureQueryFilters(EntityTypeBuilder<User> builder)
         {
-            builder.HasQueryFilter(u => u.IsDeleted == false && u.IsActive == true);
+            builder.HasQueryFilter(u => u.IsDeleted == false);
         }
 
         private void ConfigureRelations(EntityTypeBuilder<User> builder)
