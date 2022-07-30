@@ -57,23 +57,11 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="row vh-100">
-        <div className="col-md-4">
-          <Box
-            sx={{
-              backgroundColor: "#F5F5F5",
-              width: "100%",
-              height: "100%",
-              padding: "6rem 1.5rem",
-              textAlign: "center",
-              fontWeight: "500",
-            }}
-          >
+        <div className="col-md-4 order2">
+          <Box className="wall">
             <p>بازار آنلاین! پایگاه خرید و فروش بی‌واسطه‌</p>
             <br />
-            <p>
-              اگه دنبال چیزی هستی، شهرت رو انتخاب کن و تو دسته‌بندی‌ها به دنبالش
-              بگرد.
-            </p>
+            <p>اگه هستی، شهرت رو انتخاب کن و تو دسته‌بندی‌ها به دنبالش بگرد.</p>
             <br />
             <p>
               اگر هم می‌خوای چیزی بفروشی، چند تا عکس خوب ازش بگیر و آگهیت رو
@@ -135,7 +123,7 @@ const Home: NextPage = () => {
             </Grid>
           </Box>
         </div>
-        <div className="col-md-8">
+        <div className="col-md-8 order1">
           <Box sx={{ width: "100%", marginTop: "2rem", paddingBottom: "5rem" }}>
             <Box sx={{ margin: "0 4rem" }}>
               <Input

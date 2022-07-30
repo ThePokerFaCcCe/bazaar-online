@@ -1,13 +1,13 @@
+import React, { useState } from "react";
 import { Box, Grid, Typography, Button } from "@mui/material";
 import { Select } from "antd";
-import styles from "../../../../styles/NewAd.module.css";
-import { Category, StepsProp } from "../../../../type/allTypes";
-import RTL from "../../../../services/rtl";
 import { PlusOutlined } from "@ant-design/icons";
 import { Modal, Upload } from "antd";
 import type { RcFile, UploadProps } from "antd/es/upload";
 import type { UploadFile } from "antd/es/upload/interface";
-import React, { useState } from "react";
+import { Category, StepsProp } from "../../../../type/allTypes";
+import styles from "../../../../styles/NewAd.module.css";
+import RTL from "../../../../services/rtl";
 
 const { Option } = Select;
 

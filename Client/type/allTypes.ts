@@ -28,3 +28,14 @@ export type StepsProp = {
 export type RTLProps = {
   children: JSX.Element;
 };
+
+export type DesktopNavBarProps = {
+  onSetShowMenu: Dispatch<SetStateAction<boolean>>;
+  onSetShowMegaMenu: Dispatch<SetStateAction<boolean>>;
+  onSetMegaMenuToDisplay: Dispatch<SetStateAction<string>>;
+  onShowMenu: boolean;
+  onShowMegaMenu: boolean;
+  onMegaMenu2Display: string;
+};
+
+export type NavItems = { title: string; icon: JSX.Element }[];
