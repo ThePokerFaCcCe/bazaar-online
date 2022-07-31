@@ -28,8 +28,7 @@ namespace BazaarOnline.Infra.Data.FluentConfigs
                 .HasMaxLength(64);
 
             builder.Property(m => m.ExpireDate)
-                .IsRequired()
-                .HasDefaultValue<DateTime>(DateTime.Now.AddMinutes(1));
+                .IsRequired();
         }
 
         private void ConfigureRelations(EntityTypeBuilder<ActiveCode> builder)
