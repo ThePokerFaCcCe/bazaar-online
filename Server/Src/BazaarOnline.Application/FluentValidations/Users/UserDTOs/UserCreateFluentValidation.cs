@@ -13,8 +13,8 @@ namespace BazaarOnline.Application.FluentValidations
                 .WithMessage("این ایمیل قبلا ثبت شده است");
 
             RuleFor(v => v.PhoneNumber)
-                .Must(phone => (!string.IsNullOrEmpty(phone)
-                      && !userService.IsPhoneNumberExists(phone))
+                .Must(phone => ((string.IsNullOrEmpty(phone)) ? true :
+                       !userService.IsPhoneNumberExists(phone))
                 )
                 .WithMessage("این شماره قبلا ثبت شده است");
 
