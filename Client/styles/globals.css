@@ -77,11 +77,6 @@ a {
   }
 }
 
-.ant-drawer-body {
-  margin: 0;
-  padding: 0;
-}
-
 .wall {
   background-color: #f5f5f5;
   width: 100%;
@@ -103,5 +98,30 @@ a {
 @media screen and (min-width: 768px) {
   .wall {
     padding: 6rem 1.5rem;
+  }
+}
+
+.card__size {
+  width: 350px;
+  height: 165px;
+}
+
+@media screen and (min-width: 427px) {
+  .card__size {
+    width: 410px;
+    height: 165px;
+  }
+}
+
+.desktop__category {
+  display: none;
+}
+
+@media screen and (min-width: 575px) {
+  .desktop__category {
+    display: block;
+  }
+  .mobile__category {
+    display: none;
   }
 }

@@ -1,5 +1,10 @@
 .category__item {
   transition: color 0.3s;
+  font-size: 1rem;
+  white-space: nowrap;
+  margin: 10px 0;
+  color: rgba(0, 0, 0, 0.56);
+  cursor: pointer;
 }
 
 .category__item:hover {
@@ -25,4 +30,8 @@
 }
 .advertisement__button:hover {
   background: #be3737;
+}
+
+.category__holder {
+  margin: 1rem 0 2rem;
 }
