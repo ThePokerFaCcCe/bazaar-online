@@ -1,9 +1,8 @@
-using BazaarOnline.Application.DTOs;
 using BazaarOnline.Application.DTOs.AuthDTOs;
 using BazaarOnline.Application.Interfaces.Auth;
+using BazaarOnline.Application.Interfaces.Senders;
 using BazaarOnline.Application.Interfaces.Users;
 using BazaarOnline.Application.Securities;
-using BazaarOnline.Application.Senders;
 using BazaarOnline.Domain.Entities.Users;
 using Microsoft.Extensions.Configuration;
 using Testing.Application.DTOs.JwtDTOs;
@@ -14,10 +13,12 @@ namespace BazaarOnline.Application.Services.Auth
     {
         private readonly IActiveCodeService _activeCodeService;
         private readonly IConfiguration _configuration;
-        public AuthService(IActiveCodeService activeCodeService, IConfiguration configuration)
+        private readonly IEmailService _emailService;
+        public AuthService(IActiveCodeService activeCodeService, IConfiguration configuration, IEmailService emailService)
         {
             _activeCodeService = activeCodeService;
             _configuration = configuration;
+            _emailService = emailService;
         }
 
 
@@ -35,7 +36,7 @@ namespace BazaarOnline.Application.Services.Auth
         {
             var activeCode = _activeCodeService.CreateActiveCode(user.Email);
 
-            EmailSender.SendActiveCode(user, activeCode);
+            _emailService.SendActiveCode(user, activeCode);
 
             return new CodeSentResultDTO
             {
