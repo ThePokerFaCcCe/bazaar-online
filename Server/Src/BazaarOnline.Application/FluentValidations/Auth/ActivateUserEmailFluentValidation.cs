@@ -10,11 +10,14 @@ namespace BazaarOnline.Application.FluentValidations.Auth
         {
             RuleFor(v => v.Email)
                 .Must(email => userService.IsInactiveUserExists(email))
-                .WithMessage("کاربر غیرفعال با این ایمیل یافت نشد");
+                .WithMessage("کاربر غیرفعال با این ایمیل یافت نشد")
+                .DependentRules(() =>
+                {
+                    RuleFor(v => v.Code)
+                        .Must((v, code) => activeCodeService.IsActiveCodeExists(v.Email, code))
+                        .WithMessage("کد فعالسازی وارد شده یافت نشد");
+                });
 
-            RuleFor(v => v.Code)
-                .Must((v, code) => activeCodeService.IsActiveCodeExists(v.Email, code))
-                .WithMessage("کد فعالسازی وارد شده یافت نشد");
         }
     }
 }
