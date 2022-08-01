@@ -16,6 +16,12 @@ namespace BazaarOnline.Application.Services.Users
             _userRepository = userRepository;
         }
 
+        public void ActivateUser(User user)
+        {
+            user.IsActive = true;
+            UpdateUser(user);
+        }
+
         public bool ComparePassword(User user, string password)
         {
             return PasswordHelper.VerifyPassword(password, user.Password);
