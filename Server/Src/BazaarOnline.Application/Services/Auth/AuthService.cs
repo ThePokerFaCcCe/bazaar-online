@@ -13,33 +13,13 @@ namespace BazaarOnline.Application.Services.Auth
     public class AuthService : IAuthService
     {
         private readonly IActiveCodeService _activeCodeService;
-        private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
-        public AuthService(IActiveCodeService activeCodeService, IUserService userService, IConfiguration configuration)
+        public AuthService(IActiveCodeService activeCodeService, IConfiguration configuration)
         {
             _activeCodeService = activeCodeService;
-            _userService = userService;
             _configuration = configuration;
         }
 
-        public OperationResultDTO ActivateUserByCode(User user, string code)
-        {
-            var activeCode = _activeCodeService.GetActiveCode(user.Email, code);
-            if (activeCode == null)
-                return new OperationResultDTO
-                {
-                    Message = "کد وارد شده یافت نشد"
-                };
-
-            user.IsActive = true;
-            _userService.UpdateUser(user);
-
-            return new OperationResultDTO
-            {
-                IsSuccess = true,
-                Message = "حساب شما فعال شد. هم اکنون می توانید وارد حساب خود شوید"
-            };
-        }
 
         public GeneratedTokenDTO CreateToken(User user)
         {

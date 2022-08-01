@@ -65,9 +65,13 @@ namespace BazaarOnline.API.Controllers
             if (!ModelState.IsValid) return BadRequest(activeDTO);
 
             var user = _userService.FindUser(activeDTO.Email);
-            var activationResult = _authService.ActivateUserByCode(user, activeDTO.Code);
+            _userService.ActivateUser(user);
 
-            return Ok(activationResult);
+            return Ok(new OperationResultDTO
+            {
+                IsSuccess = true,
+                Message = "حساب شما فعال شد. هم اکنون می توانید وارد حساب خود شوید"
+            });
         }
 
 

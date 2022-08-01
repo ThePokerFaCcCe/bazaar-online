@@ -9,8 +9,6 @@ namespace BazaarOnline.Application.Interfaces.Auth
     {
         CodeSentResultDTO RegisterUserByEmail(User user);
 
-        OperationResultDTO ActivateUserByCode(User user, string code);
-
         #region JWT
         GeneratedTokenDTO CreateToken(User user);
         #endregion
