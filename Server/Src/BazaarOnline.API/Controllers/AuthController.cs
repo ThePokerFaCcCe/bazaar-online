@@ -22,7 +22,7 @@ namespace BazaarOnline.API.Controllers
         }
 
         [HttpPost(nameof(Register))]
-        public ActionResult<OperationResultDTO> Register(UserCreateDTO userDTO)
+        public ActionResult Register(UserCreateDTO userDTO)
         {
             if (!ModelState.IsValid) return BadRequest(userDTO);
 
