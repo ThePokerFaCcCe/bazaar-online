@@ -60,7 +60,9 @@ namespace BazaarOnline.Infra.Data.FluentConfigs
 
         private void ConfigureRelations(EntityTypeBuilder<User> builder)
         {
-
+            builder.HasMany(u => u.UserRoles)
+                .WithOne(ur => ur.User)
+                .HasForeignKey(ur => ur.UserId);
         }
 
         private void ConfigureIndexes(EntityTypeBuilder<User> builder)

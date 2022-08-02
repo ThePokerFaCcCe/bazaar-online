@@ -27,6 +27,7 @@ namespace BazaarOnline.Domain.Entities.Users
         public string FullName => $"{FirstName} {LastName}".Trim();
 
         #region Relations
+        public List<UserRole> UserRoles { get; set; }
 
         #endregion
     }
