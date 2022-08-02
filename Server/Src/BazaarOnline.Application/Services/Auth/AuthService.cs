@@ -1,11 +1,11 @@
 using BazaarOnline.Application.DTOs.AuthDTOs;
+using BazaarOnline.Application.DTOs.JwtDTOs;
 using BazaarOnline.Application.Interfaces.Auth;
 using BazaarOnline.Application.Interfaces.Senders;
 using BazaarOnline.Application.Interfaces.Users;
 using BazaarOnline.Application.Securities;
 using BazaarOnline.Domain.Entities.Users;
 using Microsoft.Extensions.Configuration;
-using Testing.Application.DTOs.JwtDTOs;
 
 namespace BazaarOnline.Application.Services.Auth
 {

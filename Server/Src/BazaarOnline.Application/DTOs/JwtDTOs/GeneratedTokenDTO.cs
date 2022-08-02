@@ -1,4 +1,4 @@
-namespace Testing.Application.DTOs.JwtDTOs
+namespace BazaarOnline.Application.DTOs.JwtDTOs
 {
     public class GeneratedTokenDTO
     {

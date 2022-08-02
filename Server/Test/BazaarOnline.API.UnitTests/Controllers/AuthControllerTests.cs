@@ -1,6 +1,7 @@
 using BazaarOnline.API.Controllers;
 using BazaarOnline.Application.DTOs;
 using BazaarOnline.Application.DTOs.AuthDTOs;
+using BazaarOnline.Application.DTOs.JwtDTOs;
 using BazaarOnline.Application.DTOs.Users.UserDTOs;
 using BazaarOnline.Application.Interfaces.Auth;
 using BazaarOnline.Application.Interfaces.Users;
@@ -8,7 +9,6 @@ using BazaarOnline.Domain.Entities.Users;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
-using Testing.Application.DTOs.JwtDTOs;
 
 namespace BazaarOnline.API.UnitTests.Controllers;
 

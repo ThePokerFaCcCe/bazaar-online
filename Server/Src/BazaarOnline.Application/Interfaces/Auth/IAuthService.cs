@@ -1,7 +1,7 @@
 using BazaarOnline.Application.DTOs;
 using BazaarOnline.Application.DTOs.AuthDTOs;
+using BazaarOnline.Application.DTOs.JwtDTOs;
 using BazaarOnline.Domain.Entities.Users;
-using Testing.Application.DTOs.JwtDTOs;
 
 namespace BazaarOnline.Application.Interfaces.Auth
 {

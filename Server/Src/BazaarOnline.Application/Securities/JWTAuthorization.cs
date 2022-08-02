@@ -2,9 +2,9 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using BazaarOnline.Application.DTOs.JwtDTOs;
 using BazaarOnline.Domain.Entities.Users;
 using Microsoft.IdentityModel.Tokens;
-using Testing.Application.DTOs.JwtDTOs;
 
 namespace BazaarOnline.Application.Securities
 {
