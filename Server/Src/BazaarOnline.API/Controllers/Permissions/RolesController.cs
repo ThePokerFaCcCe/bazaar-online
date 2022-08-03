@@ -43,8 +43,8 @@ namespace BazaarOnline.API.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(roleModel);
 
-            var role = _roleService.CreateRole(roleModel);
-            return CreatedAtAction(nameof(GetRoleById), new { Id = role.Id }, role);
+            var roleId = _roleService.CreateRole(roleModel);
+            return CreatedAtAction(nameof(GetRoleById), new { Id = roleId });
         }
 
         [HttpPut("{id}")]
