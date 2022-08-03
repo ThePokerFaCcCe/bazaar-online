@@ -19,7 +19,7 @@ namespace BazaarOnline.Application.Services.Permissions
             _roleRepository = roleRepository;
         }
 
-        public RoleDetailViewModel CreateRole(RoleCreateDTO roleModel)
+        public int CreateRole(RoleCreateDTO roleModel)
         {
             var rolePermissions = new List<RolePermission>();
             roleModel.Permissions.ForEach(p => rolePermissions.Add(
@@ -37,7 +37,7 @@ namespace BazaarOnline.Application.Services.Permissions
             });
 
             _roleRepository.Save();
-            return GetRoleDetail(role.Id);
+            return role.Id;
         }
 
         public void DeleteRole(Role role)
