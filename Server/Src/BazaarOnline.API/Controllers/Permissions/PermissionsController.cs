@@ -4,7 +4,7 @@ using BazaarOnline.Application.ViewModels.PermissionViewModels;
 using BazaarOnline.Infra.Data.Seeds.DefaultDatas;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Testing.Controllers.Permissions
+namespace BazaarOnline.Controllers.Permissions
 
 {
     [Route("api/[controller]")]
