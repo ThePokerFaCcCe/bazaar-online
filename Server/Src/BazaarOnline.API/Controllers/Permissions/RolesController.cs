@@ -1,10 +1,11 @@
+using BazaarOnline.Application.DTOs.Permissions.RoleDTOs;
 using BazaarOnline.Application.Interfaces.Permissions;
 using BazaarOnline.Application.Securities.Attributes;
 using BazaarOnline.Application.ViewModels.RoleViewModels;
 using BazaarOnline.Infra.Data.Seeds.DefaultDatas;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Testing.API.Controllers
+namespace BazaarOnline.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -30,9 +31,8 @@ namespace Testing.API.Controllers
         [HasPermission(DefaultPermissions.GetRolesId)]
         public ActionResult<RoleDetailViewModel> GetRoleById(int id)
         {
-            var result = _roleService.FindRole(id);
-            if (result == null)
-                return NotFound();
+            var result = _roleService.GetRoleDetail(id);
+            if (result == null) return NotFound();
 
             return Ok(result);
         }
@@ -41,8 +41,48 @@ namespace Testing.API.Controllers
         [HasPermission(DefaultPermissions.CreateRoleId)]
         public ActionResult<RoleDetailViewModel> CreateRole(RoleCreateViewModel roleModel)
         {
+            if (!ModelState.IsValid) return BadRequest(roleModel);
+
             var role = _roleService.CreateRole(roleModel);
             return CreatedAtAction(nameof(GetRoleById), new { Id = role.Id }, role);
+        }
+
+        [HttpPut("{id}")]
+        [HasPermission(DefaultPermissions.UpdateRoleId)]
+        public ActionResult UpdateRole(int id, [FromBody] RoleUpdateDTO updateDTO)
+        {
+            if (_roleService.IsRoleUneditable(id))
+            {
+                ModelState.AddModelError(nameof(id),
+                    "شما نمیتوانید این نقش را تغییر دهید");
+                return ValidationProblem(ModelState);
+            }
+
+            var role = _roleService.FindRole(id);
+            if (role == null) return NotFound();
+
+            if (!ModelState.IsValid) return BadRequest(updateDTO);
+
+            _roleService.UpdateRole(role, updateDTO);
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        [HasPermission(DefaultPermissions.DeleteRoleId)]
+        public ActionResult DeleteRole(int id)
+        {
+            if (_roleService.IsRoleUneditable(id))
+            {
+                ModelState.AddModelError(nameof(id),
+                    "شما نمیتوانید این نقش را حذف کنید");
+                return ValidationProblem(ModelState);
+            }
+
+            var role = _roleService.FindRole(id);
+            if (role == null) return NotFound();
+
+            _roleService.DeleteRole(role);
+            return NoContent();
         }
 
     }

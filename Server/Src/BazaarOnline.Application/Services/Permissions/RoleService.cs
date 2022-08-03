@@ -1,9 +1,11 @@
+using BazaarOnline.Application.DTOs.Permissions.RoleDTOs;
 using BazaarOnline.Application.DTOs.Users.UserDTOs;
 using BazaarOnline.Application.Interfaces.Permissions;
 using BazaarOnline.Application.ViewModels.PermissionViewModels;
 using BazaarOnline.Application.ViewModels.RoleViewModels;
 using BazaarOnline.Domain.Entities.Permissions;
 using BazaarOnline.Domain.Interfaces.Permissions;
+using BazaarOnline.Infra.Data.Seeds.DefaultDatas;
 using Microsoft.EntityFrameworkCore;
 
 namespace BazaarOnline.Application.Services.Permissions
@@ -35,10 +37,23 @@ namespace BazaarOnline.Application.Services.Permissions
             });
 
             _roleRepository.Save();
-            return FindRole(role.Id);
+            return GetRoleDetail(role.Id);
         }
 
-        public RoleDetailViewModel? FindRole(int id)
+        public void DeleteRole(Role role)
+        {
+            _roleRepository.DeleteRole(role);
+            _roleRepository.Save();
+        }
+
+        public Role? FindRole(int id)
+        {
+            return _roleRepository.GetRoles()
+                .Include(r => r.RolePermissions)
+                .SingleOrDefault(r => r.Id == id);
+        }
+
+        public RoleDetailViewModel? GetRoleDetail(int id)
         {
             return _roleRepository.GetRoles()
                 .Include(r => r.RolePermissions)
@@ -78,6 +93,32 @@ namespace BazaarOnline.Application.Services.Permissions
         {
             return _roleRepository.GetRoles()
                 .Any(r => r.Title.ToLower() == title.Trim().ToLower());
+        }
+
+        public bool IsRoleUneditable(int roleId)
+        {
+            return DefaultRoles.UneditableRoles
+                .Any(r => r.Id == roleId);
+        }
+
+        public void UpdateRole(Role role, RoleUpdateDTO updateDTO)
+        {
+            if (!role.RolePermissions.Any())
+            {
+                role.RolePermissions = _roleRepository.GetRolePermissions(role.Id).ToList();
+            }
+
+            var oldPerms = role.RolePermissions.Select(rp => rp.PermissionId).ToList();
+
+            var newPerms = updateDTO.Permissions.Except(oldPerms).ToList();
+            var removedPerms = oldPerms.Except(updateDTO.Permissions).ToList();
+
+            _roleRepository.AddRolePermissionRange(newPerms, role.Id);
+            _roleRepository.DeleteRolePermissionRange(removedPerms, role.Id);
+
+            role.Title = updateDTO.Title.Trim();
+            _roleRepository.UpdateRole(role);
+            _roleRepository.Save();
         }
 
         public void UpdateUserRoles(int userId, UserUpdateRoleDTO updateRoleDTO)

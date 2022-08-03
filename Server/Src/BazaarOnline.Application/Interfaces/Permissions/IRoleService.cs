@@ -1,5 +1,7 @@
+using BazaarOnline.Application.DTOs.Permissions.RoleDTOs;
 using BazaarOnline.Application.DTOs.Users.UserDTOs;
 using BazaarOnline.Application.ViewModels.RoleViewModels;
+using BazaarOnline.Domain.Entities.Permissions;
 
 namespace BazaarOnline.Application.Interfaces.Permissions
 {
@@ -7,10 +9,20 @@ namespace BazaarOnline.Application.Interfaces.Permissions
     {
         List<RoleDetailListViewModel> GetRoles();
         List<int> GetRoleIds();
-        RoleDetailViewModel? FindRole(int id);
+        Role? FindRole(int id);
+        RoleDetailViewModel? GetRoleDetail(int id);
 
         RoleDetailViewModel CreateRole(RoleCreateViewModel roleModel);
 
+        void UpdateRole(Role role, RoleUpdateDTO updateDTO);
+        void DeleteRole(Role role);
+
+        /// <summary>
+        /// Checks if the role is one of UneditableRoles inside of DefaultRoles class
+        /// </summary>
+        /// <param name="roleId">role id to check</param>
+        /// <returns>Returns true if role is uneditable and can't be edites</returns>
+        bool IsRoleUneditable(int roleId);
         bool IsRoleExists(string title);
 
 

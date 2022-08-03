@@ -1,12 +1,13 @@
+using BazaarOnline.Application.DTOs.Permissions.RoleDTOs;
 using BazaarOnline.Application.Interfaces.Permissions;
 using BazaarOnline.Application.ViewModels.RoleViewModels;
 using FluentValidation;
 
 namespace BazaarOnline.Application.FluentValidations.Permissions
 {
-    public class RoleCreateFluentValidation : AbstractValidator<RoleCreateViewModel>
+    public class RoleUpdateFluentValidation : AbstractValidator<RoleUpdateDTO>
     {
-        public RoleCreateFluentValidation(IPermissionService permissionService, IRoleService roleService)
+        public RoleUpdateFluentValidation(IPermissionService permissionService, IRoleService roleService)
         {
             RuleFor(v => v.Permissions)
                 .Must(selectedPerms =>
