@@ -12,7 +12,7 @@ namespace BazaarOnline.Application.Interfaces.Permissions
         Role? FindRole(int id);
         RoleDetailViewModel? GetRoleDetail(int id);
 
-        RoleDetailViewModel CreateRole(RoleCreateViewModel roleModel);
+        RoleDetailViewModel CreateRole(RoleCreateDTO roleModel);
 
         void UpdateRole(Role role, RoleUpdateDTO updateDTO);
         void DeleteRole(Role role);

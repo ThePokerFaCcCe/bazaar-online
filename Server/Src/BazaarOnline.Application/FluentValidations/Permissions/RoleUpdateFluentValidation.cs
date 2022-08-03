@@ -1,6 +1,5 @@
 using BazaarOnline.Application.DTOs.Permissions.RoleDTOs;
 using BazaarOnline.Application.Interfaces.Permissions;
-using BazaarOnline.Application.ViewModels.RoleViewModels;
 using FluentValidation;
 
 namespace BazaarOnline.Application.FluentValidations.Permissions

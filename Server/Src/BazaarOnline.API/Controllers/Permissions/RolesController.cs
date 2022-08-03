@@ -39,7 +39,7 @@ namespace BazaarOnline.API.Controllers
 
         [HttpPost("")]
         [HasPermission(DefaultPermissions.CreateRoleId)]
-        public ActionResult<RoleDetailViewModel> CreateRole(RoleCreateViewModel roleModel)
+        public ActionResult<RoleDetailViewModel> CreateRole(RoleCreateDTO roleModel)
         {
             if (!ModelState.IsValid) return BadRequest(roleModel);
 

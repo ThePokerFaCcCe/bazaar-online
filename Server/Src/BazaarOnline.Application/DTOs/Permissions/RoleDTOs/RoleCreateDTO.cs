@@ -1,6 +1,6 @@
-namespace BazaarOnline.Application.ViewModels.RoleViewModels
+namespace BazaarOnline.Application.DTOs.Permissions.RoleDTOs
 {
-    public class RoleCreateViewModel
+    public class RoleCreateDTO
     {
         public string Title { get; set; }
 
