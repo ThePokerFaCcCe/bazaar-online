@@ -6,7 +6,7 @@ namespace BazaarOnline.Application.FluentValidations.Permissions
 {
     public class RoleUpdateFluentValidation : AbstractValidator<RoleUpdateDTO>
     {
-        public RoleUpdateFluentValidation(IPermissionService permissionService, IRoleService roleService)
+        public RoleUpdateFluentValidation(IPermissionService permissionService)
         {
             RuleFor(v => v.Permissions)
                 .Must(selectedPerms =>

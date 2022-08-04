@@ -6,7 +6,7 @@ namespace BazaarOnline.Application.FluentValidations.Permissions
 {
     public class RoleCreateFluentValidation : AbstractValidator<RoleCreateDTO>
     {
-        public RoleCreateFluentValidation(IPermissionService permissionService, IRoleService roleService)
+        public RoleCreateFluentValidation(IPermissionService permissionService)
         {
             RuleFor(v => v.Permissions)
                 .Must(selectedPerms =>
