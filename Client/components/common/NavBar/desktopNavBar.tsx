@@ -9,12 +9,13 @@ import {
   Search,
 } from "@mui/icons-material";
 import { Input } from "antd";
+import { DesktopNavBarProps } from "../../../types/type";
 import MyBazzarMenu from "./myBazzarMenu";
 import MegaMenu from "./megaMenu";
 import CityModal from "../../cityModal";
 import styles from "../../../styles/NavBar.module.css";
 import Link from "next/link";
-import { DesktopNavBarProps } from "../../../types/type";
+import LoginModal from "../../loginModal";
 
 const DesktopNavBar = ({
   onShowMenu,
@@ -26,7 +27,18 @@ const DesktopNavBar = ({
 }: DesktopNavBarProps): JSX.Element => {
   const [visible, setVisible] = useState(false);
   const [showCity, setShowCity] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
 
+
+  // Login Modal
+  const handleLogin = (): void => {
+    setShowLogin(false);
+  };
+
+  const showLoginModal = (): void => {
+    setShowLogin(true);
+  };
+  // Select City Modal
   const handleOk = (): void => {
     setVisible(false);
   };
@@ -41,6 +53,7 @@ const DesktopNavBar = ({
 
   return (
     <>
+      <LoginModal onShowLogin={showLogin} onLogin={handleLogin} />
       <CityModal onOk={handleOk}
         onCloseModal={closeModal}
         onSetShowCity={setShowCity}
@@ -92,7 +105,6 @@ const DesktopNavBar = ({
                       onSetShowMegaMenu(!onShowMegaMenu);
                       e.preventDefault();
                     }}
-                    onBlur={() => onSetShowMegaMenu(false)}
                   >
                     <Box>
                       <Grid container spacing={0.5} alignItems="center">
@@ -134,7 +146,6 @@ const DesktopNavBar = ({
                 <Button
                   className={styles.nav__items}
                   onClick={() => onSetShowMenu(!onShowMenu)}
-                  onBlur={() => onSetShowMenu(false)}
                   variant="text"
                 >
                   <div>
@@ -147,7 +158,7 @@ const DesktopNavBar = ({
                 <div
                   className={onShowMenu ? styles.dropdown__content : "d-none"}
                 >
-                  <MyBazzarMenu />
+                  <MyBazzarMenu onSetShowLogin={showLoginModal} />
                 </div>
               </Grid>
               <Grid item>

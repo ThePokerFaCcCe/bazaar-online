@@ -46,5 +46,14 @@ export interface CityModal {
   onSetShowCity: Dispatch<SetStateAction<boolean>>;
   modalVisible: boolean;
   showCity: boolean;
+}
 
+
+export interface LoginModalProps { 
+  onShowLogin: boolean;
+  onLogin: () => void;
+}
+
+export interface MyBazzarMenuProps { 
+  onSetShowLogin: () => void;
 }
