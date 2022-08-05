@@ -2,7 +2,6 @@ using BazaarOnline.API.Controllers;
 using BazaarOnline.Application.DTOs;
 using BazaarOnline.Application.DTOs.AuthDTOs;
 using BazaarOnline.Application.DTOs.JwtDTOs;
-using BazaarOnline.Application.DTOs.Users.UserDTOs;
 using BazaarOnline.Application.Interfaces.Auth;
 using BazaarOnline.Application.Interfaces.Users;
 using BazaarOnline.Domain.Entities.Users;
@@ -30,15 +29,15 @@ public class AuthControllerTests
     [Test]
     public void Register_ModelIsValid_CallCreateUserMethod()
     {
-        var result = _controller.Register(new UserCreateDTO());
+        var result = _controller.Register(new UserRegisterDTO());
 
-        _userMock.Verify(m => m.CreateUser(It.IsAny<UserCreateDTO>()));
+        _userMock.Verify(m => m.CreateUser(It.IsAny<UserRegisterDTO>()));
     }
 
     [Test]
     public void Register_ModelIsValid_ReturnCreatedAtAction()
     {
-        var result = _controller.Register(new UserCreateDTO());
+        var result = _controller.Register(new UserRegisterDTO());
 
         Assert.That(result, Is.TypeOf<CreatedAtActionResult>());
     }
@@ -47,7 +46,7 @@ public class AuthControllerTests
     public void Register_ModelIsInvalid_ReturnBadRequest()
     {
         _controller.ModelState.AddModelError("error", "error");
-        var result = _controller.Register(new UserCreateDTO());
+        var result = _controller.Register(new UserRegisterDTO());
 
         Assert.That(result, Is.TypeOf<BadRequestObjectResult>());
     }

@@ -1,9 +1,9 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace BazaarOnline.Application.DTOs.Users.UserDTOs
+namespace BazaarOnline.Application.DTOs.AuthDTOs
 {
-    public class UserCreateDTO
+    public class UserRegisterDTO
     {
         [Required(ErrorMessage = "این فیلد اجباری است")]
         [DisplayName("نام")]
@@ -12,7 +12,7 @@ namespace BazaarOnline.Application.DTOs.Users.UserDTOs
 
         [DisplayName("نام خانوادگی")]
         [StringLength(32, MinimumLength = 2, ErrorMessage = "{0} باید بین {2} تا {1} کاراکتر باشد")]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 
         [Required(ErrorMessage = "این فیلد اجباری است")]
         [DisplayName("ایمیل")]
@@ -30,11 +30,5 @@ namespace BazaarOnline.Application.DTOs.Users.UserDTOs
         [DisplayName("رمز")]
         [MinLength(6, ErrorMessage = "{0} باید حداقل {1} کاراکتر باشد")]
         public string Password { get; set; }
-
-        [Required(ErrorMessage = "این فیلد اجباری است")]
-        public bool IsActive { get; set; }
-
-        public List<int> Roles { get; set; }
-
     }
 }

@@ -1,3 +1,4 @@
+using BazaarOnline.Application.DTOs.AuthDTOs;
 using BazaarOnline.Application.DTOs.PaginationDTO;
 using BazaarOnline.Application.DTOs.Users.UserDTOs;
 using BazaarOnline.Application.ViewModels.Users.UserViewModels;
@@ -14,6 +15,7 @@ namespace BazaarOnline.Application.Interfaces.Users
         UserDetailViewModel? GetUserDetail(string email);
 
         User CreateUser(UserCreateDTO createDTO);
+        public User CreateUser(UserRegisterDTO registerDTO);
         User? FindUser(string email);
         User? FindUser(int id);
         void UpdateUser(User user, UserUpdateDTO updateDTO);

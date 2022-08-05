@@ -1,3 +1,4 @@
+using BazaarOnline.Application.DTOs.AuthDTOs;
 using BazaarOnline.Application.DTOs.PaginationDTO;
 using BazaarOnline.Application.DTOs.Users.UserDTOs;
 using BazaarOnline.Application.Interfaces.Users;
@@ -58,6 +59,21 @@ namespace BazaarOnline.Application.Services.Users
 
             var user = new User();
             user.FillFromObject(createDTO, ignoreNulls: false);
+
+            _userRepository.AddUser(user);
+            _userRepository.Save();
+
+            return user;
+        }
+
+        public User CreateUser(UserRegisterDTO registerDTO)
+        {
+            registerDTO.Password = PasswordHelper.HashPassword(registerDTO.Password);
+            registerDTO.Email = registerDTO.Email.ToLower();
+            registerDTO.TrimStrings();
+
+            var user = new User();
+            user.FillFromObject(registerDTO, ignoreNulls: false);
 
             _userRepository.AddUser(user);
             _userRepository.Save();

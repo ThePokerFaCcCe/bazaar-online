@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace BazaarOnline.Application.UnitTests.FluentValidations.Auth;
 
 [TestFixture]
-public class UserCreateFluentValidationTests
+public class UserRegisterFluentValidationTests
 {
     private Mock<IUserService> _userMock;
     private UserCreateFluentValidation _validator;
