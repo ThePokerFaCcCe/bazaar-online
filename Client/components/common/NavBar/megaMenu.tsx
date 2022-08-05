@@ -13,7 +13,7 @@ import {
   ChevronRight,
 } from "@mui/icons-material";
 import styles from "../../../styles/NavBar.module.css";
-import { Category, MegaMenuProp } from "../../../type/allTypes";
+import { Category, MegaMenuProp } from "../../types/type";
 
 const category: Category = [
   {

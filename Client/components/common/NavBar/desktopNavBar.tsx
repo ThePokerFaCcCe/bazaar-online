@@ -12,7 +12,7 @@ import MyBazzarMenu from "./myBazzarMenu";
 import MegaMenu from "./megaMenu";
 import styles from "../../../styles/NavBar.module.css";
 import Link from "next/link";
-import { DesktopNavBarProps } from "../../../type/allTypes";
+import { DesktopNavBarProps } from "../../../types/type";
 
 const DesktopNavBar = ({
   onShowMenu,

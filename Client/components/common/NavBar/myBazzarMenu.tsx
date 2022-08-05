@@ -9,8 +9,8 @@ import {
   Divider,
 } from "@mui/material";
 import { Col, Row } from "antd";
-import {Login,Bookmark,NoteAlt,RemoveRedEye} from '@mui/icons-material'
-import { Menus } from "../../../type/allTypes";
+import { Login, Bookmark, NoteAlt, RemoveRedEye } from '@mui/icons-material'
+import { Menus } from "../../types/type";
 
 const menus: Menus = [
   { title: "ورود", icon: <Login /> },

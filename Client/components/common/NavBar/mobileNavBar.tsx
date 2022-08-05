@@ -10,7 +10,7 @@ import {
 } from "@mui/icons-material";
 import { Input } from "antd";
 import { Sidebar } from "primereact/sidebar";
-import { NavItems } from "../../../type/allTypes";
+import { NavItems } from "../../types/type";
 import Link from "next/link";
 import styles from "../../../styles/NavBar.module.css";
 

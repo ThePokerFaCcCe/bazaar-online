@@ -14,7 +14,7 @@ import {
   ArrowForward,
 } from "@mui/icons-material";
 import styles from "../../../../styles/NavBar.module.css";
-import { Category, StepsProp } from "../../../../type/allTypes";
+import { Category, StepsProp } from "../../../../types/type";
 
 const category: Category = [
   {

@@ -1,6 +1,3 @@
-import type { NextPage } from "next";
-import Head from "next/head";
-import { useState } from "react";
 import {
   Box,
   Grid,
@@ -9,14 +6,17 @@ import {
   Chip,
   IconButton,
 } from "@mui/material";
+import {
+  Search,
+  Instagram,
+  Telegram,
+  WhatsApp,
+  GitHub,
+} from '@mui/icons-material';
 import { Input } from "antd";
-import SearchIcon from "@mui/icons-material/Search";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import TelegramIcon from "@mui/icons-material/Telegram";
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import type { NextPage } from "next";
+import { useState } from "react";
+import Head from "next/head";
 import CityModal from "../components/cityModal";
 
 import Image from "next/image";
@@ -101,22 +101,22 @@ const Home: NextPage = () => {
               <Grid container justifyContent="center" alignItems="center">
                 <Grid item>
                   <IconButton>
-                    <GitHubIcon sx={{ color: "#000" }} />
+                    <GitHub sx={{ color: "#000" }} />
                   </IconButton>
                 </Grid>
                 <Grid item>
                   <IconButton>
-                    <InstagramIcon sx={{ color: "#C63177" }} />
+                    <Instagram sx={{ color: "#C63177" }} />
                   </IconButton>
                 </Grid>
                 <Grid item>
                   <IconButton>
-                    <WhatsAppIcon sx={{ color: "green" }} />
+                    <WhatsApp sx={{ color: "green" }} />
                   </IconButton>
                 </Grid>
                 <Grid item>
                   <IconButton>
-                    <TelegramIcon sx={{ color: "#2DA3D5" }} />
+                    <Telegram sx={{ color: "#2DA3D5" }} />
                   </IconButton>
                 </Grid>
               </Grid>
@@ -130,7 +130,7 @@ const Home: NextPage = () => {
                 style={{ width: "80%" }}
                 size="large"
                 placeholder="جستجو در شهرها"
-                prefix={<SearchIcon sx={{ fill: "#ccc" }} />}
+                prefix={<Search sx={{ fill: "#ccc" }} />}
               />
               <Typography
                 sx={{ margin: "15px 0", fontSize: "1rem", fontWeight: "400" }}
@@ -138,27 +138,22 @@ const Home: NextPage = () => {
                 شهرهای پربازدید
               </Typography>
             </Box>
-            <Grid
-              container
-              justifyContent="center"
-              rowSpacing={4}
-              alignItems="center"
-            >
+            <div className="d-flex justify-content-center align-items-center flex-wrap">
               {popular.map((city, index) => (
-                <Grid item xs={2} sx={{ margin: "5px" }} key={index}>
-                  <Chip
-                    sx={{ width: "70px" }}
-                    label={city}
-                    variant="outlined"
-                    onClick={() => console.log("bye")}
-                  />
-                </Grid>
+                <Chip
+                  sx={{ width: "70px" }}
+                  label={city}
+                  variant="outlined"
+                  key={index}
+                  className="my-2 mx-3"
+                  onClick={() => console.log("bye")}
+                />
               ))}
-            </Grid>
+            </div>
           </Box>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };
 

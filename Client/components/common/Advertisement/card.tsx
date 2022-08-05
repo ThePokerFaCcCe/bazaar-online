@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import styles from "../../../styles/Advertisement.module.css";
-import { Card } from "../../../type/allTypes";
+import { Card } from "../../../types/type";
 
 const Card = ({ title }: Card): JSX.Element => (
   <div className="card mx-auto card__size">

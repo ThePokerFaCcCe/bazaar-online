@@ -5,7 +5,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { Modal, Upload } from "antd";
 import type { RcFile, UploadProps } from "antd/es/upload";
 import type { UploadFile } from "antd/es/upload/interface";
-import { Category, StepsProp } from "../../../../type/allTypes";
+import { Category, StepsProp } from "../../../types/type";
 import styles from "../../../../styles/NewAd.module.css";
 import RTL from "../../../../services/rtl";
 

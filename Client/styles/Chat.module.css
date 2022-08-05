@@ -13,8 +13,8 @@
   margin: 0.8rem 0 2rem;
 }
 
-.chat__message {
-  padding: 1rem 1rem 1rem 3rem;
+.chat__message,.chat__message_self {
+  padding: 1rem 1rem 1rem 1rem;
   position: relative;
   background-color: #fceae0;
   border-radius: 15px;

@@ -7,7 +7,7 @@ const ChatBody = (): JSX.Element => (
     <div className="d-flex flex-column position-relative">
       <Box className={styles.chat__holder}>
         <Box className={styles.chat__messageBox}>
-          <span className={styles.chat__message}>
+          <span className={styles.chat__message_self}>
             <span className={styles.chat__text}>سلام چطوری؟</span>
             <span className={styles.chat__message_time}>16:45</span>
           </span>
