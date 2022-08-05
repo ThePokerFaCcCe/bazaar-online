@@ -13,7 +13,7 @@ import {
   ChevronRight,
 } from "@mui/icons-material";
 import styles from "../../../styles/NavBar.module.css";
-import { Category, MegaMenuProp } from "../../types/type";
+import { Category, MegaMenuProps } from "../../types/type";
 
 const category: Category = [
   {
@@ -66,7 +66,7 @@ const category: Category = [
 const MegaMenu = ({
   onSetShowMegaMenu,
   onSetMegaMenu2Display,
-}: MegaMenuProp) => (
+}: MegaMenuProps) => (
   <Box
     sx={{
       height: "420px",

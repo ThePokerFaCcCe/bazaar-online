@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 
-export type ShowCity = {
+export type SelectCityProps = {
   onShowCity(value: boolean): void;
 };
 
@@ -16,7 +16,7 @@ export interface AdvertisementListProps {
   post: object;
 }
 
-export type MegaMenuProp = {
+export type MegaMenuProps = {
   onSetShowMegaMenu: Dispatch<SetStateAction<boolean>>;
   onSetMegaMenu2Display: Dispatch<SetStateAction<string>>;
 };
@@ -39,3 +39,12 @@ export type DesktopNavBarProps = {
 };
 
 export type NavItems = { title: string; icon: JSX.Element }[];
+
+export interface CityModal {
+  onOk: () => void;
+  onCloseModal: () => void;
+  onSetShowCity: Dispatch<SetStateAction<boolean>>;
+  modalVisible: boolean;
+  showCity: boolean;
+
+}

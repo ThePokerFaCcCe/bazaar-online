@@ -3,9 +3,9 @@ import { Input } from "antd";
 import SearchIcon from "@mui/icons-material/Search";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import styles from "../../../styles/CityModal.module.css";
-import { ShowCity } from "../../../types/type";
+import { SelectCityProps } from "../../../types/type";
 
-const SelectState = ({ onShowCity }: ShowCity): JSX.Element => (
+const SelectState = ({ onShowCity }: SelectCityProps): JSX.Element => (
   <>
     <Box sx={{ padding: "24px" }}>
       <h6>انتخاب شهر</h6>
@@ -15,6 +15,7 @@ const SelectState = ({ onShowCity }: ShowCity): JSX.Element => (
       <Input
         size="large"
         placeholder="جستجو در شهرها"
+        className="searchInput"
         prefix={<SearchIcon sx={{ fill: "#ccc" }} />}
       />
       <br />

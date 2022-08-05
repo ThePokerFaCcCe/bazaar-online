@@ -125,3 +125,9 @@ a {
     display: none;
   }
 }
+
+
+.searchInput > input,
+.searchInput > input::-webkit-input-placeholder {
+  font-size: 13px;
+}

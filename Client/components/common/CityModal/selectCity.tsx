@@ -1,11 +1,11 @@
 import { Box, Grid, Divider, Checkbox } from "@mui/material";
 import { Input } from "antd";
-import { ShowCity } from "../../types/type";
+import { SelectCityProps } from "../../../types/type";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import styles from "../../../styles/CityModal.module.css";
 
-const SelectCity = ({ onShowCity }: ShowCity): JSX.Element => {
+const SelectCity = ({ onShowCity }: SelectCityProps): JSX.Element => {
   return (
     <>
       <Box sx={{ padding: "24px 24px 7px" }}>
@@ -18,6 +18,7 @@ const SelectCity = ({ onShowCity }: ShowCity): JSX.Element => {
         <Input
           size="large"
           placeholder="جستجو در شهرها"
+          className="searchInput"
           prefix={<SearchIcon sx={{ fill: "#ccc" }} />}
         />
       </Box>

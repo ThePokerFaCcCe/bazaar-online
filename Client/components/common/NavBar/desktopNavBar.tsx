@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Box, Grid, Button } from "@mui/material";
 import {
   LocationOnOutlined,
@@ -10,6 +11,7 @@ import {
 import { Input } from "antd";
 import MyBazzarMenu from "./myBazzarMenu";
 import MegaMenu from "./megaMenu";
+import CityModal from "../../cityModal";
 import styles from "../../../styles/NavBar.module.css";
 import Link from "next/link";
 import { DesktopNavBarProps } from "../../../types/type";
@@ -22,8 +24,29 @@ const DesktopNavBar = ({
   onMegaMenu2Display,
   onSetMegaMenuToDisplay,
 }: DesktopNavBarProps): JSX.Element => {
+  const [visible, setVisible] = useState(false);
+  const [showCity, setShowCity] = useState(false);
+
+  const handleOk = (): void => {
+    setVisible(false);
+  };
+
+  const showModal = (): void => {
+    setVisible(true);
+  };
+
+  const closeModal = (): void => {
+    setVisible(false);
+  };
+
   return (
     <>
+      <CityModal onOk={handleOk}
+        onCloseModal={closeModal}
+        onSetShowCity={setShowCity}
+        modalVisible={visible}
+        showCity={showCity}
+      />
       <Box className={styles.desktop__navBar}>
         <Grid
           container
@@ -57,7 +80,7 @@ const DesktopNavBar = ({
                 |
               </Grid>
               <Grid item sx={{ marginRight: "5px" }}>
-                <Button className={styles.nav__items} variant="text">
+                <Button className={styles.nav__items} onClick={showModal} variant="text">
                   <LocationOnOutlined />
                   <span className={styles.navbtn__text}>انتخاب شهر</span>
                 </Button>
@@ -69,6 +92,7 @@ const DesktopNavBar = ({
                       onSetShowMegaMenu(!onShowMegaMenu);
                       e.preventDefault();
                     }}
+                    onBlur={() => onSetShowMegaMenu(false)}
                   >
                     <Box>
                       <Grid container spacing={0.5} alignItems="center">
@@ -110,6 +134,7 @@ const DesktopNavBar = ({
                 <Button
                   className={styles.nav__items}
                   onClick={() => onSetShowMenu(!onShowMenu)}
+                  onBlur={() => onSetShowMenu(false)}
                   variant="text"
                 >
                   <div>

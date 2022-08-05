@@ -34,20 +34,6 @@ const Home: NextPage = () => {
     "یزد",
   ];
 
-  // const [visible, setVisible] = useState(false);
-  // const [confirmLoading, setConfirmLoading] = useState(false)
-
-  // const handleOk = (): void => {
-  //   setConfirmLoading(true);
-  //   setTimeout(() => {
-  //     setVisible(false);
-  //     setConfirmLoading(false);
-  //   }, 2000);
-  // };
-
-  // const showModal = ():void => {
-  //   setVisible(true);
-  // };
 
   return (
     <div>
@@ -61,7 +47,7 @@ const Home: NextPage = () => {
           <Box className="wall">
             <p>بازار آنلاین! پایگاه خرید و فروش بی‌واسطه‌</p>
             <br />
-            <p>اگه هستی، شهرت رو انتخاب کن و تو دسته‌بندی‌ها به دنبالش بگرد.</p>
+            <p>اگه دنبال چیزی میگردی، شهرت رو انتخاب کن و تو دسته‌بندی‌ها به دنبالش بگرد.</p>
             <br />
             <p>
               اگر هم می‌خوای چیزی بفروشی، چند تا عکس خوب ازش بگیر و آگهیت رو
@@ -130,6 +116,7 @@ const Home: NextPage = () => {
                 style={{ width: "80%" }}
                 size="large"
                 placeholder="جستجو در شهرها"
+                className="searchInput"
                 prefix={<Search sx={{ fill: "#ccc" }} />}
               />
               <Typography
