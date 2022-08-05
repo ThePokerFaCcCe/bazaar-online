@@ -14,7 +14,7 @@ import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import axios from "axios";
 import Image from "next/image";
 import { GetServerSideProps } from "next/types";
-import { AdvertisementListProps } from "../../types/type";
+import { AdvertisementListProps } from "../../../types/type";
 import Link from "next/link";
 
 const items = [

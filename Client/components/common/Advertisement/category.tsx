@@ -20,7 +20,7 @@ import {
   ExpandMore,
 } from "@mui/icons-material";
 import { Input } from "antd";
-import { Category } from "../../types/type";
+import { Category } from "../../../types/type";
 import styles from "../../../styles/Advertisement.module.css";
 
 const Category = (): JSX.Element => {

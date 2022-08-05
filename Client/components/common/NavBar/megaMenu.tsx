@@ -13,8 +13,7 @@ import {
   ChevronRight,
 } from "@mui/icons-material";
 import styles from "../../../styles/NavBar.module.css";
-import { Category, MegaMenuProps } from "../../types/type";
-
+import { Category, MegaMenuProps } from "../../../types/type";
 const category: Category = [
   {
     title: "املاک",
