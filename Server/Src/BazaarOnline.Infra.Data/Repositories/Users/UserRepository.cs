@@ -18,6 +18,11 @@ namespace BazaarOnline.Infra.Data.Repositories.Users
             return _context.Users.Add(user).Entity;
         }
 
+        public User? FindUser(int id)
+        {
+            return _context.Users.Find(id);
+        }
+
         public IQueryable<User> GetUsers()
         {
             return _context.Users.AsQueryable();
@@ -26,6 +31,12 @@ namespace BazaarOnline.Infra.Data.Repositories.Users
         public void Save()
         {
             _context.SaveChanges();
+        }
+
+        public void SoftDeleteUser(User user)
+        {
+            user.IsDeleted = true;
+            _context.Users.Update(user);
         }
 
         public void UpdateUser(User user)

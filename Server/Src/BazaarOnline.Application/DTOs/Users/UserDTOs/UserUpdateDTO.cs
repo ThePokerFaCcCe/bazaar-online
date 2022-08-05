@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BazaarOnline.Application.DTOs.Users.UserDTOs
 {
-    public class UserCreateDTO
+    public class UserUpdateDTO
     {
         [Required(ErrorMessage = "این فیلد اجباری است")]
         [DisplayName("نام")]
@@ -26,9 +26,8 @@ namespace BazaarOnline.Application.DTOs.Users.UserDTOs
         [RegularExpression(@"^09\d*$", ErrorMessage = "{0} معتبر نیست")]
         public string PhoneNumber { get; set; }
 
-        [Required(ErrorMessage = "این فیلد اجباری است")]
         [DisplayName("رمز")]
         [MinLength(6, ErrorMessage = "{0} باید حداقل {1} کاراکتر باشد")]
-        public string Password { get; set; }
+        public string? Password { get; set; }
     }
 }
