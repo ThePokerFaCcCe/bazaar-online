@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using BazaarOnline.Application.DTOs.Users.UserDTOs;
-using BazaarOnline.Application.FluentValidations.Permissions;
+using BazaarOnline.Application.FluentValidations;
 using BazaarOnline.Application.Interfaces.Permissions;
 using FluentValidation.TestHelper;
 using Moq;
