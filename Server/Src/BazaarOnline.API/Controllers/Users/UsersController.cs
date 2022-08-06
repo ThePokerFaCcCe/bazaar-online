@@ -1,13 +1,12 @@
-using System.ComponentModel.DataAnnotations;
 using BazaarOnline.Application.DTOs.PaginationDTO;
 using BazaarOnline.Application.DTOs.Users.UserDTOs;
 using BazaarOnline.Application.FluentValidations;
 using BazaarOnline.Application.Interfaces.Users;
+using BazaarOnline.Application.Securities.Attributes;
 using BazaarOnline.Application.Validators;
 using BazaarOnline.Application.ViewModels.Users.UserViewModels;
-using FluentValidation;
+using BazaarOnline.Infra.Data.Seeds.DefaultDatas;
 using FluentValidation.AspNetCore;
-using FluentValidation.Validators;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BazaarOnline.API.Controllers.Users
@@ -24,6 +23,7 @@ namespace BazaarOnline.API.Controllers.Users
         }
 
         [HttpGet]
+        [HasPermission(DefaultPermissions.GetUserDetailId)]
         public ActionResult<PaginationResultDTO<UserListDetailViewModel>>
             GetUsersList([FromQuery] UserFilterDTO filter,
                          [FromQuery] PaginationFilterDTO pagination)
@@ -32,6 +32,7 @@ namespace BazaarOnline.API.Controllers.Users
         }
 
         [HttpGet("{id}")]
+        [HasPermission(DefaultPermissions.GetUserDetailId)]
         public ActionResult<UserDetailViewModel> GetUserDetail(int id)
         {
             var userDetail = _userService.GetUserDetail(id);
@@ -41,6 +42,7 @@ namespace BazaarOnline.API.Controllers.Users
         }
 
         [HttpGet("Find/{email}")]
+        [HasPermission(DefaultPermissions.GetUserDetailId)]
         public ActionResult<UserDetailViewModel> FindUserDetail(string email)
         {
             if (!StringValidator.IsValidEmail(email)) return NotFound();
@@ -51,6 +53,7 @@ namespace BazaarOnline.API.Controllers.Users
         }
 
         [HttpPost]
+        [HasPermission(DefaultPermissions.CreateUserId)]
         public ActionResult CreateUser([FromBody] UserCreateDTO createDTO)
         {
             if (!ModelState.IsValid) return BadRequest(createDTO);
@@ -61,6 +64,7 @@ namespace BazaarOnline.API.Controllers.Users
         }
 
         [HttpPut("{id}")]
+        [HasPermission(DefaultPermissions.UpdateUserId)]
         public ActionResult UpdateUser(int id, [FromBody][CustomizeValidator(Skip = true)] UserUpdateDTO updateDTO)
         {
             if (!ModelState.IsValid) return BadRequest(updateDTO);
@@ -87,6 +91,7 @@ namespace BazaarOnline.API.Controllers.Users
         }
 
         [HttpDelete("{id}")]
+        [HasPermission(DefaultPermissions.DeleteUserId)]
         public ActionResult DeleteUser(int id)
         {
             var user = _userService.FindUser(id);
