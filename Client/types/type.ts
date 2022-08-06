@@ -68,3 +68,9 @@ export interface User {
 }
 
 export type InputOnChange = React.KeyboardEvent<HTMLInputElement>;
+
+export interface StepOneProps {
+  onShowTerms: boolean;
+  onSetTerms: Dispatch<SetStateAction<boolean>>;
+  onFormikChange: (e: any) => void;
+}

@@ -1,50 +1,53 @@
 import { Input, Checkbox } from "antd";
-import { InputOnChange } from "../../../types/type";
+import { CheckboxChangeEvent } from "antd/lib/checkbox";
+import { StepOneProps } from "../../../types/type";
 
-interface StepOneProps {
-  onChange: (e: InputOnChange) => void;
-}
-
-const StepOne = ({ onChange }: StepOneProps) => {
+const StepOne = ({ onFormikChange, onShowTerms, onSetTerms }: StepOneProps) => {
   return (
     <>
       <div className="row">
         <div className="col">
           <Input
-            onChange={onChange}
-            id="firstName"
+            name="firstName"
             className="my-2"
             placeholder="نام *"
+            onChange={onFormikChange}
           />
           <Input
-            onChange={onChange}
-            id="email"
+            onChange={onFormikChange}
+            name="email"
             className="my-2"
             placeholder="ایمیل *"
           />
         </div>
         <div className="col">
           <Input
-            onChange={onChange}
+            onChange={onFormikChange}
             className="my-2"
-            id="lastName"
+            name="lastName"
             placeholder="نام خانوادگی *"
           />
           <Input
-            onChange={onChange}
-            id="phoneNumber"
+            onChange={onFormikChange}
+            name="phoneNumber"
             className="my-2"
             placeholder="شماره موبایل *"
           />
         </div>
       </div>
       <Input
-        onChange={onChange}
-        id="password"
+        onChange={onFormikChange}
+        name="password"
         className="my-2"
         placeholder="کلمه عبور *"
       />
-      <Checkbox className="my-2">
+      <Checkbox
+        className="my-2"
+        value={onShowTerms}
+        onChange={({ target }: CheckboxChangeEvent) =>
+          onSetTerms(target.checked)
+        }
+      >
         <span>با قوانین سایت موافقم</span>
         <span className="text-danger">*</span>
       </Checkbox>
