@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using BazaarOnline.Infra.Data.Seeds.DefaultDatas;
 
 namespace BazaarOnline.Application.DTOs.Users.UserDTOs
 {
@@ -34,7 +35,7 @@ namespace BazaarOnline.Application.DTOs.Users.UserDTOs
         [Required(ErrorMessage = "این فیلد اجباری است")]
         public bool IsActive { get; set; }
 
-        public List<int> Roles { get; set; }
+        public List<int> Roles { get; set; } = new List<int>();
 
     }
 }
