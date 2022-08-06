@@ -58,7 +58,7 @@ namespace BazaarOnline.Application.Services.Users
             createDTO.TrimStrings();
 
             var user = new User();
-            user.FillFromObject(createDTO, ignoreNulls: false);
+            user.FillFromObject(createDTO);
 
             _userRepository.AddUser(user);
             _userRepository.Save();
@@ -73,7 +73,7 @@ namespace BazaarOnline.Application.Services.Users
             registerDTO.TrimStrings();
 
             var user = new User();
-            user.FillFromObject(registerDTO, ignoreNulls: false);
+            user.FillFromObject(registerDTO);
 
             _userRepository.AddUser(user);
             _userRepository.Save();
@@ -167,7 +167,7 @@ namespace BazaarOnline.Application.Services.Users
                 updateDTO.Password = PasswordHelper.HashPassword(updateDTO.Password);
 
             updateDTO.TrimStrings();
-            user.FillFromObject(updateDTO);
+            user.FillFromObject(updateDTO, ignoreNulls: true);
 
             _userRepository.UpdateUser(user);
             _userRepository.Save();

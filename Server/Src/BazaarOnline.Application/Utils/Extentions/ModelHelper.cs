@@ -10,7 +10,7 @@ namespace BazaarOnline.Application.Utils.Extentions
         /// <param name="model">Model object that it's properties should be filled</param>
         /// <param name="filler">Filler object that should be used for filling model</param>
         /// <param name="ignoreNulls">Don't fill properties with `null` values in filler</param>
-        public static void FillFromObject<TModel, TFiller>(this TModel model, TFiller filler, bool ignoreNulls = true)
+        public static TModel FillFromObject<TModel, TFiller>(this TModel model, TFiller filler, bool ignoreNulls = false)
         {
             var modelType = model.GetType();
             var fillerType = filler.GetType();
@@ -23,6 +23,8 @@ namespace BazaarOnline.Application.Utils.Extentions
                         modelType.GetProperty(p.Name)?.SetValue(model, value);
                 }
             );
+
+            return model;
         }
 
         /// <summary>
