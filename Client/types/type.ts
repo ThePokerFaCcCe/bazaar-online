@@ -48,12 +48,23 @@ export interface CityModal {
   showCity: boolean;
 }
 
-
-export interface LoginModalProps { 
+export interface LoginModalProps {
   onShowLogin: boolean;
   onLogin: () => void;
+  onCloseLogin: () => void;
 }
 
-export interface MyBazzarMenuProps { 
+export interface MyBazzarMenuProps {
   onSetShowLogin: () => void;
+  onSetShowRegister: () => void;
 }
+
+export interface User {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  password: string;
+}
+
+export type InputOnChange = React.KeyboardEvent<HTMLInputElement>;
