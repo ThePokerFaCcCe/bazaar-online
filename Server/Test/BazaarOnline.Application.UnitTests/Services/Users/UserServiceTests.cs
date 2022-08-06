@@ -6,6 +6,7 @@ using BazaarOnline.Application.Securities;
 using BazaarOnline.Application.Services.Users;
 using BazaarOnline.Domain.Entities.Users;
 using BazaarOnline.Domain.Interfaces.Users;
+using BazaarOnline.Infra.Data.Seeds.DefaultDatas;
 using Moq;
 using NUnit.Framework;
 
@@ -112,6 +113,50 @@ public class UserServiceTests
 
         _userRepositoryMock.Verify(m => m.AddUser(It.IsAny<User>()));
         _userRepositoryMock.Verify(m => m.Save());
+    }
+
+    [Test]
+    public void CreateUser_UserDTO_AddsNormalUserRole()
+    {
+        var user = _userService.CreateUser(new UserCreateDTO { Password = "a", Email = "" });
+
+        Assert.IsNotNull(user.UserRoles.Find(ur => ur.RoleId == DefaultRoles.NormalUser.Id));
+    }
+
+    [Test]
+    public void CreateUser_UserDTO_AddsExpectedRoles()
+    {
+        var user = _userService.CreateUser(new UserCreateDTO
+        {
+            Password = "a",
+            Email = "",
+            Roles = new List<int> { 1 }
+        });
+
+        Assert.IsNotNull(user.UserRoles.Find(ur => ur.RoleId == 1));
+    }
+
+    [Test]
+    public void CreateUser_UserDTO_AddsDuplicateRolesOnce()
+    {
+        var user = _userService.CreateUser(new UserCreateDTO
+        {
+            Password = "a",
+            Email = "",
+            Roles = new List<int> { 1, 1 }
+        });
+
+        var result = user.UserRoles.Where(ur => ur.RoleId == 1).Count();
+
+        Assert.That(result, Is.EqualTo(1));
+    }
+
+    [Test]
+    public void CreateUser_RegisterDTO_AddsNormalUserRole()
+    {
+        var user = _userService.CreateUser(new UserRegisterDTO { Password = "a", Email = "" });
+
+        Assert.IsNotNull(user.UserRoles.Find(ur => ur.RoleId == DefaultRoles.NormalUser.Id));
     }
 
     [Test]
