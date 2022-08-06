@@ -254,4 +254,38 @@ public class UserServiceTests
     }
 
 
+    [Test]
+    public void UpdateUserRoles_WhenCalled_CallAddUserRoleRange()
+    {
+        User user = new User { Id = 1 };
+
+        _userService.UpdateUserRoles(user,
+            new UserUpdateRoleDTO { Roles = new List<int>() });
+
+        _userRepositoryMock.Verify(m => m.AddUserRoleRange(It.IsAny<List<int>>(), user));
+    }
+
+    [Test]
+    public void UpdateUserRoles_WhenCalled_CallDeleteUserRoleRange()
+    {
+        User user = new User { Id = 1 };
+
+        _userService.UpdateUserRoles(user,
+            new UserUpdateRoleDTO { Roles = new List<int>() });
+
+        _userRepositoryMock.Verify(m => m.DeleteUserRoleRange(It.IsAny<List<int>>(), user));
+    }
+
+    [Test]
+    public void UpdateUserRoles_WhenCalled_CallSave()
+    {
+        User user = new User { Id = 1 };
+
+        _userService.UpdateUserRoles(user,
+            new UserUpdateRoleDTO { Roles = new List<int>() });
+
+        _userRepositoryMock.Verify(m => m.Save());
+    }
+
+
 }

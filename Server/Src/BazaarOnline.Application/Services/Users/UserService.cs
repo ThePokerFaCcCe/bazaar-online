@@ -216,5 +216,20 @@ namespace BazaarOnline.Application.Services.Users
                 }).ToList()
             };
         }
+
+        public void UpdateUserRoles(User user, UserUpdateRoleDTO updateRoleDTO)
+        {
+            var roles = updateRoleDTO.Roles;
+            var oldRoles = _userRepository.GetUserRoles(user)
+                .Select(ur => ur.RoleId).ToList();
+
+            var removedRoles = oldRoles.Except(roles).ToList();
+            var newRoles = roles.Except(oldRoles).ToList();
+
+            _userRepository.AddUserRoleRange(newRoles, user);
+            _userRepository.DeleteUserRoleRange(removedRoles, user);
+            _userRepository.Save();
+        }
+
     }
 }

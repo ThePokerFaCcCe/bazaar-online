@@ -31,16 +31,6 @@ namespace BazaarOnline.Domain.Interfaces.Permissions
         void AddRolePermissionRange(List<int> permissions, int roleId);
         void DeleteRolePermissionRange(List<int> permissions, int roleId);
 
-
-        #endregion
-
-        #region UserRole
-
-        UserRole AddUserRole(UserRole userRole);
-        void AddUserRoleRange(List<int> roles, int userId);
-        void DeleteUserRoleRange(List<int> roles, int userId);
-        IQueryable<UserRole> GetUserRoles(int userId);
-
         #endregion
     }
 }

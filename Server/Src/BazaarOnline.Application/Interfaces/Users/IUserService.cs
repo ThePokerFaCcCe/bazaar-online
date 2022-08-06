@@ -31,5 +31,11 @@ namespace BazaarOnline.Application.Interfaces.Users
         bool IsEmailExists(string email);
         bool IsInactiveUserExists(string email);
         bool IsPhoneNumberExists(string phone);
+
+        #region UserRoles
+
+        void UpdateUserRoles(User user, UserUpdateRoleDTO updateRoleDTO);
+
+        #endregion
     }
 }

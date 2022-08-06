@@ -25,13 +25,5 @@ namespace BazaarOnline.Application.Interfaces.Permissions
         /// <returns>Returns true if role is uneditable and can't be edites</returns>
         bool IsRoleUneditable(int roleId);
         bool IsRoleExists(string title);
-
-
-        #region UserRoles
-
-        void UpdateUserRoles(User user, UserUpdateRoleDTO updateRoleDTO);
-
-        #endregion
-
     }
 }
