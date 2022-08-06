@@ -7,6 +7,7 @@ using BazaarOnline.Application.Utils.Extentions;
 using BazaarOnline.Application.ViewModels.Users.UserViewModels;
 using BazaarOnline.Domain.Entities.Users;
 using BazaarOnline.Domain.Interfaces.Users;
+using BazaarOnline.Infra.Data.Seeds.DefaultDatas;
 using Microsoft.EntityFrameworkCore;
 
 namespace BazaarOnline.Application.Services.Users
@@ -55,11 +56,13 @@ namespace BazaarOnline.Application.Services.Users
         {
             createDTO.Password = PasswordHelper.HashPassword(createDTO.Password);
             createDTO.Email = createDTO.Email.ToLower();
+            createDTO.Roles.Add(DefaultRoles.NormalUser.Id);
             createDTO.TrimStrings();
 
             var user = new User();
             user.FillFromObject(createDTO);
-
+            user.UserRoles = new List<UserRole>();
+            user.UserRoles.AddRange(createDTO.Roles.Distinct().Select(r => new UserRole { RoleId = r }));
             _userRepository.AddUser(user);
             _userRepository.Save();
 
@@ -74,6 +77,8 @@ namespace BazaarOnline.Application.Services.Users
 
             var user = new User();
             user.FillFromObject(registerDTO);
+            user.UserRoles = new List<UserRole>();
+            user.UserRoles.Add(new UserRole { RoleId = DefaultRoles.NormalUser.Id });
 
             _userRepository.AddUser(user);
             _userRepository.Save();
