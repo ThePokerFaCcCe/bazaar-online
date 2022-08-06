@@ -2,7 +2,7 @@ using BazaarOnline.Application.DTOs.Users.UserDTOs;
 using BazaarOnline.Application.Interfaces.Permissions;
 using FluentValidation;
 
-namespace BazaarOnline.Application.FluentValidations.Permissions
+namespace BazaarOnline.Application.FluentValidations
 {
     public class UserUpdateRoleFluentValidation : AbstractValidator<UserUpdateRoleDTO>
     {

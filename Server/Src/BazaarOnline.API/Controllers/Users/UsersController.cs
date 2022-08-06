@@ -90,6 +90,19 @@ namespace BazaarOnline.API.Controllers.Users
             return Ok();
         }
 
+        [HttpPut("{id}/roles")]
+        [HasPermission(DefaultPermissions.UpdateUserRolesId)]
+        public ActionResult UpdateUserRoles(int id, [FromBody] UserUpdateRoleDTO updateRoleDTO)
+        {
+            var user = _userService.FindUser(id);
+            if (user == null) return NotFound();
+
+            if (!ModelState.IsValid) return BadRequest(updateRoleDTO);
+
+            _userService.UpdateUserRoles(user, updateRoleDTO);
+            return Ok();
+        }
+
         [HttpDelete("{id}")]
         [HasPermission(DefaultPermissions.DeleteUserId)]
         public ActionResult DeleteUser(int id)
