@@ -13,8 +13,20 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
 // DotNetEnv
 DotNetEnv.Env.Load();
+
+// CORS
+string NextJsOrigin = "NextJS";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(NextJsOrigin, builder =>
+    {
+        builder.WithOrigins("localhost:3000").AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+    });
+});
+
 
 builder.Services.AddControllers()
     .AddXmlSerializerFormatters();
@@ -108,7 +120,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseHttpsRedirection();
+app.UseCors(NextJsOrigin);
 
 app.UseAuthentication();
 app.UseAuthorization();
