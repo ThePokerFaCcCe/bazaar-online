@@ -5,6 +5,7 @@ using BazaarOnline.Application.DTOs.Users.UserDTOs;
 using BazaarOnline.Application.Services.Permissions;
 using BazaarOnline.Application.ViewModels.RoleViewModels;
 using BazaarOnline.Domain.Entities.Permissions;
+using BazaarOnline.Domain.Entities.Users;
 using BazaarOnline.Domain.Interfaces.Permissions;
 using BazaarOnline.Infra.Data.Seeds.DefaultDatas;
 using Moq;
@@ -172,7 +173,7 @@ public class RoleServiceTests
     [Test]
     public void UpdateUserRoles_WhenCalled_CallAddUserRoleRange()
     {
-        _roleService.UpdateUserRoles(1,
+        _roleService.UpdateUserRoles(new User { Id = 1 },
             new UserUpdateRoleDTO { Roles = new List<int>() });
 
         _roleRepositoryMock.Verify(m => m.AddUserRoleRange(It.IsAny<List<int>>(), 1));
@@ -181,7 +182,7 @@ public class RoleServiceTests
     [Test]
     public void UpdateUserRoles_WhenCalled_CallDeleteUserRoleRange()
     {
-        _roleService.UpdateUserRoles(1,
+        _roleService.UpdateUserRoles(new User { Id = 1 },
             new UserUpdateRoleDTO { Roles = new List<int>() });
 
         _roleRepositoryMock.Verify(m => m.DeleteUserRoleRange(It.IsAny<List<int>>(), 1));
@@ -190,7 +191,7 @@ public class RoleServiceTests
     [Test]
     public void UpdateUserRoles_WhenCalled_CallSave()
     {
-        _roleService.UpdateUserRoles(1,
+        _roleService.UpdateUserRoles(new User { Id = 1 },
             new UserUpdateRoleDTO { Roles = new List<int>() });
 
         _roleRepositoryMock.Verify(m => m.Save());

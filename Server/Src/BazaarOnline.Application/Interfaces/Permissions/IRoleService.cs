@@ -2,6 +2,7 @@ using BazaarOnline.Application.DTOs.Permissions.RoleDTOs;
 using BazaarOnline.Application.DTOs.Users.UserDTOs;
 using BazaarOnline.Application.ViewModels.RoleViewModels;
 using BazaarOnline.Domain.Entities.Permissions;
+using BazaarOnline.Domain.Entities.Users;
 
 namespace BazaarOnline.Application.Interfaces.Permissions
 {
@@ -28,7 +29,7 @@ namespace BazaarOnline.Application.Interfaces.Permissions
 
         #region UserRoles
 
-        void UpdateUserRoles(int userId, UserUpdateRoleDTO updateRoleDTO);
+        void UpdateUserRoles(User user, UserUpdateRoleDTO updateRoleDTO);
 
         #endregion
 

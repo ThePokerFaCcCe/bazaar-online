@@ -4,6 +4,7 @@ using BazaarOnline.Application.Interfaces.Permissions;
 using BazaarOnline.Application.ViewModels.PermissionViewModels;
 using BazaarOnline.Application.ViewModels.RoleViewModels;
 using BazaarOnline.Domain.Entities.Permissions;
+using BazaarOnline.Domain.Entities.Users;
 using BazaarOnline.Domain.Interfaces.Permissions;
 using BazaarOnline.Infra.Data.Seeds.DefaultDatas;
 using Microsoft.EntityFrameworkCore;
@@ -121,17 +122,17 @@ namespace BazaarOnline.Application.Services.Permissions
             _roleRepository.Save();
         }
 
-        public void UpdateUserRoles(int userId, UserUpdateRoleDTO updateRoleDTO)
+        public void UpdateUserRoles(User user, UserUpdateRoleDTO updateRoleDTO)
         {
             var roles = updateRoleDTO.Roles;
-            var oldRoles = _roleRepository.GetUserRoles(userId)
+            var oldRoles = _roleRepository.GetUserRoles(user.Id)
                 .Select(ur => ur.RoleId).ToList();
 
             var removedRoles = oldRoles.Except(roles).ToList();
             var newRoles = roles.Except(oldRoles).ToList();
 
-            _roleRepository.AddUserRoleRange(newRoles, userId);
-            _roleRepository.DeleteUserRoleRange(removedRoles, userId);
+            _roleRepository.AddUserRoleRange(newRoles, user.Id);
+            _roleRepository.DeleteUserRoleRange(removedRoles, user.Id);
             _roleRepository.Save();
         }
     }
