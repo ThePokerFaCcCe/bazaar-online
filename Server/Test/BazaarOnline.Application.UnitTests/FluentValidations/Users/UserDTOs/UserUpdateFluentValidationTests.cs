@@ -10,13 +10,13 @@ namespace BazaarOnline.Application.UnitTests.FluentValidations.Auth;
 public class UserUpdateFluentValidationTests
 {
     private Mock<IUserService> _userMock;
-    private UserCreateFluentValidation _validator;
+    private UserUpdateFluentValidation _validator;
 
     [SetUp]
     public void SetUp()
     {
         _userMock = new Mock<IUserService>();
-        _validator = new UserCreateFluentValidation(_userMock.Object);
+        _validator = new UserUpdateFluentValidation(_userMock.Object);
     }
 
     [Test]
@@ -25,7 +25,7 @@ public class UserUpdateFluentValidationTests
         _userMock.Setup(m => m.IsEmailExists(It.IsAny<string>())).Returns(false);
         _userMock.Setup(m => m.IsPhoneNumberExists(It.IsAny<string>())).Returns(false);
 
-        var result = _validator.TestValidate(new UserCreateDTO { PhoneNumber = "1" });
+        var result = _validator.TestValidate(new UserUpdateDTO { PhoneNumber = "1" });
 
         result.ShouldNotHaveAnyValidationErrors();
     }
@@ -37,21 +37,9 @@ public class UserUpdateFluentValidationTests
         _userMock.Setup(m => m.IsEmailExists(It.IsAny<string>())).Returns(false);
         _userMock.Setup(m => m.IsPhoneNumberExists(null)).Returns(true);
 
-        var result = _validator.TestValidate(new UserCreateDTO { PhoneNumber = null });
+        var result = _validator.TestValidate(new UserUpdateDTO { PhoneNumber = null });
 
         result.ShouldNotHaveAnyValidationErrors();
-    }
-
-
-    [Test]
-    public void Validate_EmailExistsAndPhoneNotExists_ValidationErrorForEmailOnly()
-    {
-        _userMock.Setup(m => m.IsEmailExists(It.IsAny<string>())).Returns(true);
-        _userMock.Setup(m => m.IsPhoneNumberExists(It.IsAny<string>())).Returns(false);
-
-        var result = _validator.TestValidate(new UserCreateDTO { PhoneNumber = "1" });
-
-        result.ShouldHaveValidationErrorFor(m => m.Email).Only();
     }
 
 
@@ -61,7 +49,7 @@ public class UserUpdateFluentValidationTests
         _userMock.Setup(m => m.IsEmailExists(It.IsAny<string>())).Returns(false);
         _userMock.Setup(m => m.IsPhoneNumberExists(It.IsAny<string>())).Returns(true);
 
-        var result = _validator.TestValidate(new UserCreateDTO { PhoneNumber = "1" });
+        var result = _validator.TestValidate(new UserUpdateDTO { PhoneNumber = "1" });
 
         result.ShouldHaveValidationErrorFor(m => m.PhoneNumber).Only();
     }
