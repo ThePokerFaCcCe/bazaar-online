@@ -6,6 +6,7 @@ using BazaarOnline.Application.Services.Auth;
 using BazaarOnline.Application.Services.Permissions;
 using BazaarOnline.Application.Services.Senders;
 using BazaarOnline.Application.Services.Users;
+using BazaarOnline.Domain.Interfaces.Categories;
 using BazaarOnline.Domain.Interfaces.Permissions;
 using BazaarOnline.Domain.Interfaces.Users;
 using BazaarOnline.Infra.Data.Repositories.Permissions;
@@ -32,6 +33,10 @@ namespace BazaarOnline.Infra.IoC
             services.AddScoped<IRoleService, RoleService>();
             #endregion
 
+            #region Categories
+
+            #endregion
+
             #region Senders
             services.AddScoped<IEmailService, EmailService>();
             #endregion
@@ -48,6 +53,10 @@ namespace BazaarOnline.Infra.IoC
             #region Permission
             services.AddScoped<IPermissionRepository, PermissionRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
+            #endregion
+
+            #region Categories
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
             #endregion
 
             #endregion

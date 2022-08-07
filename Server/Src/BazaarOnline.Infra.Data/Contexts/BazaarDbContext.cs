@@ -1,3 +1,4 @@
+using BazaarOnline.Domain.Entities.Categories;
 using BazaarOnline.Domain.Entities.Permissions;
 using BazaarOnline.Domain.Entities.Users;
 using BazaarOnline.Infra.Data.FluentConfigs;
@@ -26,6 +27,12 @@ namespace BazaarOnline.Infra.Data.Contexts
         public DbSet<PermissionGroup> PermissionGroups { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<RolePermission> RolePermissions { get; set; }
+
+        #endregion
+
+        #region Categories
+
+        public DbSet<Category> Categories { get; set; }
 
         #endregion
 
