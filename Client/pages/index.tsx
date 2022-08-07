@@ -12,7 +12,7 @@ import {
   Telegram,
   WhatsApp,
   GitHub,
-} from '@mui/icons-material';
+} from "@mui/icons-material";
 import { Input } from "antd";
 import type { NextPage } from "next";
 import { useState } from "react";
@@ -34,7 +34,6 @@ const Home: NextPage = () => {
     "یزد",
   ];
 
-
   return (
     <div>
       <Head>
@@ -47,7 +46,10 @@ const Home: NextPage = () => {
           <Box className="wall">
             <p>بازار آنلاین! پایگاه خرید و فروش بی‌واسطه‌</p>
             <br />
-            <p>اگه دنبال چیزی میگردی، شهرت رو انتخاب کن و تو دسته‌بندی‌ها به دنبالش بگرد.</p>
+            <p>
+              اگه دنبال چیزی میگردی، شهرت رو انتخاب کن و تو دسته‌بندی‌ها به
+              دنبالش بگرد.
+            </p>
             <br />
             <p>
               اگر هم می‌خوای چیزی بفروشی، چند تا عکس خوب ازش بگیر و آگهیت رو
@@ -139,8 +141,8 @@ const Home: NextPage = () => {
             </div>
           </Box>
         </div>
-      </div >
-    </div >
+      </div>
+    </div>
   );
 };
 

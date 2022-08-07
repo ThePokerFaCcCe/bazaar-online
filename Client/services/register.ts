@@ -1,13 +1,21 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import config from "../config.json";
 
 export const handleRegister = async (user: any): Promise<void> => {
-  const result = await axios.post(`${config.apiEndPoint}/auth/register`, user, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  console.log(result);
+  try {
+    await axios.post(`${config.apiEndPoint}/auth/register`, user, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  } catch ({ response }) {
+    if (response?.status >= 400 && response?.status < 500) {
+      const errors = response?.data?.errors;
+      const errPropertyName: string[] = Object.keys(errors);
+      toast.error(errors?.[errPropertyName?.[0]]?.[0]);
+    }
+  }
 };
 
 export default handleRegister;

@@ -1,15 +1,13 @@
-import { ConfigProvider, Modal, Input, Checkbox, Button } from "antd";
-import { Box, Typography, TextField } from "@mui/material";
-import React, { useState, useMemo } from "react";
+import { ConfigProvider, Modal, Button } from "antd";
+import React, { useState } from "react";
 import { InputOnChange } from "../types/type";
-import * as Yup from "yup";
-import { Formik, Field, Form, FormikHelpers, useFormik } from "formik";
+import { useFormik } from "formik";
 import handleRegister from "../services/register";
 import StepOne from "./common/Register/stepOne";
 import StepTwo from "./common/Register/stepTwo";
 import StepThree from "./common/Register/stepThree";
 import registerSchema from "../services/registerValidate";
-import { CheckboxChangeEvent } from "antd/lib/checkbox";
+// import { CheckboxChangeEvent } from "antd/lib/checkbox";
 
 const RegisterModal = ({
   onShowRegister,
@@ -32,7 +30,6 @@ const RegisterModal = ({
     },
     validationSchema: registerSchema,
   });
-
   // Event Handlers
   const handleNextBtn = () => {
     if (step === 1) {
@@ -42,7 +39,7 @@ const RegisterModal = ({
   };
 
   // Which Step To Show
-  const stepToShow = useMemo((): JSX.Element => {
+  const stepToShow = (): JSX.Element => {
     if (step === 2) {
       return <StepTwo />;
     }
@@ -50,14 +47,11 @@ const RegisterModal = ({
       return <StepThree />;
     }
     return (
-      <StepOne
-        onShowTerms={terms}
-        onSetTerms={setTerms}
-        onFormikChange={formik.handleChange}
-      />
+      <StepOne onShowTerms={terms} onSetTerms={setTerms} onFormik={formik} />
     );
-  }, [step]);
-  console.log(terms);
+  };
+  // Check if There is no Error
+  // console.log(Object.keys(formik.errors).length);
   // Render
   return (
     <ConfigProvider direction="rtl">
@@ -67,7 +61,7 @@ const RegisterModal = ({
         visible={onShowRegister}
         onCancel={onCloseLogin}
         footer={[
-          <Button type="primary" onClick={handleNextBtn}>
+          <Button type="primary" onClick={() => handleRegister(formik.values)}>
             {step === 1 ? "ثبت نام" : "بازگشت"}
           </Button>,
           <Button
@@ -81,7 +75,7 @@ const RegisterModal = ({
         ]}
       >
         <form onSubmit={formik.handleSubmit}>
-          {stepToShow}
+          {stepToShow()}
           <button type="submit" className="btn-sm btn-primary">
             Click
           </button>
