@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Text;
 using BazaarOnline.Application.FluentValidations;
 using BazaarOnline.Infra.Data.Contexts;
+using BazaarOnline.Infra.Data.Seeds;
 using BazaarOnline.Infra.IoC;
 using FluentValidation.AspNetCore;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
@@ -118,6 +119,11 @@ if (app.Environment.IsDevelopment())
     {
         options.SwaggerEndpoint("/swagger/V1/swagger.json", "V1");
     });
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        ExampleSeeder.Seed(services, forceRecreate: false);
+    }
 }
 
 app.UseCors(NextJsOrigin);

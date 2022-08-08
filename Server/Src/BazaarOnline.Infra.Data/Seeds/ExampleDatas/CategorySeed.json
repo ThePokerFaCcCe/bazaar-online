@@ -1,0 +1,152 @@
+[
+    {
+        "Id": 1,
+        "Title": "املاک",
+        "ParentId": null
+    },
+    {
+        "Id": 2,
+        "Title": "وسایل نقلیه",
+        "ParentId": null
+    },
+    {
+        "Id": 3,
+        "Title": "کالای دیجیتال",
+        "ParentId": null
+    },
+    {
+        "Id": 4,
+        "Title": "خانه و آشپزخانه",
+        "ParentId": null
+    },
+    {
+        "Id": 5,
+        "Title": "خدمات",
+        "ParentId": null
+    },
+    {
+        "Id": 6,
+        "Title": "وسایل شخصی",
+        "ParentId": null
+    },
+    {
+        "Id": 7,
+        "Title": "سرگرمی و فراغت",
+        "ParentId": null
+    },
+    {
+        "Id": 8,
+        "Title": "اجتماعی",
+        "ParentId": null
+    },
+    {
+        "Id": 9,
+        "Title": "تجهیزات و صنعتی",
+        "ParentId": null
+    },
+    {
+        "Id": 10,
+        "Title": "استخدام و کاریابی",
+        "ParentId": null
+    },
+    {
+        "Id": 11,
+        "Title": "فروش مسکونی",
+        "ParentId": 1
+    },
+    {
+        "Id": 12,
+        "Title": "اجاره مسکونی",
+        "ParentId": 1
+    },
+    {
+        "Id": 17,
+        "Title": "آپارتمان",
+        "ParentId": 11
+    },
+    {
+        "Id": 18,
+        "Title": "خانه و ویلا",
+        "ParentId": 11
+    },
+    {
+        "Id": 20,
+        "Title": "خودرو",
+        "ParentId": 2
+    },
+    {
+        "Id": 21,
+        "Title": "قطعات یدکی و لوازم جانبی خودرو",
+        "ParentId": 2
+    },
+    {
+        "Id": 22,
+        "Title": "موتورسیکلت و لوازم جانبی",
+        "ParentId": 2
+    },
+    {
+        "Id": 24,
+        "Title": "سواری و وانت",
+        "ParentId": 20
+    },
+    {
+        "Id": 25,
+        "Title": "کلاسیک",
+        "ParentId": 20
+    },
+    {
+        "Id": 26,
+        "Title": "اجاره‌ای",
+        "ParentId": 20
+    },
+    {
+        "Id": 27,
+        "Title": "سنگین",
+        "ParentId": 20
+    },
+    {
+        "Id": 28,
+        "Title": "موبایل و تبلت",
+        "ParentId": 3
+    },
+    {
+        "Id": 29,
+        "Title": "رایانه",
+        "ParentId": 3
+    },
+    {
+        "Id": 30,
+        "Title": "کنسول، بازی‌ ویدئویی و آنلاین",
+        "ParentId": 3
+    },
+    {
+        "Id": 31,
+        "Title": "صوتی و تصویری",
+        "ParentId": 3
+    },
+    {
+        "Id": 32,
+        "Title": "تلفن رومیزی",
+        "ParentId": 3
+    },
+    {
+        "Id": 33,
+        "Title": "گوشی موبایل",
+        "ParentId": 28
+    },
+    {
+        "Id": 34,
+        "Title": "تبلت",
+        "ParentId": 28
+    },
+    {
+        "Id": 35,
+        "Title": "لوازم جانبی موبایل و تبلت",
+        "ParentId": 28
+    },
+    {
+        "Id": 36,
+        "Title": "سیم کارت",
+        "ParentId": 28
+    }
+]
