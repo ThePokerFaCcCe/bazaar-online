@@ -1,8 +1,10 @@
 using BazaarOnline.Application.Interfaces.Auth;
+using BazaarOnline.Application.Interfaces.Categories;
 using BazaarOnline.Application.Interfaces.Permissions;
 using BazaarOnline.Application.Interfaces.Senders;
 using BazaarOnline.Application.Interfaces.Users;
 using BazaarOnline.Application.Services.Auth;
+using BazaarOnline.Application.Services.Categories;
 using BazaarOnline.Application.Services.Permissions;
 using BazaarOnline.Application.Services.Senders;
 using BazaarOnline.Application.Services.Users;
@@ -34,7 +36,7 @@ namespace BazaarOnline.Infra.IoC
             #endregion
 
             #region Categories
-
+            services.AddScoped<ICategoryService, CategoryService>();
             #endregion
 
             #region Senders
