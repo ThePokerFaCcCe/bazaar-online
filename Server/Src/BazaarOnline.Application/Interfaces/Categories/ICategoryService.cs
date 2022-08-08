@@ -20,6 +20,15 @@ namespace BazaarOnline.Application.Interfaces.Categories
         /// <param name="category"></param>
         void DeleteCategory(Category category);
 
+
+        /// <summary>
+        /// Get a parent id and return a list of all of it's children recursively 
+        /// </summary>
+        /// <param name="parentId">Category's parent id</param>
+        /// <param name="includeParent">Add Parent to the list</param>
+        /// <returns>Parent category(if included) and it's children</returns>
+        IEnumerable<Category> GetCategoryAndChildrenFlatten(int? parentId = null, bool includeParent = false);
+
         bool IsCategoryExists(int id);
     }
 }

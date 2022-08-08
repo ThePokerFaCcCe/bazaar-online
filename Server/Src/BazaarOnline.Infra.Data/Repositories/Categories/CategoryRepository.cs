@@ -19,7 +19,7 @@ namespace BazaarOnline.Domain.Interfaces.Categories
 
         public void DeleteCategory(Category category)
         {
-            _context.Categories.RemoveRange(GetCategoryAndChildrenFlatten(category.Id, true));
+            _context.Categories.Remove(category);
         }
 
         public Category? FindCategory(int id)
@@ -32,38 +32,6 @@ namespace BazaarOnline.Domain.Interfaces.Categories
             return _context.Categories.AsQueryable();
         }
 
-        public IEnumerable<Category> GetCategoryAndChildrenFlatten(
-            int? parentId = null, bool includeParent = false)
-        {
-            return _GetCategoryAndChildrenFlatten(parentId: parentId, includeParent: includeParent);
-        }
-
-        private IEnumerable<Category> _GetCategoryAndChildrenFlatten(
-            int? parentId = null, bool includeParent = false,
-            IEnumerable<Category>? allCategories = null,
-            List<Category>? selectedCategories = null)
-        {
-            if (allCategories == null) allCategories = _context.Categories.ToList();
-            if (selectedCategories == null)
-            {
-                selectedCategories = new List<Category>();
-                if (includeParent)
-                {
-                    selectedCategories.AddRange(
-                        _context.Categories.Where(c => c.Id == parentId)
-                    );
-                }
-            }
-            allCategories.Where(c => c.ParentId == parentId).ToList()
-            .ForEach(c =>
-            {
-                selectedCategories.Add(c);
-                _GetCategoryAndChildrenFlatten(c.Id, includeParent, allCategories, selectedCategories);
-            });
-
-            return selectedCategories;
-        }
-
         public void Save()
         {
             _context.SaveChanges();
@@ -72,6 +40,11 @@ namespace BazaarOnline.Domain.Interfaces.Categories
         public void UpdateCategory(Category category)
         {
             _context.Categories.Update(category);
+        }
+
+        public void DeleteCategoryRange(IEnumerable<Category> categories)
+        {
+            _context.Categories.RemoveRange(categories);
         }
     }
 }

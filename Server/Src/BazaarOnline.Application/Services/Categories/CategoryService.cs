@@ -32,7 +32,9 @@ namespace BazaarOnline.Application.Services.Categories
 
         public void DeleteCategory(Category category)
         {
-            _categoryRepository.DeleteCategory(category);
+            _categoryRepository.DeleteCategoryRange(
+                GetCategoryAndChildrenFlatten(category.Id, true)
+            );
             _categoryRepository.Save();
         }
 
@@ -45,7 +47,7 @@ namespace BazaarOnline.Application.Services.Categories
         public List<CategoryListDetailViewModel> GetCategoryChildrenDetail(
             int? parentId = null, bool includeParent = false)
         {
-            return _categoryRepository.GetCategoryAndChildrenFlatten(parentId, includeParent)
+            return GetCategoryAndChildrenFlatten(parentId, includeParent)
                 .Select(c => new CategoryListDetailViewModel
                 {
                     Id = c.Id,
@@ -80,7 +82,7 @@ namespace BazaarOnline.Application.Services.Categories
 
         public List<CategoryListDetailViewModel> GetCategoryListDetails()
         {
-            return _categoryRepository.GetCategoryAndChildrenFlatten(null, true)
+            return GetCategoryAndChildrenFlatten(null, true)
                 .Select(c => new CategoryListDetailViewModel
                 {
                     Id = c.Id,
@@ -102,5 +104,39 @@ namespace BazaarOnline.Application.Services.Categories
             _categoryRepository.UpdateCategory(category);
             _categoryRepository.Save();
         }
+
+
+        public IEnumerable<Category> GetCategoryAndChildrenFlatten(
+            int? parentId = null, bool includeParent = false)
+        {
+            return _GetCategoryAndChildrenFlatten(parentId: parentId, includeParent: includeParent);
+        }
+
+        private IEnumerable<Category> _GetCategoryAndChildrenFlatten(
+            int? parentId = null, bool includeParent = false,
+            IEnumerable<Category>? allCategories = null,
+            List<Category>? selectedCategories = null)
+        {
+            if (allCategories == null) allCategories = _categoryRepository.GetCategories().ToList();
+            if (selectedCategories == null)
+            {
+                selectedCategories = new List<Category>();
+                if (includeParent)
+                {
+                    selectedCategories.AddRange(
+                        allCategories.Where(c => c.Id == parentId)
+                    );
+                }
+            }
+            allCategories.Where(c => c.ParentId == parentId).ToList()
+            .ForEach(c =>
+            {
+                selectedCategories.Add(c);
+                _GetCategoryAndChildrenFlatten(c.Id, includeParent, allCategories, selectedCategories);
+            });
+
+            return selectedCategories;
+        }
+
     }
 }
