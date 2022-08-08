@@ -18,14 +18,12 @@ const NavBar = (): JSX.Element => {
     (state: Store) => state.entities.ui.modals
   );
   // Local State
-  const [showMegaMenu, setShowMegaMenu] = useState(false);
+
   const [megaMenu2Display, setMegaMenu2Display] = useState("");
 
   return (
     <>
       <DesktopNavBar
-        onShowMegaMenu={showMegaMenu}
-        onSetShowMegaMenu={setShowMegaMenu}
         onMegaMenu2Display={megaMenu2Display}
         onSetMegaMenuToDisplay={setMegaMenu2Display}
       />

@@ -11,20 +11,22 @@ import {
 } from "@mui/icons-material";
 import { Input } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-import { cityModalToggle, desktopMenuToggle } from "../../../store/state/ui";
+import {
+  cityModalToggle,
+  desktopMenuToggle,
+  megaMenuToggle,
+} from "../../../store/state/ui";
 import { DesktopNavBarProps, Store } from "../../../types/type";
 import MegaMenu from "./megaMenu";
 import MyBazzarMenu from "./myBazzarMenu";
 import styles from "../../../styles/NavBar.module.css";
 const DesktopNavBar = ({
-  onShowMegaMenu,
-  onSetShowMegaMenu,
   onMegaMenu2Display,
   onSetMegaMenuToDisplay,
 }: DesktopNavBarProps): JSX.Element => {
   // Redux Setup
   const dispatch = useDispatch();
-  const { desktopMenuVisible } = useSelector(
+  const { desktopMenuVisible, megaMenuVisible } = useSelector(
     (state: Store) => state.entities.ui.navbar
   );
 
@@ -77,29 +79,26 @@ const DesktopNavBar = ({
                 <Button
                   className={styles.nav__items}
                   onClick={() => {
-                    onSetShowMegaMenu(!onShowMegaMenu);
+                    dispatch(megaMenuToggle());
                   }}
                 >
                   <Box>
                     <Grid container spacing={0.5} alignItems="center">
                       <Grid item>دسته ها</Grid>
                       <Grid item>
-                        {onShowMegaMenu ? <ExpandLess /> : <ExpandMore />}
+                        {megaMenuVisible ? <ExpandLess /> : <ExpandMore />}
                       </Grid>
                     </Grid>
                   </Box>
                 </Button>
                 <Box
                   className={
-                    onShowMegaMenu
+                    megaMenuVisible
                       ? styles.megamenu__dropdown_content
                       : "d-none"
                   }
                 >
-                  <MegaMenu
-                    onSetShowMegaMenu={onSetShowMegaMenu}
-                    onSetMegaMenu2Display={onSetMegaMenuToDisplay}
-                  />
+                  <MegaMenu onSetMegaMenu2Display={onSetMegaMenuToDisplay} />
                 </Box>
               </Grid>
               <Grid item>

@@ -13,7 +13,6 @@ export interface AdvertisementListProps {
 }
 
 export type MegaMenuProps = {
-  onSetShowMegaMenu: Dispatch<SetStateAction<boolean>>;
   onSetMegaMenu2Display: Dispatch<SetStateAction<string>>;
 };
 
@@ -26,9 +25,7 @@ export type RTLProps = {
 };
 
 export type DesktopNavBarProps = {
-  onSetShowMegaMenu: Dispatch<SetStateAction<boolean>>;
   onSetMegaMenuToDisplay: Dispatch<SetStateAction<string>>;
-  onShowMegaMenu: boolean;
   onMegaMenu2Display: string;
 };
 
@@ -64,6 +61,7 @@ export interface Store {
       navbar: {
         desktopMenuVisible: boolean;
         mobileMenuVisible: boolean;
+        megaMenuVisible: boolean;
       };
     };
   };

@@ -10,6 +10,7 @@ const { actions, reducer } = createSlice({
     navbar: {
       desktopMenuVisible: false,
       mobileMenuVisible: false,
+      megaMenuVisible: false,
     },
   },
   reducers: {
@@ -25,6 +26,9 @@ const { actions, reducer } = createSlice({
     mobileMenuToggle: ({ navbar }) => {
       navbar.mobileMenuVisible = !navbar.mobileMenuVisible;
     },
+    megaMenuToggle: ({ navbar }) => {
+      navbar.megaMenuVisible = !navbar.megaMenuVisible;
+    },
   },
 });
 
@@ -33,5 +37,6 @@ export const {
   cityModalToggle,
   desktopMenuToggle,
   mobileMenuToggle,
+  megaMenuToggle,
 } = actions;
 export default reducer;
