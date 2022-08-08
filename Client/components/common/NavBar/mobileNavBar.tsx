@@ -15,7 +15,7 @@ import { NavItems, Store } from "../../../types/type";
 import Link from "next/link";
 import styles from "../../../styles/NavBar.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import { mobileMenuToggle } from "../../../store/state/ui";
+import { mobileMenuToggle, signModalToggle } from "../../../store/state/ui";
 import Logo from "./logo";
 
 const navItems: NavItems = [
@@ -38,6 +38,18 @@ const MobileNavBar = (): JSX.Element => {
   const { mobileMenuVisible } = useSelector(
     (state: Store) => state.entities.ui.navbar
   );
+
+  // Event Handler
+
+  const modalToOpen = (title: string) => {
+    if (title === "ورود | ثبت نام") {
+      dispatch(mobileMenuToggle());
+      dispatch(signModalToggle());
+      return;
+    }
+    return null;
+  };
+
   // Render
   return (
     <>
@@ -73,6 +85,7 @@ const MobileNavBar = (): JSX.Element => {
             <Box
               sx={{ fontWeight: "500" }}
               key={index}
+              onClick={() => modalToOpen(item.title)}
               className="w-100 border-bottom p-3"
             >
               <Grid container spacing={2} direction="row" alignItems="center">

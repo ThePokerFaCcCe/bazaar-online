@@ -4,7 +4,7 @@ const Login = (): JSX.Element => {
   return (
     <>
       <Input className="my-2" placeholder="ایمیل" />
-      <Input className="my-2" placeholder="کلمه عبور" />
+      <Input.Password className="my-2" placeholder="کلمه عبور" />
       <Checkbox className="my-2">مرا به خاطر بسپار</Checkbox>
       <Divider />
       <Box sx={{ display: "flex", justifyContent: "end" }}>
