@@ -1,9 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
 
-export type SelectCityProps = {
-  onShowCity(value: boolean): void;
-};
-
 export type Menus = { title: string; icon: JSX.Element }[];
 
 export type Category = { title: string; link: string; icon: JSX.Element }[];
@@ -30,10 +26,8 @@ export type RTLProps = {
 };
 
 export type DesktopNavBarProps = {
-  onSetShowMenu: Dispatch<SetStateAction<boolean>>;
   onSetShowMegaMenu: Dispatch<SetStateAction<boolean>>;
   onSetMegaMenuToDisplay: Dispatch<SetStateAction<string>>;
-  onShowMenu: boolean;
   onShowMegaMenu: boolean;
   onMegaMenu2Display: string;
 };
@@ -42,21 +36,6 @@ export type NavItems = { title: string; icon: JSX.Element }[];
 
 export interface CityModal {
   onOk: () => void;
-  onCloseModal: () => void;
-  onSetShowCity: Dispatch<SetStateAction<boolean>>;
-  modalVisible: boolean;
-  showCity: boolean;
-}
-
-export interface LoginModalProps {
-  onShowLogin: boolean;
-  onLogin: () => void;
-  onCloseLogin: () => void;
-}
-
-export interface MyBazzarMenuProps {
-  onSetShowLogin: () => void;
-  onSetShowRegister: () => void;
 }
 
 export interface User {
@@ -73,4 +52,19 @@ export interface StepOneProps {
   onShowTerms: boolean;
   onSetTerms: Dispatch<SetStateAction<boolean>>;
   onFormik: any;
+}
+
+export interface Store {
+  entities: {
+    ui: {
+      modals: {
+        signModalVisible: boolean;
+        cityModalVisible: boolean;
+      };
+      navbar: {
+        desktopMenuVisible: boolean;
+        mobileMenuVisible: boolean;
+      };
+    };
+  };
 }

@@ -1,11 +1,13 @@
 import { Box, Grid, Divider, Checkbox } from "@mui/material";
 import { Input } from "antd";
-import { SelectCityProps } from "../../../types/type";
-import SearchIcon from "@mui/icons-material/Search";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { useDispatch } from "react-redux";
+import { Search, ArrowForward } from "@mui/icons-material";
 import styles from "../../../styles/CityModal.module.css";
 
-const SelectCity = ({ onShowCity }: SelectCityProps): JSX.Element => {
+const SelectCity = ({ onSelectState }: any): JSX.Element => {
+  // Redux Setup
+  const dispatch = useDispatch();
+  // Render
   return (
     <>
       <Box sx={{ padding: "24px 24px 7px" }}>
@@ -19,7 +21,7 @@ const SelectCity = ({ onShowCity }: SelectCityProps): JSX.Element => {
           size="large"
           placeholder="جستجو در شهرها"
           className="searchInput"
-          prefix={<SearchIcon sx={{ fill: "#ccc" }} />}
+          prefix={<Search sx={{ fill: "#ccc" }} />}
         />
       </Box>
       <Divider sx={{ marginTop: "1.3rem", borderColor: "#000" }} />
@@ -34,11 +36,11 @@ const SelectCity = ({ onShowCity }: SelectCityProps): JSX.Element => {
           container
           className={styles.city__names}
           alignItems="center"
-          onClick={() => onShowCity(false)}
+          onClick={() => onSelectState(false)}
           sx={{ paddingTop: "1rem" }}
         >
           <Grid item>
-            <ArrowForwardIcon sx={{ fill: "#656565", margin: "0 5px" }} />
+            <ArrowForward sx={{ fill: "#656565", margin: "0 5px" }} />
           </Grid>
           <Grid item>
             <span>همه شهرها</span>

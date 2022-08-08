@@ -10,36 +10,35 @@ import {
 } from "@mui/material";
 import { Col, Row } from "antd";
 import {
-  Login,
   Bookmark,
   NoteAlt,
   RemoveRedEye,
-  PersonAdd,
+  PeopleOutline,
 } from "@mui/icons-material";
-import { Menus, MyBazzarMenuProps } from "../../../types/type";
+import { Menus } from "../../../types/type";
+import { signModalToggle, desktopMenuToggle } from "../../../store/state/ui";
+import { useDispatch } from "react-redux";
 
 const menus: Menus = [
-  { title: "ورود", icon: <Login /> },
-  { title: "ثبت نام", icon: <PersonAdd /> },
+  { title: "ثبت نام | ورود", icon: <PeopleOutline /> },
   { title: "نشان شده ها", icon: <Bookmark /> },
   { title: "یادداشت شده ها", icon: <NoteAlt /> },
   { title: "بازدید های اخیر", icon: <RemoveRedEye /> },
 ];
 
-const MyBazzarMenu = ({
-  onSetShowLogin,
-  onSetShowRegister,
-}: MyBazzarMenuProps): JSX.Element => {
-  const modalToOpen = (title: string): void | null => {
-    if (title === "ورود") {
-      return onSetShowLogin();
-    }
-    if (title === "ثبت نام") {
-      return onSetShowRegister();
+const MyBazzarMenu = (): JSX.Element => {
+  //Redux Setup
+  const dispatch = useDispatch();
+  // Event Handlers
+  const modalToOpen = (title: string) => {
+    if (title === "ثبت نام | ورود") {
+      dispatch(signModalToggle());
+      dispatch(desktopMenuToggle());
+      return;
     }
     return null;
   };
-
+  // Render
   return (
     <>
       <Box

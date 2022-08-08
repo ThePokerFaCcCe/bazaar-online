@@ -30,12 +30,22 @@ const RegisterModal = ({
     },
     validationSchema: registerSchema,
   });
+
   // Event Handlers
   const handleNextBtn = () => {
     if (step === 1) {
-      return terms && setStep(step + 1);
+      console.log(formik.errors);
+      // console.log(formik.errors.length)
+      console.log(Object.keys(formik.errors).length);
+      if (terms) {
+        console.log("Inside Terms Execute");
+        handleRegister(formik.values);
+        setStep(step + 1);
+      }
+      return;
     }
-    return setStep(step - 1);
+    console.log("Resid Be Akharesh");
+    if (step !== 1) return setStep(step - 1);
   };
 
   // Which Step To Show
@@ -50,37 +60,18 @@ const RegisterModal = ({
       <StepOne onShowTerms={terms} onSetTerms={setTerms} onFormik={formik} />
     );
   };
+  console.log("step", step);
   // Check if There is no Error
   // console.log(Object.keys(formik.errors).length);
   // Render
   return (
     <ConfigProvider direction="rtl">
-      <Modal
-        centered
-        title="ثبت نام"
-        visible={onShowRegister}
-        onCancel={onCloseLogin}
-        footer={[
-          <Button type="primary" onClick={() => handleRegister(formik.values)}>
-            {step === 1 ? "ثبت نام" : "بازگشت"}
-          </Button>,
-          <Button
-            className={step === 1 ? "d-none" : "bye"}
-            type="primary"
-            danger
-            // onClick={() => console.log("Bye")}
-          >
-            ثبت نام
-          </Button>,
-        ]}
-      >
-        <form onSubmit={formik.handleSubmit}>
-          {stepToShow()}
-          <button type="submit" className="btn-sm btn-primary">
-            Click
-          </button>
-        </form>
-      </Modal>
+      <form onSubmit={formik.handleSubmit}>
+        {stepToShow()}
+        <button type="submit" className="btn-sm btn-primary">
+          Click
+        </button>
+      </form>
     </ConfigProvider>
   );
 };

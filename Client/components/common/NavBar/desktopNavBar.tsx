@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useState } from "react";
 import { Box, Grid, Button } from "@mui/material";
 import {
@@ -9,89 +10,27 @@ import {
   Search,
 } from "@mui/icons-material";
 import { Input } from "antd";
-import { DesktopNavBarProps } from "../../../types/type";
-import MyBazzarMenu from "./myBazzarMenu";
+import { useSelector, useDispatch } from "react-redux";
+import { cityModalToggle, desktopMenuToggle } from "../../../store/state/ui";
+import { DesktopNavBarProps, Store } from "../../../types/type";
 import MegaMenu from "./megaMenu";
-import CityModal from "../../cityModal";
+import MyBazzarMenu from "./myBazzarMenu";
 import styles from "../../../styles/NavBar.module.css";
-import Link from "next/link";
-import LoginModal from "../../loginModal";
-import RegisterModal from "../../registerModal";
-
 const DesktopNavBar = ({
-  onShowMenu,
-  onSetShowMenu,
   onShowMegaMenu,
   onSetShowMegaMenu,
   onMegaMenu2Display,
   onSetMegaMenuToDisplay,
 }: DesktopNavBarProps): JSX.Element => {
-  const [cityModalVisible, setCityModalVisible] = useState(false);
-  const [showCity, setShowCity] = useState(false);
-  const [showLogin, setShowLogin] = useState(false);
-  const [showRegister, setShowRegister] = useState(false);
+  // Redux Setup
+  const dispatch = useDispatch();
+  const { desktopMenuVisible } = useSelector(
+    (state: Store) => state.entities.ui.navbar
+  );
 
-  // Register Modal
-  const handleRegister = (): void => {
-    setShowRegister(false);
-  };
-
-  const showRegisterModal = (): void => {
-    onSetShowMenu(false);
-    setShowRegister(true);
-  };
-
-  const handleCloseRegister = (): void => {
-    setShowRegister(false);
-  };
-
-  // Login Modal
-  const handleLogin = (): void => {
-    setShowLogin(false);
-  };
-
-  const showLoginModal = (): void => {
-    onSetShowMenu(false);
-    setShowLogin(true);
-  };
-
-  const handleCloseLogin = (): void => {
-    setShowLogin(false);
-  };
-
-  // Select City Modal
-  const handleOk = (): void => {
-    setCityModalVisible(false);
-  };
-
-  const showModal = (): void => {
-    onSetShowMenu(false);
-    setCityModalVisible(true);
-  };
-
-  const closeModal = (): void => {
-    setCityModalVisible(false);
-  };
-
+  // Render
   return (
     <>
-      <RegisterModal
-        onShowRegister={showRegister}
-        onRegister={handleRegister}
-        onCloseLogin={handleCloseRegister}
-      />
-      <LoginModal
-        onShowLogin={showLogin}
-        onLogin={handleLogin}
-        onCloseLogin={handleCloseLogin}
-      />
-      <CityModal
-        onOk={handleOk}
-        onCloseModal={closeModal}
-        onSetShowCity={setShowCity}
-        modalVisible={cityModalVisible}
-        showCity={showCity}
-      />
       <Box className={styles.desktop__navBar}>
         <Grid
           container
@@ -127,7 +66,7 @@ const DesktopNavBar = ({
               <Grid item sx={{ marginRight: "5px" }}>
                 <Button
                   className={styles.nav__items}
-                  onClick={showModal}
+                  onClick={() => dispatch(cityModalToggle())}
                   variant="text"
                 >
                   <LocationOnOutlined />
@@ -179,7 +118,7 @@ const DesktopNavBar = ({
               <Grid item className={styles.dropdown}>
                 <Button
                   className={styles.nav__items}
-                  onClick={() => onSetShowMenu(!onShowMenu)}
+                  onClick={() => dispatch(desktopMenuToggle())}
                   variant="text"
                 >
                   <div>
@@ -190,12 +129,11 @@ const DesktopNavBar = ({
                   </div>
                 </Button>
                 <div
-                  className={onShowMenu ? styles.dropdown__content : "d-none"}
+                  className={
+                    desktopMenuVisible ? styles.dropdown__content : "d-none"
+                  }
                 >
-                  <MyBazzarMenu
-                    onSetShowLogin={showLoginModal}
-                    onSetShowRegister={showRegisterModal}
-                  />
+                  <MyBazzarMenu />
                 </div>
               </Grid>
               <Grid item>

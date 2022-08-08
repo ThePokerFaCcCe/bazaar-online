@@ -4,7 +4,9 @@ import { ToastContainer } from "react-toastify";
 import { StepOneProps } from "../../../types/type";
 
 const StepOne = ({ onFormik, onShowTerms, onSetTerms }: StepOneProps) => {
-  const handleStatus = (propertyName: string): "error" => {
+  // Event Handlers
+
+  const handleStatus = (propertyName: string): "error" | undefined => {
     return (
       onFormik.touched?.[propertyName] &&
       onFormik.errors?.[propertyName] &&
@@ -20,7 +22,7 @@ const StepOne = ({ onFormik, onShowTerms, onSetTerms }: StepOneProps) => {
       )
     );
   };
-
+  // Render
   return (
     <>
       <ToastContainer />
@@ -76,12 +78,13 @@ const StepOne = ({ onFormik, onShowTerms, onSetTerms }: StepOneProps) => {
       </div>
       {/* Password */}
       <Input.Password
-        onChange={onFormik.handleChange}
-        status={handleStatus("password")}
         name="password"
-        className="my-2"
-        onBlur={onFormik.handleBlur}
         placeholder="کلمه عبور *"
+        className="my-2"
+        status={handleStatus("password")}
+        onChange={onFormik.handleChange}
+        onBlur={onFormik.handleBlur}
+        autoComplete="on"
       />
       {handleErrorMsg("password")}
       <Checkbox

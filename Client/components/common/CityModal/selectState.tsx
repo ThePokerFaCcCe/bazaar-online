@@ -3,9 +3,8 @@ import { Input } from "antd";
 import SearchIcon from "@mui/icons-material/Search";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import styles from "../../../styles/CityModal.module.css";
-import { SelectCityProps } from "../../../types/type";
 
-const SelectState = ({ onShowCity }: SelectCityProps): JSX.Element => (
+const SelectState = ({ onSelectState }: any): JSX.Element => (
   <>
     <Box sx={{ padding: "24px" }}>
       <h6>انتخاب شهر</h6>
@@ -27,7 +26,7 @@ const SelectState = ({ onShowCity }: SelectCityProps): JSX.Element => (
         className={styles.city__names}
         justifyContent="space-between"
         alignItems="center"
-        onClick={() => onShowCity(true)}
+        onClick={() => onSelectState(true)}
       >
         <Grid item>
           <span>آذربایجان شرقی</span>

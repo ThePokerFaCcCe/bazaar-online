@@ -1,33 +1,43 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { CssBaseline } from "@mui/material";
-import { Button, Modal, ConfigProvider } from "antd";
+import { Modal } from "antd";
+import { useSelector, useDispatch } from "react-redux";
+import { Store } from "../types/type";
+import { cityModalToggle } from "../store/state/ui";
 import SelectState from "./common/CityModal/selectState";
 import SelectCity from "./common/CityModal/selectCity";
-import { CityModal } from "../types/type";
+import RTL from "../services/rtl";
 
-
-const CityModal = ({ onOk, onCloseModal, onSetShowCity, modalVisible, showCity }: CityModal): JSX.Element => {
+const CityModal = (): JSX.Element => {
+  // Redux Setup
+  const dispatch = useDispatch();
+  const { cityModalVisible } = useSelector(
+    (state: Store) => state.entities.ui.modals
+  );
+  // Local State
+  const [stateSelected, setStateSelected] = useState(false);
+  // Render
   return (
     <>
       <CssBaseline />
-      <ConfigProvider direction="rtl">
+      <RTL>
         <Modal
           className="city__modal"
-          visible={modalVisible}
+          visible={cityModalVisible}
           closable={false}
-          onOk={onOk}
-          onCancel={onCloseModal}
+          onOk={() => console.log("Done")}
+          onCancel={() => dispatch(cityModalToggle())}
           okText="انتخاب"
           cancelText="انصراف"
           centered
         >
-          {showCity ? (
-            <SelectCity onShowCity={onSetShowCity} />
+          {stateSelected ? (
+            <SelectCity onSelectState={setStateSelected} />
           ) : (
-            <SelectState onShowCity={onSetShowCity} />
+            <SelectState onSelectState={setStateSelected} />
           )}
         </Modal>
-      </ConfigProvider>
+      </RTL>
     </>
   );
 };
