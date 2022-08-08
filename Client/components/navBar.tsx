@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Modal, Tabs } from "antd";
+import { Modal, Tabs } from "antd";
 import MobileNavBar from "./common/NavBar/mobileNavBar";
 import DesktopNavBar from "./common/NavBar/desktopNavBar";
 import Register from "./register";
@@ -37,7 +37,7 @@ const NavBar = (): JSX.Element => {
           <Modal
             visible={signModalVisible}
             onCancel={() => dispatch(signModalToggle())}
-            footer={[false, false]}
+            footer={null}
           >
             <Tabs defaultActiveKey="1">
               <TabPane tab="ثبت نام" key="1">

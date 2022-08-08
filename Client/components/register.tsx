@@ -1,19 +1,14 @@
-import { ConfigProvider, Modal, Button } from "antd";
-import React, { useState } from "react";
-import { InputOnChange } from "../types/type";
+import { Button, Box } from "@mui/material";
+import { Divider } from "antd";
+import { useState } from "react";
 import { useFormik } from "formik";
 import handleRegister from "../services/register";
 import StepOne from "./common/Register/stepOne";
 import StepTwo from "./common/Register/stepTwo";
 import StepThree from "./common/Register/stepThree";
 import registerSchema from "../services/registerValidate";
-// import { CheckboxChangeEvent } from "antd/lib/checkbox";
 
-const RegisterModal = ({
-  onShowRegister,
-  onRegister,
-  onCloseLogin,
-}: any): JSX.Element => {
+const Register = (): JSX.Element => {
   // State
   const [step, setStep] = useState(1);
   const [terms, setTerms] = useState(false);
@@ -26,7 +21,7 @@ const RegisterModal = ({
       password: "",
     },
     onSubmit: (value) => {
-      console.log(value);
+      handleRegister(value);
     },
     validationSchema: registerSchema,
   });
@@ -34,21 +29,16 @@ const RegisterModal = ({
   // Event Handlers
   const handleNextBtn = () => {
     if (step === 1) {
-      console.log(formik.errors);
-      // console.log(formik.errors.length)
-      console.log(Object.keys(formik.errors).length);
+      // TODO There Is Bug Here
       if (terms) {
-        console.log("Inside Terms Execute");
         handleRegister(formik.values);
         setStep(step + 1);
       }
       return;
     }
-    console.log("Resid Be Akharesh");
     if (step !== 1) return setStep(step - 1);
   };
 
-  // Which Step To Show
   const stepToShow = (): JSX.Element => {
     if (step === 2) {
       return <StepTwo />;
@@ -60,20 +50,27 @@ const RegisterModal = ({
       <StepOne onShowTerms={terms} onSetTerms={setTerms} onFormik={formik} />
     );
   };
-  console.log("step", step);
-  // Check if There is no Error
-  // console.log(Object.keys(formik.errors).length);
+
   // Render
   return (
-    <ConfigProvider direction="rtl">
-      <form onSubmit={formik.handleSubmit}>
-        {stepToShow()}
-        <button type="submit" className="btn-sm btn-primary">
-          Click
-        </button>
-      </form>
-    </ConfigProvider>
+    <form onSubmit={formik.handleSubmit}>
+      {stepToShow()}
+      <Divider />
+      <Box sx={{ display: "flex", justifyContent: "end" }}>
+        <Button type="submit" variant="contained" size="medium" color="error">
+          بازگشت
+        </Button>
+        <Button
+          type="submit"
+          variant="contained"
+          size="medium"
+          className="mx-2"
+        >
+          ثبت نام
+        </Button>
+      </Box>
+    </form>
   );
 };
 
-export default RegisterModal;
+export default Register;
