@@ -1,4 +1,4 @@
-import { useState } from "react";
+import Link from "next/link";
 import { IconButton, Box, Grid, Button } from "@mui/material";
 import {
   Menu,
@@ -12,10 +12,9 @@ import {
 import { Input } from "antd";
 import { Sidebar } from "primereact/sidebar";
 import { NavItems, Store } from "../../../types/type";
-import Link from "next/link";
-import styles from "../../../styles/NavBar.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { mobileMenuToggle, signModalToggle } from "../../../store/state/ui";
+import styles from "../../../styles/NavBar.module.css";
 import Logo from "./logo";
 
 const navItems: NavItems = [

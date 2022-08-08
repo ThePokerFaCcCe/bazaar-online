@@ -18,4 +18,19 @@ export const handleRegister = async (user: any): Promise<void> => {
   }
 };
 
-export default handleRegister;
+export const handleLogin = async (user: any): Promise<void> => {
+  try {
+    await axios.post(`${config.apiEndPoint}/auth/jwt/createtoken`, user, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  } catch ({ response }) {
+    console.log(response);
+    if (response?.status >= 400 && response?.status < 500) {
+      const errors = response?.data?.errors;
+      const errPropertyName: string[] = Object.keys(errors);
+      toast.error(errors?.[errPropertyName?.[0]]?.[0]);
+    }
+  }
+};

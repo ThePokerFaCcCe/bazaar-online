@@ -2,11 +2,11 @@ import { Button, Box } from "@mui/material";
 import { Divider } from "antd";
 import { useState } from "react";
 import { useFormik } from "formik";
-import handleRegister from "../services/register";
+import { handleRegister } from "../services/httpService";
 import StepOne from "./common/Register/stepOne";
 import StepTwo from "./common/Register/stepTwo";
 import StepThree from "./common/Register/stepThree";
-import registerSchema from "../services/registerValidate";
+import registerSchema from "../services/registerSchema";
 
 const Register = (): JSX.Element => {
   // State

@@ -14,7 +14,7 @@ const StepOne = ({ onFormik, onShowTerms, onSetTerms }: StepOneProps) => {
     );
   };
 
-  const handleErrorMsg = (propertyName: string): JSX.Element | void => {
+  const handleErrorMsg = (propertyName: string): JSX.Element | any => {
     return (
       onFormik.touched?.[propertyName] &&
       onFormik.errors?.[propertyName] && (

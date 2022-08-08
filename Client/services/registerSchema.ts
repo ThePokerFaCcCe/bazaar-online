@@ -20,8 +20,7 @@ const registerSchema = Yup.object({
     .matches(/^09\d*$/, "لطفا شماره معتبر وارد کنید"),
   password: Yup.string()
     .required("کلمه عبور نمیتواند خالی باشد")
-    .min(6, "کلمه عبور باید حداقل 6 رقم باشد")
-    .required("کلمه عبور نمیتواند خالی باشد"),
+    .min(6, "کلمه عبور باید حداقل 6 رقم باشد"),
 });
 
 export default registerSchema;
