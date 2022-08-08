@@ -66,3 +66,11 @@ export interface Store {
     };
   };
 }
+
+export interface StepTwoProps {
+  email: string;
+}
+
+export interface EmailVerify {
+  email: string;
+}

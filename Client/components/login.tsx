@@ -1,6 +1,6 @@
-import { Input, Checkbox, Divider, ConfigProvider } from "antd";
+import { Input, Checkbox, Divider } from "antd";
 import { Button, Box } from "@mui/material";
-import { useFormik, getIn } from "formik";
+import { useFormik } from "formik";
 import { handleLogin } from "../services/httpService";
 import loginSchema from "../services/loginSchema";
 

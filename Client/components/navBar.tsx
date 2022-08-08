@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Modal, Tabs } from "antd";
-import MobileNavBar from "./common/NavBar/mobileNavBar";
-import DesktopNavBar from "./common/NavBar/desktopNavBar";
-import Register from "./register";
-import Login from "./login";
 import { useSelector, useDispatch } from "react-redux";
 import { Store } from "../types/type";
 import { signModalToggle } from "../store/state/ui";
 import RTL from "../services/rtl";
 import CityModal from "./cityModal";
+import MobileNavBar from "./common/NavBar/mobileNavBar";
+import DesktopNavBar from "./common/NavBar/desktopNavBar";
+import Register from "./register";
+import Login from "./login";
 const { TabPane } = Tabs;
 
 const NavBar = (): JSX.Element => {
@@ -18,9 +18,8 @@ const NavBar = (): JSX.Element => {
     (state: Store) => state.entities.ui.modals
   );
   // Local State
-
   const [megaMenu2Display, setMegaMenu2Display] = useState("");
-
+  // Render
   return (
     <>
       <DesktopNavBar
