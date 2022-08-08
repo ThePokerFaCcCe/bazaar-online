@@ -2,7 +2,11 @@ import { Button, Box } from "@mui/material";
 import { Divider } from "antd";
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import { handleRegister, handeGetActivateCode } from "../services/httpService";
+import {
+  handleRegister,
+  handeGetActivateCode,
+  handleExpectedError,
+} from "../services/httpService";
 import StepOne from "./common/Register/stepOne";
 import StepTwo from "./common/Register/stepTwo";
 import StepThree from "./common/Register/stepThree";
@@ -40,7 +44,8 @@ const Register = (): JSX.Element => {
         await handleRegister(value);
         setStep(step + 1);
         await handeGetActivateCode({ email: value.email });
-      } catch (error) {
+      } catch ({ response }) {
+        handleExpectedError(response);
         setStep(1);
       }
     }
@@ -49,7 +54,7 @@ const Register = (): JSX.Element => {
 
   const stepToShow = (): JSX.Element => {
     if (step === 2) {
-      return <StepTwo email={formik.values.email} />;
+      return <StepTwo />;
     }
     if (step === 3) {
       return <StepThree />;

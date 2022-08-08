@@ -10,7 +10,7 @@ const header = {
 };
 
 //
-const handleExpectedError = (response: any) => {
+export const handleExpectedError = (response: any) => {
   if (response?.status >= 400 && response?.status < 500) {
     const errors = response?.data?.errors;
     const errPropertyName: string[] = Object.keys(errors);
@@ -21,11 +21,12 @@ const handleExpectedError = (response: any) => {
 // Login & Register
 
 export const handleRegister = async (user: User): Promise<void> => {
-  try {
-    await axios.post(`${config.apiEndPoint}/auth/register`, user, header);
-  } catch ({ response }) {
-    handleExpectedError(response);
-  }
+  await axios.post(`${config.apiEndPoint}/auth/register`, user, header);
+  // try {
+
+  // } catch ({ response }) {
+  //   handleExpectedError(response);
+  // }
 };
 
 export const handleLogin = async (user: any): Promise<void> => {
@@ -44,12 +45,15 @@ export const handeGetActivateCode = async (
   email: StepTwoProps
 ): Promise<void> => {
   try {
-    await axios.post(
+    const { data } = await axios.post(
       `${config.apiEndPoint}/Auth/EmailActiveCode`,
       email,
       header
     );
+    console.log(data.message);
+    toast.success(data.message);
   } catch ({ response }) {
+    console.log("Http Service active cdoe block");
     handleExpectedError(response);
   }
 };
