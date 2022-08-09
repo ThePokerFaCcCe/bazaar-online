@@ -122,7 +122,7 @@ if (app.Environment.IsDevelopment())
     using (var scope = app.Services.CreateScope())
     {
         var services = scope.ServiceProvider;
-        ExampleSeeder.Seed(services, forceRecreate: false);
+        ExampleSeeder.Seed(services, forceRecreate: true);
     }
 }
 
