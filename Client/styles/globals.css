@@ -130,3 +130,7 @@ a {
 .searchInput > input::-webkit-input-placeholder {
   font-size: 13px;
 }
+
+.ant-input-number-input-wrap > input {
+  text-align: center !important;
+}

@@ -89,7 +89,7 @@ const StepOne = ({ onFormik, onShowTerms, onSetTerms }: StepOneProps) => {
       {handleErrorMsg("password")}
       <Checkbox
         className="my-2"
-        value={onShowTerms}
+        checked={onShowTerms}
         onChange={({ target }: CheckboxChangeEvent) =>
           onSetTerms(target.checked)
         }

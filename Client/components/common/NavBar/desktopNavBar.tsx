@@ -15,6 +15,7 @@ import {
   cityModalToggle,
   desktopMenuToggle,
   megaMenuToggle,
+  signModalToggle,
 } from "../../../store/state/ui";
 import { DesktopNavBarProps, Store } from "../../../types/type";
 import MegaMenu from "./megaMenu";
@@ -29,7 +30,8 @@ const DesktopNavBar = ({
   const { desktopMenuVisible, megaMenuVisible } = useSelector(
     (state: Store) => state.entities.ui.navbar
   );
-
+  // Local State
+  const [loggedIn, setLoggedIn] = useState(true);
   // Render
   return (
     <>
@@ -149,11 +151,21 @@ const DesktopNavBar = ({
                 <Button className={styles.nav__items}>پشتیبانی</Button>
               </Grid>
               <Grid item>
-                <Link href="/ad/new">
-                  <Button className={styles.navbar__btn} variant="contained">
+                {loggedIn ? (
+                  <Link href="/ad/new">
+                    <Button className={styles.navbar__btn} variant="contained">
+                      ثبت آگهی
+                    </Button>
+                  </Link>
+                ) : (
+                  <Button
+                    className={styles.navbar__btn}
+                    onClick={() => dispatch(signModalToggle())}
+                    variant="contained"
+                  >
                     ثبت آگهی
                   </Button>
-                </Link>
+                )}
               </Grid>
             </Grid>
           </Grid>

@@ -1,6 +1,6 @@
 import { Button, Box } from "@mui/material";
 import { Divider } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useFormik } from "formik";
 import {
   handleRegister,
@@ -11,11 +11,10 @@ import StepOne from "./common/Register/stepOne";
 import StepTwo from "./common/Register/stepTwo";
 import StepThree from "./common/Register/stepThree";
 import registerSchema from "../services/registerSchema";
-import { values } from "lodash";
 
 const Register = (): JSX.Element => {
   // State
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(3);
   const [terms, setTerms] = useState(false);
   const formik = useFormik({
     initialValues: {
@@ -32,11 +31,11 @@ const Register = (): JSX.Element => {
     },
     validationSchema: registerSchema,
   });
-
+  // Component Did Mount
   useEffect(() => {
-    console.log("Register Page Renderred");
     setTerms(false);
   }, []);
+
   // Event Handlers
   const handleNextStep = async (value: any) => {
     if (step === 1) {
@@ -63,6 +62,7 @@ const Register = (): JSX.Element => {
       <StepOne onShowTerms={terms} onSetTerms={setTerms} onFormik={formik} />
     );
   };
+
   // Render
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -79,14 +79,16 @@ const Register = (): JSX.Element => {
             بازگشت
           </Button>
         )}
-        <Button
-          type="submit"
-          variant="contained"
-          size="medium"
-          className="mx-2"
-        >
-          ثبت نام
-        </Button>
+        {step !== 3 && (
+          <Button
+            type="submit"
+            variant="contained"
+            size="medium"
+            className="mx-2"
+          >
+            ثبت نام
+          </Button>
+        )}
       </Box>
     </form>
   );

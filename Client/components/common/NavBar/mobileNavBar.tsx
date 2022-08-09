@@ -16,6 +16,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { mobileMenuToggle, signModalToggle } from "../../../store/state/ui";
 import styles from "../../../styles/NavBar.module.css";
 import Logo from "./logo";
+import { useState } from "react";
 
 const navItems: NavItems = [
   { title: "خانه", icon: <Home className={styles.navbar__icon} /> },
@@ -37,6 +38,8 @@ const MobileNavBar = (): JSX.Element => {
   const { mobileMenuVisible } = useSelector(
     (state: Store) => state.entities.ui.navbar
   );
+  // Local State
+  const [loggedIn, setLoggedIn] = useState(false);
 
   // Event Handler
 
@@ -56,16 +59,26 @@ const MobileNavBar = (): JSX.Element => {
         <IconButton onClick={() => dispatch(mobileMenuToggle())}>
           <Menu />
         </IconButton>
-        <div style={{ cursor: "pointer" }}>
-          <Link href="/">
+        <Link href="/">
+          <button>
             <Logo />
+          </button>
+        </Link>
+        {loggedIn ? (
+          <Link href="/ad/new">
+            <Button className={styles.navbar__btn} variant="contained">
+              ثبت آگهی
+            </Button>
           </Link>
-        </div>
-        <Link href="/ad/new">
-          <Button className={styles.navbar__btn} variant="contained">
+        ) : (
+          <Button
+            className={styles.navbar__btn}
+            onClick={() => dispatch(signModalToggle())}
+            variant="contained"
+          >
             ثبت آگهی
           </Button>
-        </Link>
+        )}
       </Box>
       <Sidebar
         icons={() => (
