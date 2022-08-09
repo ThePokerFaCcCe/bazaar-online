@@ -43,7 +43,7 @@ namespace BazaarOnline.Infra.Data.FluentConfigs
 
             builder.Property(u => u.CreateDate)
                 .IsRequired()
-                .HasDefaultValue<DateTime>(DateTime.Now);
+                .HasDefaultValueSql("getdate()");
 
             builder.Property(u => u.IsActive)
                 .IsRequired()

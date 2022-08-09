@@ -1,4 +1,5 @@
 using BazaarOnline.Domain.Entities.Categories;
+using BazaarOnline.Domain.Entities.Locations;
 using BazaarOnline.Domain.Entities.Permissions;
 using BazaarOnline.Domain.Entities.Users;
 using BazaarOnline.Infra.Data.FluentConfigs;
@@ -36,6 +37,12 @@ namespace BazaarOnline.Infra.Data.Contexts
 
         #endregion
 
+        #region Locations
+
+        public DbSet<City> Cities { get; set; }
+
+        #endregion
+
         #endregion
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -49,6 +56,7 @@ namespace BazaarOnline.Infra.Data.Contexts
             #region Seed
 
             builder.SeedPermissions();
+            builder.SeedLocations();
 
             #endregion
 

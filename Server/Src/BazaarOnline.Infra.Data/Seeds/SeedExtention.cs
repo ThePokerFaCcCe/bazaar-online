@@ -1,3 +1,4 @@
+using BazaarOnline.Domain.Entities.Locations;
 using BazaarOnline.Domain.Entities.Permissions;
 using BazaarOnline.Infra.Data.Seeds.DefaultDatas;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,14 @@ namespace BazaarOnline.Infra.Data.Seeds
             builder.Entity<Role>().HasData(DefaultRoles.Roles);
 
             builder.Entity<RolePermission>().HasData(DefaultRolePermissions.RolePermissions);
+        }
+
+        /// <summary>
+        /// Database Locations Seeds
+        /// </summary>
+        public static void SeedLocations(this ModelBuilder builder)
+        {
+            builder.Entity<City>().HasData(DefaultCities.Cities);
         }
     }
 }

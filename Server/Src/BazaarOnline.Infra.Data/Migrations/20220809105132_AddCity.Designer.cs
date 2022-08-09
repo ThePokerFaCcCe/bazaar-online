@@ -4,6 +4,7 @@ using BazaarOnline.Infra.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BazaarOnline.Infra.Data.Migrations
 {
     [DbContext(typeof(BazaarDbContext))]
-    partial class BazaarDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220809105132_AddCity")]
+    partial class AddCity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,163 +63,6 @@ namespace BazaarOnline.Infra.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Cities");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "آذربایجان شرقی"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "آذربایجان غربی"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "اردبیل"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "اصفهان"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "البرز"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "ایلام"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Name = "بوشهر"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Name = "تهران"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Name = "چهارمحال وبختیاری"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Name = "خراسان جنوبی"
-                        },
-                        new
-                        {
-                            Id = 11,
-                            Name = "خراسان رضوی"
-                        },
-                        new
-                        {
-                            Id = 12,
-                            Name = "خراسان شمالی"
-                        },
-                        new
-                        {
-                            Id = 13,
-                            Name = "خوزستان"
-                        },
-                        new
-                        {
-                            Id = 14,
-                            Name = "زنجان"
-                        },
-                        new
-                        {
-                            Id = 15,
-                            Name = "سمنان"
-                        },
-                        new
-                        {
-                            Id = 16,
-                            Name = "سیستان وبلوچستان"
-                        },
-                        new
-                        {
-                            Id = 17,
-                            Name = "فارس"
-                        },
-                        new
-                        {
-                            Id = 18,
-                            Name = "قزوین"
-                        },
-                        new
-                        {
-                            Id = 19,
-                            Name = "قم"
-                        },
-                        new
-                        {
-                            Id = 20,
-                            Name = "کردستان"
-                        },
-                        new
-                        {
-                            Id = 21,
-                            Name = "کرمان"
-                        },
-                        new
-                        {
-                            Id = 22,
-                            Name = "کرمانشاه"
-                        },
-                        new
-                        {
-                            Id = 23,
-                            Name = "کهگیلویه وبویراحمد"
-                        },
-                        new
-                        {
-                            Id = 24,
-                            Name = "گلستان"
-                        },
-                        new
-                        {
-                            Id = 25,
-                            Name = "گیلان"
-                        },
-                        new
-                        {
-                            Id = 26,
-                            Name = "لرستان"
-                        },
-                        new
-                        {
-                            Id = 27,
-                            Name = "مازندران"
-                        },
-                        new
-                        {
-                            Id = 28,
-                            Name = "مرکزی"
-                        },
-                        new
-                        {
-                            Id = 29,
-                            Name = "هرمزگان"
-                        },
-                        new
-                        {
-                            Id = 30,
-                            Name = "همدان"
-                        },
-                        new
-                        {
-                            Id = 31,
-                            Name = "یزد"
-                        });
                 });
 
             modelBuilder.Entity("BazaarOnline.Domain.Entities.Permissions.Permission", b =>

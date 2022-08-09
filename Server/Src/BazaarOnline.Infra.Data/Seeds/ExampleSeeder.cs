@@ -2,7 +2,6 @@ using BazaarOnline.Domain.Entities.Categories;
 using BazaarOnline.Infra.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 
 namespace BazaarOnline.Infra.Data.Seeds
 {
@@ -33,7 +32,7 @@ namespace BazaarOnline.Infra.Data.Seeds
                 if (context.Categories.Count() == 0)
                 {
                     context.Categories.AddRange(
-                        LoadFromaJson<Category>(Path.Combine(examplesDir, "CategorySeed.json"))
+                        SeedHelper.LoadFromJson<Category>(Path.Combine(examplesDir, "CategorySeed.json"))
                     );
                 }
 
@@ -51,22 +50,6 @@ namespace BazaarOnline.Infra.Data.Seeds
             var value = enable ? "ON" : "OFF";
             context.Database.ExecuteSqlRaw(
                 $"SET IDENTITY_INSERT {entityType.GetSchema()}.{entityType.GetTableName()} {value}");
-        }
-
-        private static List<TEntity> LoadFromaJson<TEntity>(string jsonPath)
-        {
-            var data = new List<TEntity>();
-
-            using (StreamReader r = new StreamReader(jsonPath))
-            {
-                string json = r.ReadToEnd();
-                data = JsonConvert.DeserializeObject<List<TEntity>>(json);
-            }
-            if (data == null)
-                throw new JsonException($"Cannot convert JSON file `{jsonPath}` to model `{nameof(TEntity)}`");
-
-            return data;
-
         }
     }
 }
