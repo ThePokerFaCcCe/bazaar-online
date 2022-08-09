@@ -10,8 +10,36 @@ namespace BazaarOnline.Application.Utils.Extentions
         /// <param name="model">Model object that it's properties should be filled</param>
         /// <param name="filler">Filler object that should be used for filling model</param>
         /// <param name="ignoreNulls">Don't fill properties with `null` values in filler</param>
+        /// <returns>`model` that filled from `filler`</returns>
         public static TModel FillFromObject<TModel, TFiller>(this TModel model, TFiller filler, bool ignoreNulls = false)
         {
+            var modelType = model.GetType();
+            var fillerType = filler.GetType();
+
+            fillerType.GetProperties().ToList().ForEach(
+                p =>
+                {
+                    var value = p.GetValue(filler);
+                    if (!ignoreNulls || value != null)
+                        modelType.GetProperty(p.Name)?.SetValue(model, value);
+                }
+            );
+
+            return model;
+        }
+
+        /// <summary>
+        /// Create new instance of `TModel` and fill model properties That exists in `filler` object
+        /// </summary>
+        /// <typeparam name="TModel">Model Class To Create And Fill</typeparam>
+        /// <typeparam name="TFiller">Filler Class</typeparam>
+        /// <param name="filler">Filler object that should be used for filling model</param>
+        /// <param name="ignoreNulls">Don't fill properties with `null` values in filler</param>
+        /// <returns>New instance of `TModel` that is filled from `filler`</returns>
+        public static TModel CreateAndFillFromObject<TModel, TFiller>(TFiller filler, bool ignoreNulls = false)
+            where TModel : new()
+        {
+            var model = Activator.CreateInstance<TModel>();
             var modelType = model.GetType();
             var fillerType = filler.GetType();
 
