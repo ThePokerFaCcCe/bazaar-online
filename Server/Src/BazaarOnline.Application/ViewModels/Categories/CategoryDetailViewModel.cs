@@ -4,6 +4,7 @@ namespace BazaarOnline.Application.ViewModels.Categories
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public string? Icon { get; set; }
         public CategoryParentDetailViewModel? Parent { get; set; }
         public List<CategoryChildDetailViewModel> Children { get; set; }
     }

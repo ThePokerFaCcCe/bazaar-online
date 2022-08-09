@@ -9,6 +9,7 @@ namespace BazaarOnline.Application.DTOs.CategoryDTOs
         [DisplayName("نام")]
         [StringLength(64, MinimumLength = 3, ErrorMessage = "{0} باید بین {2} تا {1} کاراکتر باشد")]
         public string Title { get; set; }
+        public string? Icon { get; set; }
         public int? ParentId { get; set; }
     }
 }

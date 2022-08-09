@@ -40,7 +40,6 @@ namespace BazaarOnline.Application.Services.Categories
 
         public Category? FindCategory(int id)
         {
-            ;
             return _categoryRepository.FindCategory(id);
         }
 
@@ -48,12 +47,10 @@ namespace BazaarOnline.Application.Services.Categories
             int? parentId = null, bool includeParent = false)
         {
             return GetCategoryAndChildrenFlatten(parentId, includeParent)
-                .Select(c => new CategoryListDetailViewModel
-                {
-                    Id = c.Id,
-                    ParentId = c.ParentId,
-                    Title = c.Title,
-                }).ToList();
+                .Select(c =>
+                    ModelHelper.CreateAndFillFromObject
+                        <CategoryListDetailViewModel, Category>(c)
+                ).ToList();
         }
 
         public CategoryDetailViewModel? GetCategoryDetail(int id)
@@ -62,21 +59,21 @@ namespace BazaarOnline.Application.Services.Categories
                 .Include(c => c.ChildCategories)
                 .Include(c => c.ParentCategory)
                 .Where(c => c.Id == id)
-                .Select(c => new CategoryDetailViewModel
+                .AsEnumerable()
+                .Select(c =>
                 {
-                    Id = c.Id,
-                    Title = c.Title,
-                    Parent = c.ParentCategory == null ? null : new CategoryParentDetailViewModel
-                    {
-                        Id = c.ParentCategory.Id,
-                        Title = c.ParentCategory.Title,
-                        ParentId = c.ParentCategory.ParentId,
-                    },
-                    Children = c.ChildCategories.Select(ch => new CategoryChildDetailViewModel
-                    {
-                        Id = ch.Id,
-                        Title = ch.Title,
-                    }).ToList()
+                    var detail = ModelHelper.CreateAndFillFromObject
+                        <CategoryDetailViewModel, Category>(c);
+                    detail.Parent = c.ParentCategory == null ? null :
+                        ModelHelper.CreateAndFillFromObject
+                            <CategoryParentDetailViewModel, Category>(c.ParentCategory, false);
+
+                    detail.Children = c.ChildCategories.Select(ch =>
+                            ModelHelper.CreateAndFillFromObject
+                                <CategoryChildDetailViewModel, Category>(ch, false)
+                    ).ToList();
+
+                    return detail;
                 }).SingleOrDefault();
         }
 
