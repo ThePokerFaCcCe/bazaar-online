@@ -1,16 +1,20 @@
 using BazaarOnline.Application.Interfaces.Auth;
 using BazaarOnline.Application.Interfaces.Categories;
+using BazaarOnline.Application.Interfaces.Locations;
 using BazaarOnline.Application.Interfaces.Permissions;
 using BazaarOnline.Application.Interfaces.Senders;
 using BazaarOnline.Application.Interfaces.Users;
 using BazaarOnline.Application.Services.Auth;
 using BazaarOnline.Application.Services.Categories;
+using BazaarOnline.Application.Services.Locations;
 using BazaarOnline.Application.Services.Permissions;
 using BazaarOnline.Application.Services.Senders;
 using BazaarOnline.Application.Services.Users;
 using BazaarOnline.Domain.Interfaces.Categories;
+using BazaarOnline.Domain.Interfaces.Locations;
 using BazaarOnline.Domain.Interfaces.Permissions;
 using BazaarOnline.Domain.Interfaces.Users;
+using BazaarOnline.Infra.Data.Repositories.Locations;
 using BazaarOnline.Infra.Data.Repositories.Permissions;
 using BazaarOnline.Infra.Data.Repositories.Users;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,6 +43,10 @@ namespace BazaarOnline.Infra.IoC
             services.AddScoped<ICategoryService, CategoryService>();
             #endregion
 
+            #region Locations
+            services.AddScoped<ILocationService, LocationService>();
+            #endregion
+
             #region Senders
             services.AddScoped<IEmailService, EmailService>();
             #endregion
@@ -59,6 +67,10 @@ namespace BazaarOnline.Infra.IoC
 
             #region Categories
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            #endregion
+
+            #region Locations
+            services.AddScoped<ILocationRepository, LocationRepository>();
             #endregion
 
             #endregion
