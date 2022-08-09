@@ -83,12 +83,10 @@ namespace BazaarOnline.Application.Services.Categories
         public List<CategoryListDetailViewModel> GetCategoryListDetails()
         {
             return GetCategoryAndChildrenFlatten(null, true)
-                .Select(c => new CategoryListDetailViewModel
-                {
-                    Id = c.Id,
-                    ParentId = c.ParentId,
-                    Title = c.Title,
-                }).ToList();
+                .Select(c =>
+                    ModelHelper.CreateAndFillFromObject
+                        <CategoryListDetailViewModel, Category>(c)
+                ).ToList();
         }
 
         public bool IsCategoryExists(int id)

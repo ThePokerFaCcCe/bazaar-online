@@ -5,6 +5,7 @@ using BazaarOnline.Application.Interfaces.Users;
 using BazaarOnline.Application.Securities;
 using BazaarOnline.Application.Utils.Extentions;
 using BazaarOnline.Application.ViewModels.Users.UserViewModels;
+using BazaarOnline.Domain.Entities.Permissions;
 using BazaarOnline.Domain.Entities.Users;
 using BazaarOnline.Domain.Interfaces.Users;
 using BazaarOnline.Infra.Data.Seeds.DefaultDatas;
@@ -130,14 +131,10 @@ namespace BazaarOnline.Application.Services.Users
             return new PaginationResultDTO<UserListDetailViewModel>
             {
                 Count = count,
-                Content = users.Select(u => new UserListDetailViewModel
-                {
-                    Id = u.Id,
-                    CreateDate = u.CreateDate,
-                    Email = u.Email,
-                    FullName = u.FullName,
-                    IsActive = u.IsActive,
-                }).ToList()
+                Content = users.Select(u =>
+                    ModelHelper.CreateAndFillFromObject
+                        <UserListDetailViewModel, User>(u, false)
+                ).ToList()
             };
 
         }
@@ -205,21 +202,16 @@ namespace BazaarOnline.Application.Services.Users
 
         private UserDetailViewModel _GetUserDetailViewModel(User user)
         {
-            return new UserDetailViewModel
-            {
-                Id = user.Id,
-                FullName = user.FullName,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                IsActive = user.IsActive,
-                IsDeleted = user.IsDeleted,
-                CreateDate = user.CreateDate,
-                Roles = user.UserRoles.Select(ur => new UserRoleDetailListViewModel
-                {
-                    Id = ur.Role.Id,
-                    Title = ur.Role.Title
-                }).ToList()
-            };
+            var userDetail = ModelHelper.CreateAndFillFromObject
+                <UserDetailViewModel, User>(user);
+
+            userDetail.Roles = user.UserRoles.Select(ur =>
+                ModelHelper.CreateAndFillFromObject
+                    <UserRoleDetailListViewModel, Role>(ur.Role)
+            ).ToList();
+
+            return userDetail;
+
         }
 
         public void UpdateUserRoles(User user, UserUpdateRoleDTO updateRoleDTO)

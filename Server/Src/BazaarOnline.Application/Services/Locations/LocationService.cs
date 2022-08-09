@@ -2,6 +2,7 @@ using BazaarOnline.Application.DTOs.Locations;
 using BazaarOnline.Application.Interfaces.Locations;
 using BazaarOnline.Application.Utils.Extentions;
 using BazaarOnline.Application.ViewModels.Locations;
+using BazaarOnline.Domain.Entities.Locations;
 using BazaarOnline.Domain.Interfaces.Locations;
 
 namespace BazaarOnline.Application.Services.Locations
@@ -27,11 +28,10 @@ namespace BazaarOnline.Application.Services.Locations
 
             #endregion
 
-            return cities.Select(c => new CityListDetailViewModel
-            {
-                Id = c.Id,
-                Name = c.Name,
-            }).ToList();
+            return cities.Select(c =>
+                    ModelHelper.CreateAndFillFromObject
+                        <CityListDetailViewModel, City>(c, false)
+                ).ToList();
         }
 
         public CityDetailViewModel? GetCityDetail(int id)
