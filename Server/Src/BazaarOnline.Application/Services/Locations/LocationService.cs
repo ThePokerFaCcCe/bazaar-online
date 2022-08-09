@@ -24,7 +24,7 @@ namespace BazaarOnline.Application.Services.Locations
             filterDTO.TrimStrings();
 
             if (!string.IsNullOrEmpty(filterDTO.Name))
-                cities = cities.Where(c => c.Name == c.Name.ToLower());
+                cities = cities.Where(c => c.Name.Contains(filterDTO.Name.ToLower()));
 
             #endregion
 
