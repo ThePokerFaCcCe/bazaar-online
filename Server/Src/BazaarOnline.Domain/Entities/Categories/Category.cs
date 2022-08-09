@@ -8,6 +8,8 @@ namespace BazaarOnline.Domain.Entities.Categories
 
         public int? ParentId { get; set; }
 
+        public string? Icon { get; set; }
+
         #region Relations
 
         public Category ParentCategory { get; set; }

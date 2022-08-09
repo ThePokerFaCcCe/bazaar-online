@@ -22,6 +22,9 @@ public class CategoryFluentConfig : IEntityTypeConfiguration<Category>
         builder.Property(c => c.Title)
             .IsRequired()
             .HasMaxLength(64);
+
+        builder.Property(c => c.Icon)
+            .HasMaxLength(64);
     }
 
     private void ConfigureRelations(EntityTypeBuilder<Category> builder)

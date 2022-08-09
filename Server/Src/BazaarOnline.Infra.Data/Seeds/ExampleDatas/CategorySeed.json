@@ -2,151 +2,181 @@
     {
         "Id": 1,
         "Title": "املاک",
+        "Icon": "HouseOutlined",
         "ParentId": null
     },
     {
         "Id": 2,
         "Title": "وسایل نقلیه",
+        "Icon": "DirectionsCarFilledOutlined",
         "ParentId": null
     },
     {
         "Id": 3,
         "Title": "کالای دیجیتال",
+        "Icon": "PhoneIphoneOutlined",
         "ParentId": null
     },
     {
         "Id": 4,
         "Title": "خانه و آشپزخانه",
+        "Icon": "BlenderOutlined",
         "ParentId": null
     },
     {
         "Id": 5,
         "Title": "خدمات",
+        "Icon": "FormatPaintOutlined",
         "ParentId": null
     },
     {
         "Id": 6,
         "Title": "وسایل شخصی",
+        "Icon": "WatchOutlined",
         "ParentId": null
     },
     {
         "Id": 7,
         "Title": "سرگرمی و فراغت",
+        "Icon": "CasinoOutlined",
         "ParentId": null
     },
     {
         "Id": 8,
         "Title": "اجتماعی",
+        "Icon": "PeopleOutlined",
         "ParentId": null
     },
     {
         "Id": 9,
         "Title": "تجهیزات و صنعتی",
+        "Icon": "HomeRepairServiceOutlined",
         "ParentId": null
     },
     {
         "Id": 10,
         "Title": "استخدام و کاریابی",
+        "Icon": null,
         "ParentId": null
     },
     {
         "Id": 11,
         "Title": "فروش مسکونی",
+        "Icon": null,
         "ParentId": 1
     },
     {
         "Id": 12,
         "Title": "اجاره مسکونی",
+        "Icon": null,
         "ParentId": 1
     },
     {
         "Id": 17,
         "Title": "آپارتمان",
+        "Icon": null,
         "ParentId": 11
     },
     {
         "Id": 18,
         "Title": "خانه و ویلا",
+        "Icon": null,
         "ParentId": 11
     },
     {
         "Id": 20,
         "Title": "خودرو",
+        "Icon": null,
         "ParentId": 2
     },
     {
         "Id": 21,
         "Title": "قطعات یدکی و لوازم جانبی خودرو",
+        "Icon": null,
         "ParentId": 2
     },
     {
         "Id": 22,
         "Title": "موتورسیکلت و لوازم جانبی",
+        "Icon": null,
         "ParentId": 2
     },
     {
         "Id": 24,
         "Title": "سواری و وانت",
+        "Icon": null,
         "ParentId": 20
     },
     {
         "Id": 25,
         "Title": "کلاسیک",
+        "Icon": null,
         "ParentId": 20
     },
     {
         "Id": 26,
         "Title": "اجاره‌ای",
+        "Icon": null,
         "ParentId": 20
     },
     {
         "Id": 27,
         "Title": "سنگین",
+        "Icon": null,
         "ParentId": 20
     },
     {
         "Id": 28,
         "Title": "موبایل و تبلت",
+        "Icon": null,
         "ParentId": 3
     },
     {
         "Id": 29,
         "Title": "رایانه",
+        "Icon": null,
         "ParentId": 3
     },
     {
         "Id": 30,
         "Title": "کنسول، بازی‌ ویدئویی و آنلاین",
+        "Icon": null,
         "ParentId": 3
     },
     {
         "Id": 31,
         "Title": "صوتی و تصویری",
+        "Icon": null,
         "ParentId": 3
     },
     {
         "Id": 32,
         "Title": "تلفن رومیزی",
+        "Icon": null,
         "ParentId": 3
     },
     {
         "Id": 33,
         "Title": "گوشی موبایل",
+        "Icon": null,
         "ParentId": 28
     },
     {
         "Id": 34,
         "Title": "تبلت",
+        "Icon": null,
         "ParentId": 28
     },
     {
         "Id": 35,
         "Title": "لوازم جانبی موبایل و تبلت",
+        "Icon": null,
         "ParentId": 28
     },
     {
         "Id": 36,
         "Title": "سیم کارت",
+        "Icon": null,
         "ParentId": 28
     }
 ]
