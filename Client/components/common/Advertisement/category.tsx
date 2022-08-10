@@ -20,10 +20,20 @@ import {
   ExpandMore,
 } from "@mui/icons-material";
 import { Input } from "antd";
-import { Category } from "../../../types/type";
+import { Store } from "../../../types/type";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "../../../styles/Advertisement.module.css";
-
 const Category = (): JSX.Element => {
+  // Redux Setup
+  const dispatch = useDispatch;
+  const { category: categories } = useSelector(
+    (state: Store) => state.entities
+  );
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  console.log(selectedCategory);
+
   return (
     <>
       <Box sx={{ margin: "1rem 1rem 2rem" }}>
@@ -33,26 +43,31 @@ const Category = (): JSX.Element => {
           دسته‌ها
         </Typography>
         <Grid container direction="column" alignItems="flex-start">
-          {category.map((item, index) => (
-            <Grid item key={index}>
-              <Grid container direction="row" alignItems="center">
-                <Grid item>{item.icon}</Grid>
-                <Grid item>
-                  <Typography
-                    className={styles.category__item}
-                    sx={{
-                      fontSize: "1rem",
-                      margin: "10px 0",
-                      color: "rgba(0,0,0,.56)",
-                      cursor: "pointer",
-                    }}
-                  >
-                    {item.title}
-                  </Typography>
+          {categories &&
+            categories.map((item, index) => (
+              <Grid
+                onClick={() => setSelectedCategory(item.title)}
+                item
+                key={index}
+              >
+                <Grid container direction="row" alignItems="center">
+                  <Grid item>{icons[index]}</Grid>
+                  <Grid item>
+                    <Typography
+                      className={styles.category__item}
+                      sx={{
+                        fontSize: "1rem",
+                        margin: "10px 0",
+                        color: "rgba(0,0,0,.56)",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {item.title}
+                    </Typography>
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          ))}
+            ))}
 
           <Accordion sx={{ margin: "10px 0", width: "100%" }}>
             <AccordionSummary expandIcon={<ExpandMore />}>
@@ -138,50 +153,14 @@ const Category = (): JSX.Element => {
 
 export default Category;
 
-const category: Category = [
-  {
-    title: "املاک",
-    link: "/",
-    icon: <HouseOutlined className={styles.ad_icons} />,
-  },
-  {
-    title: "وسایل نقلیه",
-    link: "/",
-    icon: <DirectionsCarFilledOutlined className={styles.ad_icons} />,
-  },
-  {
-    title: "کالای دیجیتال",
-    link: "/",
-    icon: <PhoneIphoneOutlined className={styles.ad_icons} />,
-  },
-  {
-    title: "خانه و آشپزخانه",
-    link: "/",
-    icon: <BlenderOutlined className={styles.ad_icons} />,
-  },
-  {
-    title: "خدمات",
-    link: "/",
-    icon: <FormatPaintOutlined className={styles.ad_icons} />,
-  },
-  {
-    title: "وسایل شخصی",
-    link: "/",
-    icon: <WatchOutlined className={styles.ad_icons} />,
-  },
-  {
-    title: "سرگرمی و فراغت",
-    link: "/",
-    icon: <CasinoOutlined className={styles.ad_icons} />,
-  },
-  {
-    title: "اجتماعی",
-    link: "/",
-    icon: <PeopleOutlined className={styles.ad_icons} />,
-  },
-  {
-    title: "تجهیزات و صنعتی",
-    link: "/",
-    icon: <HomeRepairServiceOutlined className={styles.ad_icons} />,
-  },
+var icons: JSX.Element[] = [
+  <HouseOutlined className={styles.ad_icons} />,
+  <DirectionsCarFilledOutlined className={styles.ad_icons} />,
+  <PhoneIphoneOutlined className={styles.ad_icons} />,
+  <BlenderOutlined className={styles.ad_icons} />,
+  <FormatPaintOutlined className={styles.ad_icons} />,
+  <WatchOutlined className={styles.ad_icons} />,
+  <CasinoOutlined className={styles.ad_icons} />,
+  <PeopleOutlined className={styles.ad_icons} />,
+  <HomeRepairServiceOutlined className={styles.ad_icons} />,
 ];

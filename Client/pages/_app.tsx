@@ -1,6 +1,6 @@
 import type { AppProps } from "next/app";
 import { Container } from "@mui/material";
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import store from "../store/configureStore";
 import NavBar from "../components/navBar";
@@ -11,8 +11,13 @@ import "primereact/resources/primereact.min.css"; //core css
 import "primeicons/primeicons.css";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/globals.css";
-
+import { useState, useEffect } from "react";
+import { apiCallBegan } from "../store/middleware/categories";
 function MyApp({ Component, pageProps }: AppProps) {
+  useEffect(() => {
+    store.dispatch(apiCallBegan());
+  }, []);
+
   return (
     <>
       <Provider store={store}>

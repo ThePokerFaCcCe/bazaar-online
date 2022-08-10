@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 
 export type Menus = { title: string; icon: JSX.Element }[];
 
-export type Category = { title: string; link: string; icon: JSX.Element }[];
+export type Category = { id: number; title: string; children: {} }[];
 
 export interface Card {
   title: string;
@@ -64,6 +64,7 @@ export interface Store {
         megaMenuVisible: boolean;
       };
     };
+    category: { title: string; id: number; children: [] }[];
   };
 }
 
@@ -73,4 +74,17 @@ export interface StepTwoProps {
 
 export interface EmailVerify {
   email: string;
+}
+
+// Redux
+export interface State {
+  dispatch: (parameter: any) => void;
+  getState: () => Store;
+}
+
+export type Next = (action: Action) => void;
+
+export interface Action {
+  type: string;
+  payload: unknown;
 }
