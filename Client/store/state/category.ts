@@ -3,7 +3,7 @@ import { Category } from "../../types/type";
 
 const { actions, reducer } = createSlice({
   name: "UI",
-  initialState: [{}],
+  initialState: null,
   reducers: {
     categoryReceived: (state, { payload }) => {
       return (state = payload);

@@ -11,77 +11,21 @@ import {
   HomeRepairServiceOutlined,
   ChevronLeft,
   ChevronRight,
+  WorkOutline,
 } from "@mui/icons-material";
 import styles from "../../../styles/NavBar.module.css";
-import { Category, MegaMenuProps } from "../../../types/type";
+import { Category, MegaMenuProps, Store } from "../../../types/type";
 import { megaMenuToggle } from "../../../store/state/ui";
-import { useDispatch } from "react-redux";
-const category: Category = [
-  {
-    title: "املاک",
-    link: "/",
-    icon: <HouseOutlined className={styles.icons} />,
-  },
-  {
-    title: "وسایل نقلیه",
-    link: "/",
-    icon: <DirectionsCarFilledOutlined className={styles.icons} />,
-  },
-  {
-    title: "کالای دیجیتال",
-    link: "/",
-    icon: <PhoneIphoneOutlined className={styles.icons} />,
-  },
-  {
-    title: "خانه و آشپزخانه",
-    link: "/",
-    icon: <BlenderOutlined className={styles.icons} />,
-  },
-  {
-    title: "خدمات",
-    link: "/",
-    icon: <FormatPaintOutlined className={styles.icons} />,
-  },
-  {
-    title: "وسایل شخصی",
-    link: "/",
-    icon: <WatchOutlined className={styles.icons} />,
-  },
-  {
-    title: "سرگرمی و فراغت",
-    link: "/",
-    icon: <CasinoOutlined className={styles.icons} />,
-  },
-  {
-    title: "اجتماعی",
-    link: "/",
-    icon: <PeopleOutlined className={styles.icons} />,
-  },
-  {
-    title: "تجهیزات و صنعتی",
-    link: "/",
-    icon: <HomeRepairServiceOutlined className={styles.icons} />,
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
 
 const MegaMenu = ({ onSetMegaMenu2Display }: MegaMenuProps) => {
+  const category: Category = useSelector(
+    (state: Store) => state.entities.category
+  );
+
   const dispatch = useDispatch();
   return (
-    <Box
-      sx={{
-        height: "420px",
-        width: "1024px",
-        position: "relative",
-        overflow: "auto",
-        margin: "1rem 0",
-        padding: "1rem 0",
-        left: "7vw",
-        zIndex: "999",
-        backgroundColor: "#fff",
-        boxShadow: "0 0 3px 1px #ccc",
-        borderRadius: "15px",
-      }}
-    >
+    <Box className={styles.megamenu__content}>
       <Box className={styles.navbar__category}>
         <Grid container>
           <Grid item xs={2.3} sx={{ borderLeft: "1px solid #ccc" }}>
@@ -100,34 +44,35 @@ const MegaMenu = ({ onSetMegaMenu2Display }: MegaMenuProps) => {
                 </Typography>
               </Grid>
             </Grid>
-            {category.map((item, index) => (
-              <Grid
-                onMouseEnter={(e) =>
-                  onSetMegaMenu2Display((e.target as HTMLElement).innerText)
-                }
-                key={index}
-                container
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Grid item>
-                  <Grid container direction="row" alignItems="center">
-                    <Grid item>
-                      <Box>{item.icon}</Box>
-                    </Grid>
-                    <Grid item>
-                      <Typography className={styles.category__item}>
-                        {item.title}
-                      </Typography>
+            {category &&
+              category.map((item, index) => (
+                <Grid
+                  onMouseEnter={(e) =>
+                    onSetMegaMenu2Display((e.target as HTMLElement).innerText)
+                  }
+                  key={index}
+                  container
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <Grid item>
+                    <Grid container direction="row" alignItems="center">
+                      <Grid item>
+                        <Box>{icons[index]}</Box>
+                      </Grid>
+                      <Grid item>
+                        <Typography className={styles.category__item}>
+                          {item.title}
+                        </Typography>
+                      </Grid>
                     </Grid>
                   </Grid>
+                  <Grid item>
+                    <ChevronLeft className={styles.icons} />
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <ChevronLeft className={styles.icons} />
-                </Grid>
-              </Grid>
-            ))}
+              ))}
           </Grid>
           <Grid item>
             <Box className={styles.category__menu_holder}>
@@ -144,3 +89,16 @@ const MegaMenu = ({ onSetMegaMenu2Display }: MegaMenuProps) => {
 };
 
 export default MegaMenu;
+
+var icons: JSX.Element[] = [
+  <HouseOutlined className={styles.icons} />,
+  <DirectionsCarFilledOutlined className={styles.icons} />,
+  <PhoneIphoneOutlined className={styles.icons} />,
+  <BlenderOutlined className={styles.icons} />,
+  <FormatPaintOutlined className={styles.icons} />,
+  <WatchOutlined className={styles.icons} />,
+  <CasinoOutlined className={styles.icons} />,
+  <PeopleOutlined className={styles.icons} />,
+  <HomeRepairServiceOutlined className={styles.icons} />,
+  <WorkOutline className={styles.icons} />,
+];

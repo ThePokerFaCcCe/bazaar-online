@@ -6,8 +6,17 @@
   color: rgba(0, 0, 0, 0.56);
   cursor: pointer;
 }
+.subcategory__item {
+  transition: color 0.3s;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  margin: 10px 0;
+  color: rgba(0, 0, 0, 0.56);
+  cursor: pointer;
+}
 
-.category__item:hover {
+.category__item:hover,
+.subcategory__item:hover {
   color: #000;
   font-weight: 500;
 }
@@ -34,4 +43,10 @@
 
 .category__holder {
   margin: 1rem 0 2rem;
+}
+
+.icons {
+  color: #979797;
+  font-size: 1.5rem;
+  margin-left: 5px;
 }

@@ -17,23 +17,40 @@ import {
   PeopleOutlined,
   CasinoOutlined,
   HomeRepairServiceOutlined,
+  ArrowForward,
   ExpandMore,
+  WorkOutline,
 } from "@mui/icons-material";
 import { Input } from "antd";
 import { Store } from "../../../types/type";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import styles from "../../../styles/Advertisement.module.css";
+import StepOne from "./Category/stepOne";
+import StepTwo from "./Category/stepTwo";
 const Category = (): JSX.Element => {
   // Redux Setup
-  const dispatch = useDispatch;
   const { category: categories } = useSelector(
     (state: Store) => state.entities
   );
-  const [selectedCategory, setSelectedCategory] = useState("");
+  // Local Setup
+  const [step, setStep] = useState(1);
+  const [selectedCategory, setSelectedGenre] = useState("");
+  // Event Handler
 
-  console.log(selectedCategory);
+  const handleSelectCategory = (category: string) => {
+    setSelectedGenre(category);
+    setStep(step + 1);
+  };
 
+  // Handle Step
+  const StepToShow = (): JSX.Element => {
+    if (step === 2) {
+      return <StepTwo />;
+    }
+    return <StepOne onSelectCategory={handleSelectCategory} icons={icons} />;
+  };
+  // Render
   return (
     <>
       <Box sx={{ margin: "1rem 1rem 2rem" }}>
@@ -42,33 +59,33 @@ const Category = (): JSX.Element => {
         >
           دسته‌ها
         </Typography>
-        <Grid container direction="column" alignItems="flex-start">
-          {categories &&
-            categories.map((item, index) => (
-              <Grid
-                onClick={() => setSelectedCategory(item.title)}
-                item
-                key={index}
+        {step !== 1 && (
+          <Grid
+            container
+            onClick={() => setStep(1)}
+            sx={{ cursor: "pointer" }}
+            direction="row"
+            alignItems="center"
+          >
+            <Grid item>
+              <ArrowForward className={styles.icons} />
+            </Grid>
+            <Grid item>
+              <Typography
+                sx={{
+                  fontSize: "12px",
+                  fontWeight: "500",
+                  p: "10px 0",
+                  color: "rgba(0, 0, 0, 0.56)",
+                }}
               >
-                <Grid container direction="row" alignItems="center">
-                  <Grid item>{icons[index]}</Grid>
-                  <Grid item>
-                    <Typography
-                      className={styles.category__item}
-                      sx={{
-                        fontSize: "1rem",
-                        margin: "10px 0",
-                        color: "rgba(0,0,0,.56)",
-                        cursor: "pointer",
-                      }}
-                    >
-                      {item.title}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Grid>
-            ))}
-
+                همه آگهی ها
+              </Typography>
+            </Grid>
+          </Grid>
+        )}
+        <Grid container direction="column" alignItems="flex-start">
+          {StepToShow()}
           <Accordion sx={{ margin: "10px 0", width: "100%" }}>
             <AccordionSummary expandIcon={<ExpandMore />}>
               <Typography>قیمت</Typography>
@@ -163,4 +180,5 @@ var icons: JSX.Element[] = [
   <CasinoOutlined className={styles.ad_icons} />,
   <PeopleOutlined className={styles.ad_icons} />,
   <HomeRepairServiceOutlined className={styles.ad_icons} />,
+  <WorkOutline className={styles.ad_icons} />,
 ];

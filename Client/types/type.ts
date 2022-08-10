@@ -51,6 +51,11 @@ export interface StepOneProps {
   onFormik: any;
 }
 
+export interface CategoryStepOneProps {
+  icons: JSX.Element[];
+  onSelectCategory: (title: string) => void;
+}
+
 export interface Store {
   entities: {
     ui: {
