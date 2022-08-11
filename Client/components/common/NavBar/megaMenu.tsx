@@ -14,16 +14,21 @@ import {
   WorkOutline,
 } from "@mui/icons-material";
 import styles from "../../../styles/NavBar.module.css";
-import { Category, MegaMenuProps, Store } from "../../../types/type";
+import { CategoryObject, Category, Store } from "../../../types/type";
 import { megaMenuToggle } from "../../../store/state/ui";
 import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 
-const MegaMenu = ({ onSetMegaMenu2Display }: MegaMenuProps) => {
+const MegaMenu = () => {
+  // Redux Setup
+  const dispatch = useDispatch();
   const category: Category = useSelector(
     (state: Store) => state.entities.category
   );
+  // Local State
+  const [megaMenu2Display, setMegaMenu2Display] =
+    useState<CategoryObject | null>(null);
 
-  const dispatch = useDispatch();
   return (
     <Box className={styles.megamenu__content}>
       <Box className={styles.navbar__category}>
@@ -45,11 +50,9 @@ const MegaMenu = ({ onSetMegaMenu2Display }: MegaMenuProps) => {
               </Grid>
             </Grid>
             {category &&
-              category.map((item, index) => (
+              category.map((item, index: number) => (
                 <Grid
-                  onMouseEnter={(e) =>
-                    onSetMegaMenu2Display((e.target as HTMLElement).innerText)
-                  }
+                  onMouseEnter={() => setMegaMenu2Display(item)}
                   key={index}
                   container
                   direction="row"
@@ -75,12 +78,26 @@ const MegaMenu = ({ onSetMegaMenu2Display }: MegaMenuProps) => {
               ))}
           </Grid>
           <Grid item>
-            <Box className={styles.category__menu_holder}>
-              <a className={styles.category__menu_title}>فروش مسکونی</a>
-              <a className={styles.category__menu_item}>آپارتمان</a>
-              <a className={styles.category__menu_item}>خانه و ویلا</a>
-              <a className={styles.category__menu_item}>زمین و کلنگی</a>
-            </Box>
+            {megaMenu2Display?.children?.map(
+              (item: CategoryObject, index: number) => {
+                return (
+                  <>
+                    <Box className={styles.category__menu_holder}>
+                      <a className={styles.category__menu_title}>
+                        {item.title}
+                      </a>
+                      {item?.children?.map((items: CategoryObject) => {
+                        return (
+                          <a className={styles.category__menu_item}>
+                            {items.title}
+                          </a>
+                        );
+                      })}
+                    </Box>
+                  </>
+                );
+              }
+            )}
           </Grid>
         </Grid>
       </Box>

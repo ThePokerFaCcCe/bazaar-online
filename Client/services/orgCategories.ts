@@ -36,8 +36,5 @@ const parentFinder = (category: any, children: any) => {
 };
 
 export const organaizeCategories = (category: any) => {
-  const subChild = childParentFinder(category);
-  const data = parentFinder(category, subChild);
-  console.log(data);
-  return data;
+  return parentFinder(category, childParentFinder(category));
 };

@@ -1,11 +1,6 @@
 import { Typography, Grid } from "@mui/material";
 import { useSelector } from "react-redux";
-import {
-  Category,
-  CategoryObject,
-  Store,
-  CategoryStepOneProps,
-} from "../../../../types/type";
+import { Category, Store, CategoryStepOneProps } from "../../../../types/type";
 import styles from "../../../../styles/Advertisement.module.css";
 
 const StepOne = ({

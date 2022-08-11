@@ -21,10 +21,7 @@ import { DesktopNavBarProps, Store } from "../../../types/type";
 import MegaMenu from "./megaMenu";
 import MyBazzarMenu from "./myBazzarMenu";
 import styles from "../../../styles/NavBar.module.css";
-const DesktopNavBar = ({
-  onMegaMenu2Display,
-  onSetMegaMenuToDisplay,
-}: DesktopNavBarProps): JSX.Element => {
+const DesktopNavBar = (): JSX.Element => {
   // Redux Setup
   const dispatch = useDispatch();
   const { desktopMenuVisible, megaMenuVisible } = useSelector(
@@ -100,7 +97,7 @@ const DesktopNavBar = ({
                       : "d-none"
                   }
                 >
-                  <MegaMenu onSetMegaMenu2Display={onSetMegaMenuToDisplay} />
+                  <MegaMenu />
                 </Box>
               </Grid>
               <Grid item>

@@ -10,6 +10,22 @@ export type Category = {
   parentId: number | null;
 }[];
 
+export type CategoryArrayWithChildren = {
+  id: number;
+  title: string;
+  children?: Category[];
+  icon: string | null;
+  parentId: number | null;
+}[];
+
+export type CategoryArrayArrayWithChildren = {
+  id: number;
+  title: string;
+  children?: CategoryArrayWithChildren[];
+  icon: string | null;
+  parentId: number | null;
+}[];
+
 export type CategoryObject = {
   id: number;
   title: string;
@@ -56,9 +72,6 @@ export interface AdvertisementListProps {
   post: object;
 }
 
-export type MegaMenuProps = {
-  onSetMegaMenu2Display: Dispatch<SetStateAction<string>>;
-};
 
 export type StepsProp = {
   onSetStep: Dispatch<SetStateAction<number>>;
@@ -66,11 +79,6 @@ export type StepsProp = {
 
 export type RTLProps = {
   children: JSX.Element;
-};
-
-export type DesktopNavBarProps = {
-  onSetMegaMenuToDisplay: Dispatch<SetStateAction<string>>;
-  onMegaMenu2Display: string;
 };
 
 export type NavItems = { title: string; icon: JSX.Element }[];
@@ -125,5 +133,11 @@ export interface Action {
 
 //
 export interface CategoryStepTwoProps {
+  selectedCategory: CategoryObjectWithChildren;
+  onSelectCategory: (params: any) => void;
+}
+export interface CategoryStepThreeProps {
+  selectedChildren: CategoryObjectWithChildren;
+  onSelectCategory: (params: any) => void;
   selectedCategory: CategoryObjectWithChildren;
 }

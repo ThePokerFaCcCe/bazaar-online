@@ -20,6 +20,7 @@ import {
   ArrowForward,
   ExpandMore,
   WorkOutline,
+  ImportContactsSharp,
 } from "@mui/icons-material";
 import { Input } from "antd";
 import { Store } from "../../../types/type";
@@ -28,6 +29,7 @@ import { useSelector } from "react-redux";
 import styles from "../../../styles/Advertisement.module.css";
 import StepOne from "./Category/stepOne";
 import StepTwo from "./Category/stepTwo";
+import StepThree from "./Category/stepThree";
 const Category = (): JSX.Element => {
   // Redux Setup
   const { category: categories } = useSelector(
@@ -36,19 +38,43 @@ const Category = (): JSX.Element => {
   // Local Setup
   const [step, setStep] = useState(1);
   const [selectedCategory, setSelectedGenre] = useState<any>(null);
+  const [selectedChildren, setSelectChildren] = useState<any>(null);
   // Event Handler
 
   const handleSelectCategory = (category: any): void => {
-    setSelectedGenre(category);
+    if (step === 1) {
+      setSelectedGenre(category);
+    }
+    if (step === 2) {
+      setSelectChildren(category);
+    }
     setStep(step + 1);
   };
+  console.log(selectedCategory, selectedChildren);
 
   // Handle Step
   const StepToShow = (): JSX.Element => {
-    if (step === 2) {
-      return <StepTwo selectedCategory={selectedCategory} />;
+    switch (step) {
+      case 2:
+        return (
+          <StepTwo
+            onSelectCategory={handleSelectCategory}
+            selectedCategory={selectedCategory}
+          />
+        );
+      case 3:
+        return (
+          <StepThree
+            selectedCategory={selectedCategory}
+            selectedChildren={selectedChildren}
+            onSelectCategory={handleSelectCategory}
+          />
+        );
+      default:
+        return (
+          <StepOne onSelectCategory={handleSelectCategory} icons={icons} />
+        );
     }
-    return <StepOne onSelectCategory={handleSelectCategory} icons={icons} />;
   };
 
   // Render

@@ -15,7 +15,6 @@ import {
 } from "@mui/icons-material";
 import { Input } from "antd";
 import type { NextPage } from "next";
-import { useState, useEffect } from "react";
 import Head from "next/head";
 import CityModal from "../components/cityModal";
 

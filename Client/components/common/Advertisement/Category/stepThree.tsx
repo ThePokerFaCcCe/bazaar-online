@@ -13,12 +13,12 @@ import {
 } from "@mui/icons-material";
 import styles from "../../../../styles/Advertisement.module.css";
 import { Col, Row } from "antd";
-import { CategoryStepTwoProps } from "../../../../types/type";
+import { CategoryStepThreeProps } from "../../../../types/type";
 
-const StepTwo = ({
+const StepThree = ({
+  selectedChildren,
   selectedCategory,
-  onSelectCategory,
-}: CategoryStepTwoProps): JSX.Element => {
+}: CategoryStepThreeProps): JSX.Element => {
   // Icons
   function Icons() {
     switch (selectedCategory.title) {
@@ -56,13 +56,21 @@ const StepTwo = ({
           </Typography>
         </Col>
       </Row>
-      <Box marginRight={7}>
-        {selectedCategory?.children?.map((item, index) => (
-          <Typography
-            key={index}
-            onClick={() => onSelectCategory(item)}
-            className={styles.subCategory__text}
-          >
+      <Typography
+        className={styles.subCategory__header}
+        sx={{ mr: 3, fontSize: "14px" }}
+      >
+        {selectedChildren.title}
+      </Typography>
+      <Box
+        sx={{
+          m: "0.5rem 2.5rem 0.5rem 0 ",
+          borderRight: "1px solid #ccc",
+          pr: "5px",
+        }}
+      >
+        {selectedChildren?.children?.map((item) => (
+          <Typography className={styles.subCategory__text}>
             {item.title}
           </Typography>
         ))}
@@ -71,4 +79,4 @@ const StepTwo = ({
   );
 };
 
-export default StepTwo;
+export default StepThree;

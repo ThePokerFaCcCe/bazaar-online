@@ -17,15 +17,10 @@ const NavBar = (): JSX.Element => {
   const { signModalVisible } = useSelector(
     (state: Store) => state.entities.ui.modals
   );
-  // Local State
-  const [megaMenu2Display, setMegaMenu2Display] = useState("");
   // Render
   return (
     <>
-      <DesktopNavBar
-        onMegaMenu2Display={megaMenu2Display}
-        onSetMegaMenuToDisplay={setMegaMenu2Display}
-      />
+      <DesktopNavBar />
       <MobileNavBar />
       {/* Modals */}
       <RTL>
