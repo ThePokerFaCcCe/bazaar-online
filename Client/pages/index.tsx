@@ -18,15 +18,9 @@ import type { NextPage } from "next";
 import { useState, useEffect } from "react";
 import Head from "next/head";
 import CityModal from "../components/cityModal";
-import { apiCallBegan } from "../store/middleware/categories";
-import { useDispatch } from "react-redux";
+
 import Image from "next/image";
 const Home: NextPage = () => {
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(apiCallBegan());
-  // }, []);
-
   const popular: string[] = [
     "تهران",
     "کرج",

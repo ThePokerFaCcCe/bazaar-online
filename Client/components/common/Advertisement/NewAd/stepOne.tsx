@@ -18,48 +18,30 @@ import { Category, StepsProp } from "../../../../types/type";
 const category: Category = [
   {
     title: "املاک",
-    link: "/",
-    icon: <HouseOutlined className={styles.icons} />,
   },
   {
     title: "وسایل نقلیه",
-    link: "/",
-    icon: <DirectionsCarFilledOutlined className={styles.icons} />,
   },
   {
     title: "کالای دیجیتال",
-    link: "/",
-    icon: <PhoneIphoneOutlined className={styles.icons} />,
   },
   {
     title: "خانه و آشپزخانه",
-    link: "/",
-    icon: <BlenderOutlined className={styles.icons} />,
   },
   {
     title: "خدمات",
-    link: "/",
-    icon: <FormatPaintOutlined className={styles.icons} />,
   },
   {
     title: "وسایل شخصی",
-    link: "/",
-    icon: <WatchOutlined className={styles.icons} />,
   },
   {
     title: "سرگرمی و فراغت",
-    link: "/",
-    icon: <CasinoOutlined className={styles.icons} />,
   },
   {
     title: "اجتماعی",
-    link: "/",
-    icon: <PeopleOutlined className={styles.icons} />,
   },
   {
     title: "تجهیزات و صنعتی",
-    link: "/",
-    icon: <HomeRepairServiceOutlined className={styles.icons} />,
   },
 ];
 

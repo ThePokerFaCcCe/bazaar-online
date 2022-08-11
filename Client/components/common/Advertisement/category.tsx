@@ -35,10 +35,10 @@ const Category = (): JSX.Element => {
   );
   // Local Setup
   const [step, setStep] = useState(1);
-  const [selectedCategory, setSelectedGenre] = useState("");
+  const [selectedCategory, setSelectedGenre] = useState<any>(null);
   // Event Handler
 
-  const handleSelectCategory = (category: string) => {
+  const handleSelectCategory = (category: any): void => {
     setSelectedGenre(category);
     setStep(step + 1);
   };
@@ -46,10 +46,11 @@ const Category = (): JSX.Element => {
   // Handle Step
   const StepToShow = (): JSX.Element => {
     if (step === 2) {
-      return <StepTwo />;
+      return <StepTwo selectedCategory={selectedCategory} />;
     }
     return <StepOne onSelectCategory={handleSelectCategory} icons={icons} />;
   };
+
   // Render
   return (
     <>

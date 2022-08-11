@@ -1,6 +1,11 @@
 import { Typography, Grid } from "@mui/material";
 import { useSelector } from "react-redux";
-import { Category, Store, CategoryStepOneProps } from "../../../../types/type";
+import {
+  Category,
+  CategoryObject,
+  Store,
+  CategoryStepOneProps,
+} from "../../../../types/type";
 import styles from "../../../../styles/Advertisement.module.css";
 
 const StepOne = ({
@@ -15,13 +20,13 @@ const StepOne = ({
   return (
     <>
       {category &&
-        category.map((item, index: number) => (
+        category.map((item: any, index: number) => (
           <Grid item key={index}>
             <Grid container direction="row" alignItems="center">
               <Grid item>{icons[index]}</Grid>
               <Grid item>
                 <Typography
-                  onClick={() => onSelectCategory(item.title)}
+                  onClick={() => onSelectCategory(item)}
                   className={styles.category__item}
                 >
                   {item.title}
