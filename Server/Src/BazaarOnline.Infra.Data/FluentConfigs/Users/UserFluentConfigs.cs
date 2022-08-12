@@ -63,6 +63,10 @@ namespace BazaarOnline.Infra.Data.FluentConfigs
             builder.HasMany(u => u.UserRoles)
                 .WithOne(ur => ur.User)
                 .HasForeignKey(ur => ur.UserId);
+
+            builder.HasMany(c => c.Advertiesements)
+                .WithOne(a => a.User)
+                .HasForeignKey(a => a.UserId);
         }
 
         private void ConfigureIndexes(EntityTypeBuilder<User> builder)

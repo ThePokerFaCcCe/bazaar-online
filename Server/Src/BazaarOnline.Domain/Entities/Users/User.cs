@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using BazaarOnline.Domain.Entities.Advertiesements;
 
 namespace BazaarOnline.Domain.Entities.Users
 {
@@ -28,6 +29,8 @@ namespace BazaarOnline.Domain.Entities.Users
 
         #region Relations
         public List<UserRole> UserRoles { get; set; }
+
+        public List<Advertiesement> Advertiesements { get; set; }
 
         #endregion
     }
