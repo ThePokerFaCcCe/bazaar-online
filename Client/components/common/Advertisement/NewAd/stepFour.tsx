@@ -1,23 +1,11 @@
-import React, { useState } from "react";
 import { Box, Grid, Typography, Button } from "@mui/material";
 import { Select } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-import { Modal, Upload } from "antd";
-import type { RcFile, UploadProps } from "antd/es/upload";
-import type { UploadFile } from "antd/es/upload/interface";
 import { StepsProp } from "../../../../types/type";
-import styles from "../../../../styles/NewAd.module.css";
+import UploadImg from "./upload";
+import Map from "./map";
 import RTL from "../../../../services/rtl";
-
+import styles from "../../../../styles/NewAd.module.css";
 const { Option } = Select;
-
-const getBase64 = (file: RcFile): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
 
 const StepFour = ({
   onBackToCategories,
@@ -25,35 +13,6 @@ const StepFour = ({
   selectedSubCtg,
   selectedSubChildCtg,
 }: StepsProp): JSX.Element => {
-  const [previewVisible, setPreviewVisible] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
-  const [previewTitle, setPreviewTitle] = useState("");
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-
-  const handleCancel = () => setPreviewVisible(false);
-
-  const handlePreview = async (file: UploadFile) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj as RcFile);
-    }
-
-    setPreviewImage(file.url || (file.preview as string));
-    setPreviewVisible(true);
-    setPreviewTitle(
-      file.name || file.url!.substring(file.url!.lastIndexOf("/") + 1)
-    );
-  };
-
-  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
-    setFileList(newFileList);
-
-  const uploadButton = (
-    <div>
-      <PlusOutlined />
-      <div style={{ marginTop: 8 }}>آپلود</div>
-    </div>
-  );
-
   const onChange = (value: string) => {
     console.log(`selected ${value}`);
   };
@@ -61,9 +20,6 @@ const StepFour = ({
   const onSearch = (value: string) => {
     console.log("search:", value);
   };
-  console.log(selectedCtg?.title);
-  console.log(selectedSubCtg?.title);
-  console.log(selectedSubChildCtg?.title);
   return (
     <Box className="NewAd">
       <Grid
@@ -123,7 +79,7 @@ const StepFour = ({
           پس از تعیین محدوده روی نقشه، می‌توانید انتخاب کنید که موقعیت دقیق
           مکانی در آگهی نمایش داده نشود.
         </Typography>
-        <span>MAP HERE</span>
+        <Map />
       </Box>
       <Box className="my-5">
         <Typography className={styles.section__title}>عکس آگهی</Typography>
@@ -131,25 +87,7 @@ const StepFour = ({
           عکس‌هایی از فضای داخل و بیرون ملک اضافه کنید. آگهی‌های دارای عکس تا «۳
           برابر» بیشتر توسط کاربران دیده می‌شوند.
         </Typography>
-        <div className="mt-3">
-          <Upload
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-            listType="picture-card"
-            fileList={fileList}
-            onPreview={handlePreview}
-            onChange={handleChange}
-          >
-            {fileList.length >= 8 ? null : uploadButton}
-          </Upload>
-          <Modal
-            visible={previewVisible}
-            title={previewTitle}
-            footer={null}
-            onCancel={handleCancel}
-          >
-            <img alt="example" style={{ width: "100%" }} src={previewImage} />
-          </Modal>
-        </div>
+        <UploadImg />
         <Typography className={styles.section__text}>
           تعداد عکس‌های انتخاب شده نباید بیشتر از 5 تا باشد.
         </Typography>

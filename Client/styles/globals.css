@@ -134,3 +134,7 @@ a {
 .ant-input-number-input-wrap > input {
   text-align: center !important;
 }
+
+.leaflet-control-attribution {
+  display: none !important;
+}

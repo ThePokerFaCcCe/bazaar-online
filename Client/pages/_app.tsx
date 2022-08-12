@@ -13,6 +13,9 @@ import "primereact/resources/primereact.min.css"; //core css
 import "primeicons/primeicons.css";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/globals.css";
+import "leaflet/dist/leaflet.css";
+import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css"; // Re-uses images from ~leaflet package
+import "leaflet-defaulticon-compatibility";
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
