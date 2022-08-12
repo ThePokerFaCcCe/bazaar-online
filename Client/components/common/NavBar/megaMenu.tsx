@@ -50,11 +50,11 @@ const MegaMenu = () => {
               </Grid>
             </Grid>
             {category &&
-              category.map((item, index: number) => (
+              category.map((item: any, index: number) => (
                 <Grid
-                  onMouseEnter={() => setMegaMenu2Display(item)}
                   key={index}
                   container
+                  onMouseEnter={() => setMegaMenu2Display(item)}
                   direction="row"
                   justifyContent="space-between"
                   alignItems="center"
@@ -78,26 +78,20 @@ const MegaMenu = () => {
               ))}
           </Grid>
           <Grid item>
-            {megaMenu2Display?.children?.map(
-              (item: CategoryObject, index: number) => {
-                return (
-                  <>
-                    <Box className={styles.category__menu_holder}>
-                      <a className={styles.category__menu_title}>
-                        {item.title}
+            {megaMenu2Display?.children?.map((item: any, index: number) => {
+              return (
+                <Box className={styles.category__menu_holder} key={index}>
+                  <a className={styles.category__menu_title}>{item.title}</a>
+                  {item?.children?.map((items: any) => {
+                    return (
+                      <a className={styles.category__menu_item}>
+                        {items.title}
                       </a>
-                      {item?.children?.map((items: CategoryObject) => {
-                        return (
-                          <a className={styles.category__menu_item}>
-                            {items.title}
-                          </a>
-                        );
-                      })}
-                    </Box>
-                  </>
-                );
-              }
-            )}
+                    );
+                  })}
+                </Box>
+              );
+            })}
           </Grid>
         </Grid>
       </Box>

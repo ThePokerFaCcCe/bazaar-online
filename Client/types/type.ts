@@ -18,14 +18,6 @@ export type CategoryArrayWithChildren = {
   parentId: number | null;
 }[];
 
-export type CategoryArrayArrayWithChildren = {
-  id: number;
-  title: string;
-  children?: CategoryArrayWithChildren[];
-  icon: string | null;
-  parentId: number | null;
-}[];
-
 export type CategoryObject = {
   id: number;
   title: string;
@@ -72,9 +64,12 @@ export interface AdvertisementListProps {
   post: object;
 }
 
-
 export type StepsProp = {
-  onSetStep: Dispatch<SetStateAction<number>>;
+  onNextStep: (parameter: any) => void;
+  selectedCtg?: CategoryObjectWithChildren;
+  selectedSubCtg?: CategoryObjectWithChildren;
+  selectedSubChildCtg?: CategoryObjectWithChildren;
+  onBackToCategories?: () => void;
 };
 
 export type RTLProps = {

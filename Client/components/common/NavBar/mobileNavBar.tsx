@@ -60,9 +60,9 @@ const MobileNavBar = (): JSX.Element => {
           <Menu />
         </IconButton>
         <Link href="/">
-          <button>
+          <div style={{ cursor: "pointer" }}>
             <Logo />
-          </button>
+          </div>
         </Link>
         {loggedIn ? (
           <Link href="/ad/new">

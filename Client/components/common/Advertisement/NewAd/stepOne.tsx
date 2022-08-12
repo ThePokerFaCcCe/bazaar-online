@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import {
   HouseOutlined,
@@ -11,85 +10,93 @@ import {
   CasinoOutlined,
   HomeRepairServiceOutlined,
   ChevronLeft,
-  ArrowForward,
+  WorkOutline,
 } from "@mui/icons-material";
-import styles from "../../../../styles/NavBar.module.css";
-import { Category, StepsProp } from "../../../../types/type";
-const category: Category = [
-  {
-    title: "املاک",
-  },
-  {
-    title: "وسایل نقلیه",
-  },
-  {
-    title: "کالای دیجیتال",
-  },
-  {
-    title: "خانه و آشپزخانه",
-  },
-  {
-    title: "خدمات",
-  },
-  {
-    title: "وسایل شخصی",
-  },
-  {
-    title: "سرگرمی و فراغت",
-  },
-  {
-    title: "اجتماعی",
-  },
-  {
-    title: "تجهیزات و صنعتی",
-  },
-];
+import { Category, StepsProp, Store } from "../../../../types/type";
+import { useSelector } from "react-redux";
+import styles from "../../../../styles/Advertisement.module.css";
+const StepOne = ({ onNextStep }: StepsProp): JSX.Element => {
+  // Redux Setup
+  const category: Category = useSelector(
+    (state: Store) => state.entities.category
+  );
 
-const StepOne = ({ onSetStep }: StepsProp): JSX.Element => (
-  <Box className="NewAd">
-    <Grid sx={{ mb: "0.3rem" }} container direction="column" alignItems="start">
-      <Typography sx={{ fontSize: "20px", fontWeight: "500", mb: "5px" }}>
-        ثبت آگهی
-      </Typography>
-      <Typography className="text-muted" sx={{ fontSize: "12px" }}>
-        انتخاب دسته‌بندی
-      </Typography>
-    </Grid>
-    {category.map((item, index) => (
+  function Icons(title: string) {
+    switch (title) {
+      case "املاک":
+        return <HouseOutlined className={styles.stepTwo_icon} />;
+      case "وسایل نقلیه":
+        return <DirectionsCarFilledOutlined className={styles.stepTwo_icon} />;
+      case "کالای دیجیتال":
+        return <PhoneIphoneOutlined className={styles.stepTwo_icon} />;
+      case "خانه و آشپزخانه":
+        return <BlenderOutlined className={styles.stepTwo_icon} />;
+      case "خدمات":
+        return <FormatPaintOutlined className={styles.stepTwo_icon} />;
+      case "وسایل شخصی":
+        return <WatchOutlined className={styles.stepTwo_icon} />;
+      case "سرگرمی و فراغت":
+        return <CasinoOutlined className={styles.stepTwo_icon} />;
+      case "اجتماعی":
+        return <PeopleOutlined className={styles.stepTwo_icon} />;
+      case "تجهیزات و صنعتی":
+        return <HomeRepairServiceOutlined className={styles.stepTwo_icon} />;
+      case "استخدام و کاریابی":
+        return <WorkOutline className={styles.stepTwo_icon} />;
+    }
+  }
+
+  return (
+    <Box className="NewAd">
       <Grid
-        sx={{ m: "5px 0", cursor: "pointer" }}
-        onClick={() => onSetStep(2)}
-        className="border-bottom"
-        key={index}
+        sx={{ mb: "0.3rem" }}
         container
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
+        direction="column"
+        alignItems="start"
       >
-        <Grid item>
-          <Grid container direction="row" alignItems="center">
-            <Grid item>
-              <Box>{item.icon}</Box>
+        <Typography sx={{ fontSize: "20px", fontWeight: "500", mb: "5px" }}>
+          ثبت آگهی
+        </Typography>
+        <Typography className="text-muted" sx={{ fontSize: "12px" }}>
+          انتخاب دسته‌بندی
+        </Typography>
+      </Grid>
+      {category &&
+        category?.map((item, index) => (
+          <Grid
+            sx={{ m: "5px 0", cursor: "pointer" }}
+            className="border-bottom"
+            key={index}
+            container
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Grid item onClick={() => onNextStep(item)}>
+              <Grid spacing={2} container direction="row" alignItems="center">
+                <Grid item>
+                  <Box>{Icons(item.title)}</Box>
+                </Grid>
+                <Grid item>
+                  <Typography
+                    sx={{
+                      color: "rgba(0, 0, 0, 0.87) !important",
+                      fontSize: "15px !important",
+                    }}
+                    className={styles.category__item}
+                  >
+                    {item.title}
+                  </Typography>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid item>
-              <Typography
-                sx={{
-                  color: "rgba(0, 0, 0, 0.87) !important",
-                  fontSize: "15px !important",
-                }}
-                className={styles.category__item}
-              >
-                {item.title}
-              </Typography>
+              <ChevronLeft className={styles.icons} />
             </Grid>
           </Grid>
-        </Grid>
-        <Grid item>
-          <ChevronLeft className={styles.icons} />
-        </Grid>
-      </Grid>
-    ))}
-  </Box>
-);
+        ))}
+    </Box>
+  );
+};
 
 export default StepOne;
