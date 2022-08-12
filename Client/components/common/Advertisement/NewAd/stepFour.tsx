@@ -1,10 +1,11 @@
 import { Box, Grid, Typography, Button } from "@mui/material";
 import { Select } from "antd";
-import { StepsProp } from "../../../../types/type";
+import { StepsProp, Store } from "../../../../types/type";
 import UploadImg from "./upload";
-import Map from "./map";
+// import Map from "./map";
 import RTL from "../../../../services/rtl";
 import styles from "../../../../styles/NewAd.module.css";
+import { useSelector } from "react-redux";
 const { Option } = Select;
 
 const StepFour = ({
@@ -13,6 +14,9 @@ const StepFour = ({
   selectedSubCtg,
   selectedSubChildCtg,
 }: StepsProp): JSX.Element => {
+  // Redux Setup
+  const city = useSelector((state: Store) => state.entities.states);
+
   const onChange = (value: string) => {
     console.log(`selected ${value}`);
   };
@@ -67,9 +71,11 @@ const StepFour = ({
                 .includes(input.toLowerCase())
             }
           >
-            <Option value="rasht">رشت</Option>
-            <Option value="tehran">تهران</Option>
-            <Option value="isfahan">اصفهان</Option>
+            {city?.map((ct) => (
+              <Option key={ct.id} value={ct.id}>
+                {ct.name}
+              </Option>
+            ))}
           </Select>
         </RTL>
       </Box>
@@ -79,7 +85,7 @@ const StepFour = ({
           پس از تعیین محدوده روی نقشه، می‌توانید انتخاب کنید که موقعیت دقیق
           مکانی در آگهی نمایش داده نشود.
         </Typography>
-        <Map />
+        {/* <Map /> */}
       </Box>
       <Box className="my-5">
         <Typography className={styles.section__title}>عکس آگهی</Typography>

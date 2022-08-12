@@ -4,10 +4,9 @@ import { categoryReceived } from "../state/category";
 import { State, Next, Action } from "../../types/type";
 import axios from "axios";
 import config from "../../config.json";
+
 // Action Creator
 export const apiCallBegan = createAction("getCategory/apiCallBegan");
-export const apiCallSucess = createAction("getCategory/apiCallSuccess");
-export const apiCallFailed = createAction("getCategory/apiCallFailed");
 
 // Reducer
 const categoryApi =
@@ -15,6 +14,7 @@ const categoryApi =
   (next: Next) =>
   async (action: Action) => {
     if (action.type !== apiCallBegan.type) next(action);
+    console.log(getState());
     if (getState().entities.category === null) {
       try {
         const { data } = await axios.get(`${config.apiEndPoint}/Categories`);

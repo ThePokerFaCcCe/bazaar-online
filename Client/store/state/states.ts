@@ -1,15 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Category } from "../../types/type";
 
 const { actions, reducer } = createSlice({
-  name: "UI",
+  name: "states",
   initialState: null,
   reducers: {
-    categoryReceived: (state, { payload }) => {
+    statesReceived: (state, { payload }) => {
+      console.log(payload);
       return (state = payload);
     },
   },
 });
 
-export const { categoryReceived } = actions;
+export const { statesReceived } = actions;
 export default reducer;

@@ -8,3 +8,9 @@
 .city__modal > .ant-modal-content > .ant-modal-body {
   background-color: red;
 }
+
+.citylist {
+  padding: 5px 24px 24px;
+  max-height: 200px;
+  overflow: auto;
+}

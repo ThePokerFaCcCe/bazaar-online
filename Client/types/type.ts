@@ -53,6 +53,7 @@ export interface Store {
       icon: string | null;
       parentId: number | null;
     }[];
+    states: { id: number; name: string }[];
   };
 }
 

@@ -6,6 +6,7 @@ import store from "../store/configureStore";
 import NavBar from "../components/navBar";
 import { useEffect } from "react";
 import { apiCallBegan } from "../store/middleware/categories";
+import { statesApiCallBegan } from "../store/middleware/states";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "antd/dist/antd.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css"; //theme
@@ -13,13 +14,11 @@ import "primereact/resources/primereact.min.css"; //core css
 import "primeicons/primeicons.css";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/globals.css";
-import "leaflet/dist/leaflet.css";
-import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css"; // Re-uses images from ~leaflet package
-import "leaflet-defaulticon-compatibility";
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     store.dispatch(apiCallBegan());
+    store.dispatch(statesApiCallBegan());
   }, []);
 
   return (
