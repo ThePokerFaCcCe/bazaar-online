@@ -1,3 +1,5 @@
+using BazaarOnline.Domain.Entities.Advertiesements;
+
 namespace BazaarOnline.Domain.Entities.Categories
 {
     public class Category
@@ -14,6 +16,9 @@ namespace BazaarOnline.Domain.Entities.Categories
 
         public Category ParentCategory { get; set; }
         public List<Category> ChildCategories { get; set; }
+
+        public List<Advertiesement> Advertiesements { get; set; }
+        public List<CategoryFeature> CategoryFeatures { get; set; }
 
         #endregion
 

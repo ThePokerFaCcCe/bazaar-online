@@ -26,7 +26,9 @@ public class CityFluentConfig : IEntityTypeConfiguration<City>
 
     private void ConfigureRelations(EntityTypeBuilder<City> builder)
     {
-
+        builder.HasMany(c => c.Advertiesements)
+            .WithOne(a => a.City)
+            .HasForeignKey(a => a.CityId);
     }
 
     private void ConfigureIndexes(EntityTypeBuilder<City> builder)

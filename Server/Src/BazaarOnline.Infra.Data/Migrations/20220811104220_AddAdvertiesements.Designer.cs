@@ -4,6 +4,7 @@ using BazaarOnline.Infra.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BazaarOnline.Infra.Data.Migrations
 {
     [DbContext(typeof(BazaarDbContext))]
-    partial class BazaarDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220811104220_AddAdvertiesements")]
+    partial class AddAdvertiesements
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,8 +95,9 @@ namespace BazaarOnline.Infra.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Value")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.HasKey("FeatureId", "AdvertiesementId");
 
@@ -196,18 +199,8 @@ namespace BazaarOnline.Infra.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("FeatureEnumId")
+                    b.Property<int>("FeatureEnumId")
                         .HasColumnType("int");
-
-                    b.Property<int?>("FeatureIntegerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FeatureType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsRequired")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -217,8 +210,6 @@ namespace BazaarOnline.Infra.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FeatureEnumId");
-
-                    b.HasIndex("FeatureIntegerId");
 
                     b.ToTable("Features");
                 });
@@ -262,30 +253,6 @@ namespace BazaarOnline.Infra.Data.Migrations
                     b.HasIndex("FeatureEnumId");
 
                     b.ToTable("FeatureEnumValues");
-                });
-
-            modelBuilder.Entity("BazaarOnline.Domain.Entities.Features.FeatureInteger", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<long>("MaximumValue")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("MinimumValue")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FeatureIntegers");
                 });
 
             modelBuilder.Entity("BazaarOnline.Domain.Entities.Locations.City", b =>
@@ -1054,15 +1021,11 @@ namespace BazaarOnline.Infra.Data.Migrations
                 {
                     b.HasOne("BazaarOnline.Domain.Entities.Features.FeatureEnum", "FeatureEnum")
                         .WithMany("Features")
-                        .HasForeignKey("FeatureEnumId");
-
-                    b.HasOne("BazaarOnline.Domain.Entities.Features.FeatureInteger", "FeatureInteger")
-                        .WithMany("Features")
-                        .HasForeignKey("FeatureIntegerId");
+                        .HasForeignKey("FeatureEnumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("FeatureEnum");
-
-                    b.Navigation("FeatureInteger");
                 });
 
             modelBuilder.Entity("BazaarOnline.Domain.Entities.Features.FeatureEnumValue", b =>
@@ -1155,11 +1118,6 @@ namespace BazaarOnline.Infra.Data.Migrations
                 {
                     b.Navigation("FeatureEnumValues");
 
-                    b.Navigation("Features");
-                });
-
-            modelBuilder.Entity("BazaarOnline.Domain.Entities.Features.FeatureInteger", b =>
-                {
                     b.Navigation("Features");
                 });
 

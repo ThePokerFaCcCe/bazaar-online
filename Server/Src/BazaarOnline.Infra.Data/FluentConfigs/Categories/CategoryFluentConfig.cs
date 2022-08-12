@@ -38,6 +38,16 @@ public class CategoryFluentConfig : IEntityTypeConfiguration<Category>
             .WithOne(c => c.ParentCategory)
             .HasForeignKey(c => c.ParentId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasMany(c => c.Advertiesements)
+            .WithOne(a => a.Category)
+            .HasForeignKey(a => a.CategoryId);
+
+        builder.HasMany(c => c.CategoryFeatures)
+            .WithOne(cf => cf.Category)
+            .HasForeignKey(cf => cf.CategoryId);
+
+
     }
 
     private void ConfigureIndexes(EntityTypeBuilder<Category> builder)
