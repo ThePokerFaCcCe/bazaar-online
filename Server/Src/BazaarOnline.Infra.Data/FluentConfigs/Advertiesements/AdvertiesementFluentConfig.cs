@@ -30,6 +30,12 @@ public class AdvertiesementFluentConfig : IEntityTypeConfiguration<Advertiesemen
         builder.Property(a => a.Address)
             .HasMaxLength(100);
 
+        builder.Property(a => a.Latitude)
+            .IsRequired();
+
+        builder.Property(a => a.Longitude)
+            .IsRequired();
+
         builder.Property(a => a.IsAccepted)
             .IsRequired()
             .HasDefaultValue(false);

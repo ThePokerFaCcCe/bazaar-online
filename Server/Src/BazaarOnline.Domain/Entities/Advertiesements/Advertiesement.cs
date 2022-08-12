@@ -14,6 +14,10 @@ namespace BazaarOnline.Domain.Entities.Advertiesements
 
         public string? Address { get; set; }
 
+        public double Longitude { get; set; }
+
+        public double Latitude { get; set; }
+
         public bool IsAccepted { get; set; }
 
         public bool IsDeleted { get; set; }
