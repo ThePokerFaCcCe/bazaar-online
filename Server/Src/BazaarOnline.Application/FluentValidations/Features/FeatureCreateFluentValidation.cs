@@ -10,9 +10,13 @@ namespace BazaarOnline.Application.FluentValidations.Features
         {
             When(v => v.FeatureType == FeatureTypeEnum.Enum, () =>
             {
-                RuleFor(v => v.FeatureType)
-                    .Must((v, ft) => v.FeatureEnum != null && v.FeatureInteger == null)
-                    .WithMessage("فقط مقدار گزینه انتخاب شده را وارد کنید")
+                RuleFor(v => v.FeatureInteger)
+                    .Null()
+                    .WithMessage("نباید این قسمت را وارد کنید");
+
+                RuleFor(v => v.FeatureEnum)
+                    .NotNull()
+                    .WithMessage("وارد کردن این قسمت الزامیست")
                     .DependentRules(() =>
                     {
                         RuleFor(v => v.FeatureEnum.FeatureEnumValues)
@@ -22,19 +26,19 @@ namespace BazaarOnline.Application.FluentValidations.Features
             });
             When(v => v.FeatureType == FeatureTypeEnum.Integer, () =>
             {
-                RuleFor(v => v.FeatureType)
-                .Must((v, ft) => v.FeatureInteger != null && v.FeatureEnum == null)
-                .WithMessage("فقط مقدار گزینه انتخاب شده را وارد کنید")
-                .DependentRules(() =>
-                {
-                    RuleFor(v => v.FeatureInteger.MaximumValue)
-                        .Must((v, max) => max > v.FeatureInteger.MinimumValue)
-                        .WithMessage("مقدار بزرگتری وارد کنید");
+                RuleFor(v => v.FeatureEnum)
+                    .Null()
+                    .WithMessage("نباید این قسمت را وارد کنید");
 
-                    RuleFor(v => v.FeatureInteger.MinimumValue)
-                        .Must((v, min) => min < v.FeatureInteger.MaximumValue)
-                        .WithMessage("مقدار کوچکتری وارد کنید");
-                });
+                RuleFor(v => v.FeatureInteger)
+                    .NotNull()
+                    .WithMessage("وارد کردن این قسمت الزامیست")
+                    .DependentRules(() =>
+                    {
+                        RuleFor(v => v.FeatureInteger.MaximumValue)
+                            .Must((v, max) => max > v.FeatureInteger.MinimumValue)
+                            .WithMessage("مقدار بزرگتری وارد کنید");
+                    });
             });
         }
     }
