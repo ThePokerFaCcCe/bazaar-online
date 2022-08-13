@@ -97,7 +97,6 @@ builder.Services.AddSwaggerGen(options =>
     }
     });
     options.SchemaFilter<DescribeEnumMembers>();
-    options.UseInlineDefinitionsForEnums();
 });
 // Fluent Validation
 builder.Services.AddFluentValidationAutoValidation();
