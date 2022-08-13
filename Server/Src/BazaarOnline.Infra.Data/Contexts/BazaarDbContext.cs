@@ -51,6 +51,7 @@ namespace BazaarOnline.Infra.Data.Contexts
         public DbSet<Advertiesement> Advertiesements { get; set; }
         public DbSet<AdvertiesementFeatureValue> AdvertiesementFeatureValues { get; set; }
         public DbSet<AdvertiesementPicture> AdvertiesementPictures { get; set; }
+        public DbSet<AdvertiesementPrice> AdvertiesementPrice { get; set; }
 
         #endregion
 
