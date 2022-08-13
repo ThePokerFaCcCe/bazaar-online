@@ -137,3 +137,13 @@ export interface CategoryStepThreeProps {
   onSelectCategory: (params: any) => void;
   selectedCategory: CategoryObjectWithChildren;
 }
+
+export type City = { id: number; name: string }[];
+export type CityObj = { id: number; name: string };
+
+export interface UserCardProps {
+  name: string;
+  email: string;
+  createDate: string;
+  status: boolean;
+}

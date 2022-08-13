@@ -14,3 +14,8 @@
   max-height: 200px;
   overflow: auto;
 }
+
+.divider {
+  margin-top: 1.3rem;
+  border-color: #000;
+}

@@ -3,13 +3,64 @@ import { Input } from "antd";
 import SearchIcon from "@mui/icons-material/Search";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import styles from "../../../styles/CityModal.module.css";
-import { Store } from "../../../types/type";
+import { Store, City, CityObj } from "../../../types/type";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 
 const SelectState = ({ onSelectState }: any): JSX.Element => {
   // Redux Setup
   const city = useSelector((state: Store) => state.entities.states);
-  console.log(city);
+  // Local State
+  const [search, setSearch] = useState<string>("");
+  let filtered: City = [];
+
+  if (search !== null) {
+    city.forEach((item: CityObj) => {
+      if (item.name.startsWith(search)) filtered.push(item);
+    });
+  }
+
+  const dataToShow =
+    filtered.length > 0
+      ? filtered?.map((ct) => {
+          return (
+            <Grid
+              key={ct.id}
+              container
+              className={styles.city__names}
+              justifyContent="space-between"
+              alignItems="center"
+              onClick={() => onSelectState(true)}
+            >
+              <Grid item>
+                <span>{ct.name}</span>
+              </Grid>
+              <Grid item>
+                <ChevronLeftIcon />
+              </Grid>
+            </Grid>
+          );
+        })
+      : city?.map((ct) => {
+          return (
+            <Grid
+              key={ct.id}
+              container
+              className={styles.city__names}
+              justifyContent="space-between"
+              alignItems="center"
+              onClick={() => onSelectState(true)}
+            >
+              <Grid item>
+                <span>{ct.name}</span>
+              </Grid>
+              <Grid item>
+                <ChevronLeftIcon />
+              </Grid>
+            </Grid>
+          );
+        });
+
   return (
     <>
       <Box sx={{ padding: "24px" }}>
@@ -18,6 +69,7 @@ const SelectState = ({ onSelectState }: any): JSX.Element => {
         <p>حداقل یک شهر را انتخاب کنید.</p>
         <br />
         <Input
+          onChange={(e) => setSearch(e.target.value)}
           size="large"
           placeholder="جستجو در شهرها"
           className="searchInput"
@@ -25,29 +77,8 @@ const SelectState = ({ onSelectState }: any): JSX.Element => {
         />
         <br />
       </Box>
-      <Divider sx={{ marginTop: "1.3rem", borderColor: "#000" }} />
-      <Box className={styles.citylist}>
-        {city &&
-          city?.map((ct) => {
-            return (
-              <Grid
-                key={ct.id}
-                container
-                className={styles.city__names}
-                justifyContent="space-between"
-                alignItems="center"
-                onClick={() => onSelectState(true)}
-              >
-                <Grid item>
-                  <span>{ct.name}</span>
-                </Grid>
-                <Grid item>
-                  <ChevronLeftIcon />
-                </Grid>
-              </Grid>
-            );
-          })}
-      </Box>
+      <Divider className={styles.divider} />
+      <Box className={styles.citylist}>{dataToShow}</Box>
     </>
   );
 };

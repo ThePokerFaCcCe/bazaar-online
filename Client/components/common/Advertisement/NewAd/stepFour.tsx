@@ -2,12 +2,16 @@ import { Box, Grid, Typography, Button } from "@mui/material";
 import { Select } from "antd";
 import { StepsProp, Store } from "../../../../types/type";
 import UploadImg from "./upload";
-// import Map from "./map";
+import dynamic from "next/dynamic";
 import RTL from "../../../../services/rtl";
 import styles from "../../../../styles/NewAd.module.css";
 import { useSelector } from "react-redux";
+import Map from "./map";
 const { Option } = Select;
 
+const NoSSR = dynamic(() => import("./map"), {
+  ssr: false,
+});
 const StepFour = ({
   onBackToCategories,
   selectedCtg,
@@ -15,8 +19,9 @@ const StepFour = ({
   selectedSubChildCtg,
 }: StepsProp): JSX.Element => {
   // Redux Setup
-  const city = useSelector((state: Store) => state.entities.states);
 
+  const city = useSelector((state: Store) => state.entities.states);
+  // CDM
   const onChange = (value: string) => {
     console.log(`selected ${value}`);
   };
@@ -85,7 +90,7 @@ const StepFour = ({
           پس از تعیین محدوده روی نقشه، می‌توانید انتخاب کنید که موقعیت دقیق
           مکانی در آگهی نمایش داده نشود.
         </Typography>
-        {/* <Map /> */}
+        <Map />
       </Box>
       <Box className="my-5">
         <Typography className={styles.section__title}>عکس آگهی</Typography>

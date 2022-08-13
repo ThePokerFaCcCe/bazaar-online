@@ -20,7 +20,6 @@ import {
   ArrowForward,
   ExpandMore,
   WorkOutline,
-  ImportContactsSharp,
 } from "@mui/icons-material";
 import { Input } from "antd";
 import { Store } from "../../../types/type";
