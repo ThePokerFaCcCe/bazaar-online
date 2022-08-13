@@ -1,4 +1,3 @@
-using System.Reflection;
 using System.Text;
 using BazaarOnline.Application.FluentValidations;
 using BazaarOnline.Infra.Data.Contexts;
@@ -85,19 +84,20 @@ builder.Services.AddSwaggerGen(options =>
         Type = SecuritySchemeType.ApiKey
     });
     options.AddSecurityRequirement(new OpenApiSecurityRequirement {
-   {
-     new OpenApiSecurityScheme
-     {
-       Reference = new OpenApiReference
-       {
-         Type = ReferenceType.SecurityScheme,
-         Id = "Bearer"
-       }
-      },
-      new string[] { }
+    {
+        new OpenApiSecurityScheme
+        {
+        Reference = new OpenApiReference
+        {
+            Type = ReferenceType.SecurityScheme,
+            Id = "Bearer"
+        }
+        },
+        new string[] { }
     }
-  });
-
+    });
+    options.SchemaFilter<DescribeEnumMembers>();
+    options.UseInlineDefinitionsForEnums();
 });
 // Fluent Validation
 builder.Services.AddFluentValidationAutoValidation();
