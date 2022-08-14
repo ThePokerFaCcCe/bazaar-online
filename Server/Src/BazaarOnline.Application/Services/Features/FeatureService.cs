@@ -54,6 +54,12 @@ namespace BazaarOnline.Application.Services.Features
             return feature;
         }
 
+        public void DeleteFeature(Feature feature)
+        {
+            _featureRepository.DeleteFeature(feature);
+            _featureRepository.Save();
+        }
+
         public Feature? FindFeature(int id, bool includeType = false)
         {
             if (!includeType)
@@ -100,6 +106,13 @@ namespace BazaarOnline.Application.Services.Features
                     return model;
                 }).SingleOrDefault();
 
+        }
+
+        public List<int> GetFeatureIds()
+        {
+            return _featureRepository.GetFeatures()
+                .Select(f => f.Id)
+                .ToList();
         }
 
         public PaginationResultDTO<FeatureListDetailViewModel> GetFeatureListDetail(FeatureFilterDTO filter, PaginationFilterDTO pagination)

@@ -73,8 +73,14 @@ namespace BazaarOnline.API.Controllers.Features
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult DeleteFeature(int id)
         {
+            var feature = _featureService.FindFeature(id);
+            if (feature == null) return NotFound();
+
+            _featureService.DeleteFeature(feature);
+            return NoContent();
+
         }
     }
 }
