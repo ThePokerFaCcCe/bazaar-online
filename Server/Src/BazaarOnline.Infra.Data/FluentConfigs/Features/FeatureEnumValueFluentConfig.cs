@@ -33,7 +33,7 @@ public class FeatureEnumValueFluentConfig : IEntityTypeConfiguration<FeatureEnum
 
     private void ConfigureIndexes(EntityTypeBuilder<FeatureEnumValue> builder)
     {
-
+        builder.HasIndex(fev => fev.Value);
     }
 
     private void ConfigureQueryFilters(EntityTypeBuilder<FeatureEnumValue> builder)
