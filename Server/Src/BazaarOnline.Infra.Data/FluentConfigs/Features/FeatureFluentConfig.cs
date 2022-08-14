@@ -34,12 +34,12 @@ public class FeatureFluentConfig : IEntityTypeConfiguration<Feature>
     private void ConfigureRelations(EntityTypeBuilder<Feature> builder)
     {
         builder.HasOne(f => f.FeatureEnum)
-            .WithMany(fe => fe.Features)
-            .HasForeignKey(f => f.FeatureEnumId);
+            .WithOne(fe => fe.Feature)
+            .HasForeignKey<FeatureEnum>(fe => fe.FeatureId);
 
         builder.HasOne(f => f.FeatureInteger)
-            .WithMany(fi => fi.Features)
-            .HasForeignKey(f => f.FeatureIntegerId);
+            .WithOne(fi => fi.Feature)
+            .HasForeignKey<FeatureInteger>(fi => fi.FeatureId);
 
         builder.HasMany(f => f.AdvertiesementFeatureValues)
             .WithOne(af => af.Feature)

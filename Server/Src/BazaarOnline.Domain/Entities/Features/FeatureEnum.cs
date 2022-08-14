@@ -6,11 +6,13 @@ namespace BazaarOnline.Domain.Entities.Features
 
         public string Name { get; set; }
 
+        public int FeatureId { get; set; }
+
         #region Relations
 
         public List<FeatureEnumValue> FeatureEnumValues { get; set; }
 
-        public List<Feature> Features { get; set; }
+        public Feature Feature { get; set; }
 
         #endregion
     }

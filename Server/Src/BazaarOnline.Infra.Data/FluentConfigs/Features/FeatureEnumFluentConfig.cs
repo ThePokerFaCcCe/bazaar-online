@@ -30,9 +30,9 @@ public class FeatureEnumFluentConfig : IEntityTypeConfiguration<FeatureEnum>
             .WithOne(fev => fev.FeatureEnum)
             .HasForeignKey(fev => fev.FeatureEnumId);
 
-        builder.HasMany(fe => fe.Features)
+        builder.HasOne(fe => fe.Feature)
             .WithOne(f => f.FeatureEnum)
-            .HasForeignKey(f => f.FeatureEnumId);
+            .HasForeignKey<FeatureEnum>(fe => fe.FeatureId);
     }
 
     private void ConfigureIndexes(EntityTypeBuilder<FeatureEnum> builder)

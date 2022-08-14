@@ -32,9 +32,9 @@ public class FeatureIntegerFluentConfig : IEntityTypeConfiguration<FeatureIntege
 
     private void ConfigureRelations(EntityTypeBuilder<FeatureInteger> builder)
     {
-        builder.HasMany(fe => fe.Features)
+        builder.HasOne(fi => fi.Feature)
             .WithOne(f => f.FeatureInteger)
-            .HasForeignKey(f => f.FeatureIntegerId);
+            .HasForeignKey<FeatureInteger>(fi => fi.FeatureId);
     }
 
     private void ConfigureIndexes(EntityTypeBuilder<FeatureInteger> builder)

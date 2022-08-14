@@ -10,10 +10,11 @@ namespace BazaarOnline.Domain.Entities.Features
 
         public long MaximumValue { get; set; }
 
+        public int FeatureId { get; set; }
 
         #region Relations
 
-        public List<Feature> Features { get; set; }
+        public Feature Feature { get; set; }
 
         #endregion
     }

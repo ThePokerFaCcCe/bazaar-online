@@ -14,9 +14,6 @@ namespace BazaarOnline.Domain.Entities.Features
 
         public bool IsRequired { get; set; }
 
-        public int? FeatureEnumId { get; set; }
-        public int? FeatureIntegerId { get; set; }
-
         #region Relations
 
         public FeatureEnum? FeatureEnum { get; set; }
