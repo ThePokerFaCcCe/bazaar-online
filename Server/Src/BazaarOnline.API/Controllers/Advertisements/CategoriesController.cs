@@ -2,7 +2,7 @@ using BazaarOnline.Application.DTOs.CategoryDTOs;
 using BazaarOnline.Application.Interfaces.Categories;
 using BazaarOnline.Application.Securities.Attributes;
 using BazaarOnline.Application.ViewModels.Categories;
-using BazaarOnline.Domain.Interfaces.Categories;
+using BazaarOnline.Application.ViewModels.Features;
 using BazaarOnline.Infra.Data.Seeds.DefaultDatas;
 using Microsoft.AspNetCore.Mvc;
 
@@ -77,6 +77,28 @@ namespace BazaarOnline.API.Controllers.Advertisements
             return NoContent();
         }
 
+        [HttpPut("{id}/Features")]
+        [HasPermission(DefaultPermissions.UpdateCategoryId)]
+        public ActionResult AddCategoryFeatures(int id, [FromBody] CategoryFeatureAddDTO addDTO)
+        {
+            var category = _categoryService.FindCategory(id);
+            if (category == null) return NotFound();
+
+            if (!ModelState.IsValid) return BadRequest(addDTO);
+
+            _categoryService.UpdateCategoryFeatures(category, addDTO);
+            return Ok();
+        }
+
+        [HttpGet("{id}/Features")]
+        [HasPermission(DefaultPermissions.UpdateCategoryId)]
+        public ActionResult<List<FeatureDetailViewModel>> GetCategoryFeatures(int id)
+        {
+            var category = _categoryService.FindCategory(id);
+            if (category == null) return NotFound();
+
+            return Ok(_categoryService.GetCategoryFeatureDetails(category));
+        }
 
     }
 }

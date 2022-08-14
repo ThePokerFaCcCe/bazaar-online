@@ -1,5 +1,6 @@
 using BazaarOnline.Application.DTOs.CategoryDTOs;
 using BazaarOnline.Application.ViewModels.Categories;
+using BazaarOnline.Application.ViewModels.Features;
 using BazaarOnline.Domain.Entities.Categories;
 
 namespace BazaarOnline.Application.Interfaces.Categories
@@ -30,5 +31,12 @@ namespace BazaarOnline.Application.Interfaces.Categories
         IEnumerable<Category> GetCategoryAndChildrenFlatten(int? parentId = null, bool includeParent = false);
 
         bool IsCategoryExists(int id);
+
+        #region CategoryFeature
+
+        List<FeatureDetailViewModel> GetCategoryFeatureDetails(Category category);
+        void UpdateCategoryFeatures(Category category, CategoryFeatureAddDTO addDTO);
+
+        #endregion
     }
 }

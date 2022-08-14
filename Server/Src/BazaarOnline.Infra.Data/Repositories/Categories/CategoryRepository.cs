@@ -46,5 +46,44 @@ namespace BazaarOnline.Domain.Interfaces.Categories
         {
             _context.Categories.RemoveRange(categories);
         }
+
+        public IQueryable<CategoryFeature> GetCategoryFeatures()
+        {
+            return _context.CategoryFeatures.AsQueryable();
+        }
+
+        public IQueryable<CategoryFeature> GetCategoryFeatures(int[] categoryIds)
+        {
+            return _context.CategoryFeatures
+                .Where(cf => categoryIds.Contains(cf.CategoryId))
+                .AsQueryable();
+        }
+
+        public CategoryFeature AddCategoryFeature(CategoryFeature categoryFeature)
+        {
+            return _context.CategoryFeatures.Add(categoryFeature).Entity;
+        }
+
+        public void AddCategoryFeatureRange(CategoryFeature[] categoryFeatures)
+        {
+            _context.CategoryFeatures.AddRange(categoryFeatures);
+        }
+
+        public void DeleteCategoryFeature(CategoryFeature categoryFeature)
+        {
+            _context.CategoryFeatures.Remove(categoryFeature);
+        }
+
+        public void DeleteCategoryFeatureRange(CategoryFeature[] categoryFeatures)
+        {
+            _context.CategoryFeatures.RemoveRange(categoryFeatures);
+        }
+
+        IQueryable<CategoryFeature> ICategoryRepository.GetCategoryFeatures(int categoryId)
+        {
+            return _context.CategoryFeatures
+                .Where(cf => cf.CategoryId == categoryId)
+                .AsQueryable();
+        }
     }
 }

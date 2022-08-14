@@ -2,7 +2,9 @@ using BazaarOnline.Application.DTOs.CategoryDTOs;
 using BazaarOnline.Application.Interfaces.Categories;
 using BazaarOnline.Application.Utils.Extentions;
 using BazaarOnline.Application.ViewModels.Categories;
+using BazaarOnline.Application.ViewModels.Features;
 using BazaarOnline.Domain.Entities.Categories;
+using BazaarOnline.Domain.Entities.Features;
 using BazaarOnline.Domain.Interfaces.Categories;
 using Microsoft.EntityFrameworkCore;
 
@@ -133,5 +135,70 @@ namespace BazaarOnline.Application.Services.Categories
             return selectedCategories;
         }
 
+        public void UpdateCategoryFeatures(Category category, CategoryFeatureAddDTO addDTO)
+        {
+
+            var oldFeatures = _categoryRepository.GetCategoryFeatures(category.Id).ToList();
+            var oldFeatureIds = oldFeatures.Select(cf => cf.FeatureId);
+
+            var newFeatures = addDTO.Features.Except(oldFeatureIds);
+            var removedFeatures = oldFeatureIds.Except(addDTO.Features);
+
+            _categoryRepository.AddCategoryFeatureRange(
+                newFeatures.Select(f => new CategoryFeature
+                {
+                    CategoryId = category.Id,
+                    FeatureId = f
+                }).ToArray()
+            );
+            _categoryRepository.DeleteCategoryFeatureRange(
+                oldFeatures
+                    .Where(cf => removedFeatures.Contains(cf.FeatureId))
+                    .ToArray()
+            );
+            _categoryRepository.Save();
+        }
+
+        public List<FeatureDetailViewModel> GetCategoryFeatureDetails(Category category)
+        {
+            return _GetFeatureDetails(
+                _categoryRepository.GetCategoryFeatures(category.Id)
+                    .Include(cf => cf.Feature)
+                    .ThenInclude(f => f.FeatureEnum)
+                    .ThenInclude(fe => fe.FeatureEnumValues)
+                    .Include(cf => cf.Feature)
+                    .ThenInclude(cf => cf.FeatureInteger)
+                    .ToArray()
+                );
+
+        }
+
+        private List<FeatureDetailViewModel> _GetFeatureDetails(CategoryFeature[] categoryFeatures)
+        {
+            return categoryFeatures.Select(cf =>
+            {
+                var model = ModelHelper.CreateAndFillFromObject
+                    <FeatureDetailViewModel, Feature>(cf.Feature);
+
+                if (cf.Feature.FeatureEnum != null)
+                {
+                    model.Enum = ModelHelper.CreateAndFillFromObject
+                        <FeatureDetailEnumDetailViewModel, FeatureEnum>(cf.Feature.FeatureEnum);
+
+                    model.Enum.Values = cf.Feature.FeatureEnum.FeatureEnumValues
+                        .Select(fev =>
+                            ModelHelper.CreateAndFillFromObject
+                                <FeatureDetailEnumValueDetailViewModel, FeatureEnumValue>(fev))
+                        .ToList();
+                }
+                if (cf.Feature.FeatureInteger != null)
+                {
+                    model.Integer = ModelHelper.CreateAndFillFromObject
+                        <FeatureDetailIntegerDetailViewModel, FeatureInteger>(cf.Feature.FeatureInteger);
+                }
+
+                return model;
+            }).ToList();
+        }
     }
 }
