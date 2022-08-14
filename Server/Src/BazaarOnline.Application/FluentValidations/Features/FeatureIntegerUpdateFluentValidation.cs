@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace BazaarOnline.Application.FluentValidations.Features
 {
-    public class FeatureUpdateFluentValidation : AbstractValidator<FeatureIntegerUpdateDTO>
+    public class FeatureIntegerUpdateFluentValidation : AbstractValidator<FeatureIntegerUpdateDTO>
     {
-        public FeatureUpdateFluentValidation()
+        public FeatureIntegerUpdateFluentValidation()
         {
             RuleFor(v => v.MaximumValue)
                 .Must((v, max) => max > v.MinimumValue)
