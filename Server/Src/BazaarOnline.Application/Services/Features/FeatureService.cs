@@ -54,6 +54,19 @@ namespace BazaarOnline.Application.Services.Features
             return feature;
         }
 
+        public Feature? FindFeature(int id, bool includeType = false)
+        {
+            if (!includeType)
+                return _featureRepository.FindFeature(id);
+
+            return _featureRepository.GetFeatures()
+                .Where(f => f.Id == id)
+                .Include(f => f.FeatureInteger)
+                .Include(f => f.FeatureEnum)
+                .ThenInclude(fe => fe.FeatureEnumValues)
+                .SingleOrDefault();
+        }
+
         public FeatureDetailViewModel? GetFeatureDetail(int id)
         {
             return _featureRepository.GetFeatures()
@@ -118,6 +131,37 @@ namespace BazaarOnline.Application.Services.Features
                         <FeatureListDetailViewModel, Feature>(f, false))
                     .ToList()
             };
+        }
+
+        public void UpdateFeatureEnum(FeatureEnum featureEnum, FeatureEnumUpdateDTO updateDTO)
+        {
+            updateDTO.TrimStrings();
+            featureEnum.Name = updateDTO.Name;
+
+            if (updateDTO.FeatureEnumValues != null)
+            {
+                _featureRepository.DeleteFeatureEnumValueRange(featureEnum.Id);
+                _featureRepository.AddFeatureEnumValueRange(
+                    updateDTO.FeatureEnumValues
+                    .Select(fev => new FeatureEnumValue
+                    {
+                        FeatureEnumId = featureEnum.Id,
+                        Value = fev.Value,
+                    }
+                ).ToArray());
+            }
+
+            _featureRepository.UpdateFeatureEnum(featureEnum);
+            _featureRepository.Save();
+        }
+
+        public void UpdateFeatureInteger(FeatureInteger featureInteger, FeatureIntegerUpdateDTO updateDTO)
+        {
+            updateDTO.TrimStrings();
+            featureInteger.FillFromObject(updateDTO);
+
+            _featureRepository.UpdateFeatureInteger(featureInteger);
+            _featureRepository.Save();
         }
     }
 }

@@ -23,8 +23,6 @@ namespace BazaarOnline.Application.ViewModels.Features
 
     public class FeatureDetailEnumDetailViewModel
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
 
         public List<FeatureDetailEnumValueDetailViewModel> Values { get; set; }
@@ -39,8 +37,6 @@ namespace BazaarOnline.Application.ViewModels.Features
 
     public class FeatureDetailIntegerDetailViewModel
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
 
         public long MinimumValue { get; set; }

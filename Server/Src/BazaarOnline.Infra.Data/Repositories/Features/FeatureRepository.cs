@@ -28,6 +28,11 @@ namespace BazaarOnline.Infra.Data.Repositories.Features
             return _context.FeatureEnumValues.Add(featureEnumValue).Entity;
         }
 
+        public void AddFeatureEnumValueRange(FeatureEnumValue[] featureEnumValues)
+        {
+            _context.FeatureEnumValues.AddRange(featureEnumValues);
+        }
+
         public FeatureInteger AddFeatureInteger(FeatureInteger featureInteger)
         {
             return _context.FeatureIntegers.Add(featureInteger).Entity;
@@ -46,6 +51,14 @@ namespace BazaarOnline.Infra.Data.Repositories.Features
         public void DeleteFeatureEnumValue(FeatureEnumValue featureEnumValue)
         {
             _context.FeatureEnumValues.Remove(featureEnumValue);
+        }
+
+        public void DeleteFeatureEnumValueRange(int featureEnumId)
+        {
+            _context.FeatureEnumValues.RemoveRange(
+                _context.FeatureEnumValues
+                    .Where(fev => fev.FeatureEnumId == featureEnumId)
+            );
         }
 
         public void DeleteFeatureInteger(FeatureInteger featureInteger)

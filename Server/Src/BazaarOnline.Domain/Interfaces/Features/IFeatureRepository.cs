@@ -26,8 +26,10 @@ namespace BazaarOnline.Domain.Interfaces.Features
         IQueryable<FeatureEnumValue> GetFeatureEnumValues();
         FeatureEnumValue? FindFeatureEnumValue(int id);
         FeatureEnumValue AddFeatureEnumValue(FeatureEnumValue featureEnumValue);
+        void AddFeatureEnumValueRange(FeatureEnumValue[] featureEnumValues);
         void UpdateFeatureEnumValue(FeatureEnumValue featureEnumValue);
         void DeleteFeatureEnumValue(FeatureEnumValue featureEnumValue);
+        void DeleteFeatureEnumValueRange(int featureEnumId);
         #endregion
 
         #region FeatureInteger

@@ -12,6 +12,11 @@ namespace BazaarOnline.Application.Interfaces.Features
 
         FeatureDetailViewModel? GetFeatureDetail(int id);
 
+        Feature? FindFeature(int id, bool includeType = false);
+
         Feature CreateFeature(FeatureCreateDTO createDTO);
+
+        void UpdateFeatureEnum(FeatureEnum featureEnum, FeatureEnumUpdateDTO updateDTO);
+        void UpdateFeatureInteger(FeatureInteger featureInteger, FeatureIntegerUpdateDTO updateDTO);
     }
 }
