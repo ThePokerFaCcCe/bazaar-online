@@ -15,7 +15,7 @@ const UserCard = ({
   createDate,
   status,
 }: UserCardProps): JSX.Element => (
-  <Card sx={{ width: 250, textAlign: "center" }} className="border">
+  <Card sx={{ width: 250, textAlign: "center" }} className="border userCard">
     <CardContent>
       <ul
         className="list-group list-group-flush nopadding"

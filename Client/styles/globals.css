@@ -138,3 +138,13 @@ a {
 .leaflet-control-attribution {
   display: none !important;
 }
+
+.userCard {
+  transition: transform 0.6s;
+  cursor: pointer;
+  border-radius: 20px;
+}
+
+.userCard:hover {
+  transform: scale(1.1);
+}

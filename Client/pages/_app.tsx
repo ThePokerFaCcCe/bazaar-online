@@ -15,12 +15,12 @@ import "primeicons/primeicons.css";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/globals.css";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps, posts }: AppProps) {
   useEffect(() => {
     store.dispatch(apiCallBegan());
     store.dispatch(statesApiCallBegan());
   }, []);
-
+  console.log("posts", posts);
   return (
     <>
       <Provider store={store}>
@@ -33,10 +33,5 @@ function MyApp({ Component, pageProps }: AppProps) {
     </>
   );
 }
-
-// MyApp.getInitialProps = async () => {
-//   store.dispatch(apiCallBegan());
-//   return {};
-// };
 
 export default MyApp;

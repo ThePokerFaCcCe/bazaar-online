@@ -1,7 +1,7 @@
 import { Box, Button } from "@mui/material";
 import { useState } from "react";
-import Category from "../components/common/Advertisement/category";
-import Card from "../components/common/Advertisement/card";
+import Card from "../../components/common/Advertisement/card";
+import Category from "../../components/common/Advertisement/category";
 import { Sidebar } from "primereact/sidebar";
 import CloseIcon from "@mui/icons-material/Close";
 
