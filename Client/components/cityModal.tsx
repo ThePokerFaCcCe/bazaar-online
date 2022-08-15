@@ -20,24 +20,22 @@ const CityModal = (): JSX.Element => {
   return (
     <>
       <CssBaseline />
-      <RTL>
-        <Modal
-          className="city__modal"
-          visible={cityModalVisible}
-          closable={false}
-          onOk={() => console.log("Done")}
-          onCancel={() => dispatch(cityModalToggle())}
-          okText="انتخاب"
-          cancelText="انصراف"
-          centered
-        >
-          {stateSelected ? (
-            <SelectCity onSelectState={setStateSelected} />
-          ) : (
-            <SelectState onSelectState={setStateSelected} />
-          )}
-        </Modal>
-      </RTL>
+      <Modal
+        className="city__modal"
+        visible={cityModalVisible}
+        closable={false}
+        onOk={() => console.log("Done")}
+        onCancel={() => dispatch(cityModalToggle())}
+        okText="انتخاب"
+        cancelText="انصراف"
+        centered
+      >
+        {stateSelected ? (
+          <SelectCity onSelectState={setStateSelected} />
+        ) : (
+          <SelectState onSelectState={setStateSelected} />
+        )}
+      </Modal>
     </>
   );
 };

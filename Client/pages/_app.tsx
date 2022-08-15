@@ -14,21 +14,24 @@ import "primereact/resources/primereact.min.css"; //core css
 import "primeicons/primeicons.css";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/globals.css";
+import RTL from "../services/rtl";
 
-function MyApp({ Component, pageProps, posts }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     store.dispatch(apiCallBegan());
     store.dispatch(statesApiCallBegan());
   }, []);
-  console.log("posts", posts);
+
   return (
     <>
       <Provider store={store}>
-        <Container className="mui__container" maxWidth="xl">
-          <ToastContainer rtl />
-          <NavBar />
-          <Component {...pageProps} />
-        </Container>
+        <RTL>
+          <Container className="mui__container" maxWidth="xl">
+            <ToastContainer rtl />
+            <NavBar />
+            <Component {...pageProps} />
+          </Container>
+        </RTL>
       </Provider>
     </>
   );

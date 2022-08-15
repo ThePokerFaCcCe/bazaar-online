@@ -10,15 +10,16 @@ import {
   MarkunreadSharp,
 } from "@mui/icons-material";
 import RTL from "../../services/rtl";
-import ManageUsers from "../../components/common/AdminPanel/manageUsers";
+import ManageUsers from "../../components/AdminPanel/manageUsers";
 import { useRouter } from "next/router";
 import styles from "../../styles/Dashboard.module.css";
 import { GetServerSideProps } from "next";
 import axios from "axios";
-import ManageRoles from "../../components/common/AdminPanel/manageRoles";
-import ManageAds from "../../components/common/AdminPanel/mangeAds";
-import ManageCategories from "../../components/common/AdminPanel/manageCategories";
-import ManageFields from "../../components/common/AdminPanel/manageFields";
+import ManageRoles from "../../components/AdminPanel/manageRoles";
+import ManageAds from "../../components/AdminPanel/mangeAds";
+import ManageCategories from "../../components/AdminPanel/manageCategories";
+import ManageFields from "../../components/AdminPanel/manageFields";
+import Head from "next/head";
 const { Option } = Select;
 const { Search } = Input;
 
@@ -101,45 +102,43 @@ const App = (): JSX.Element => {
 
   return (
     <>
-      <RTL>
-        <div className="row">
-          <div className="col-sm-9">
-            <Box sx={{ p: 2 }}>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <Search
-                    placeholder="جستجوی کاربر"
-                    style={{ width: "100%" }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Select
-                    placeholder="مرتب سازی بر اساس"
-                    style={{ width: "100%" }}
-                    onChange={handleChange}
-                  >
-                    <Option value="oldest">قدیمی ترین</Option>
-                    <Option value="newest">جدید ترین</Option>
-                  </Select>
-                </Grid>
+      <Head>
+        <title>بازار آنلاین | پنل مدیریت</title>
+      </Head>
+      <div className="row">
+        <div className="col-sm-9">
+          <Box sx={{ p: 2 }}>
+            {/* <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <Search placeholder="جستجوی کاربر" style={{ width: "100%" }} />
               </Grid>
-              <Box className={styles.users__holder}>{categoryToShow}</Box>
-            </Box>
-          </div>
-          <div className="col-sm-3">
-            <Box className="border">
-              <Menu
-                theme="light"
-                onClick={onClick}
-                selectedKeys={[current]}
-                style={{ width: "100%" }}
-                mode="inline"
-                items={items}
-              />
-            </Box>
-          </div>
+              <Grid item xs={12} sm={6}>
+                <Select
+                  placeholder="مرتب سازی بر اساس"
+                  style={{ width: "100%" }}
+                  onChange={handleChange}
+                >
+                  <Option value="oldest">قدیمی ترین</Option>
+                  <Option value="newest">جدید ترین</Option>
+                </Select>
+              </Grid>
+            </Grid> */}
+            <Box className={styles.users__holder}>{categoryToShow}</Box>
+          </Box>
         </div>
-      </RTL>
+        <div className="col-sm-3">
+          <Box className="border">
+            <Menu
+              theme="light"
+              onClick={onClick}
+              selectedKeys={[current]}
+              style={{ width: "100%" }}
+              mode="inline"
+              items={items}
+            />
+          </Box>
+        </div>
+      </div>
     </>
   );
 };

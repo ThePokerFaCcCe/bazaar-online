@@ -23,25 +23,21 @@ const NavBar = (): JSX.Element => {
       <DesktopNavBar />
       <MobileNavBar />
       {/* Modals */}
-      <RTL>
-        <>
-          <CityModal />
-          <Modal
-            visible={signModalVisible}
-            onCancel={() => dispatch(signModalToggle())}
-            footer={null}
-          >
-            <Tabs defaultActiveKey="1">
-              <TabPane tab="ثبت نام" key="1">
-                <Register />
-              </TabPane>
-              <TabPane tab="ورود" key="2">
-                <Login />
-              </TabPane>
-            </Tabs>
-          </Modal>
-        </>
-      </RTL>
+      <CityModal />
+      <Modal
+        visible={signModalVisible}
+        onCancel={() => dispatch(signModalToggle())}
+        footer={null}
+      >
+        <Tabs defaultActiveKey="1">
+          <TabPane tab="ثبت نام" key="1">
+            <Register />
+          </TabPane>
+          <TabPane tab="ورود" key="2">
+            <Login />
+          </TabPane>
+        </Tabs>
+      </Modal>
     </>
   );
 };
