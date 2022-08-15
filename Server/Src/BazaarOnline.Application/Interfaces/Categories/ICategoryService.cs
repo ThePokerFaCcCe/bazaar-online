@@ -35,6 +35,7 @@ namespace BazaarOnline.Application.Interfaces.Categories
         #region CategoryFeature
 
         List<FeatureDetailViewModel> GetCategoryFeatureDetails(Category category);
+        List<FeatureDetailViewModel> GetCategoryFeatureDetailsHierarchy(Category category);
         void UpdateCategoryFeatures(Category category, CategoryFeatureAddDTO addDTO);
 
         #endregion

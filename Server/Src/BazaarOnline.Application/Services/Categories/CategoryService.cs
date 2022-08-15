@@ -161,44 +161,62 @@ namespace BazaarOnline.Application.Services.Categories
 
         public List<FeatureDetailViewModel> GetCategoryFeatureDetails(Category category)
         {
-            return _GetFeatureDetails(
-                _categoryRepository.GetCategoryFeatures(category.Id)
-                    .Include(cf => cf.Feature)
-                    .ThenInclude(f => f.FeatureEnum)
-                    .ThenInclude(fe => fe.FeatureEnumValues)
-                    .Include(cf => cf.Feature)
-                    .ThenInclude(cf => cf.FeatureInteger)
-                    .ToArray()
-                );
-
+            return _GetFeatureDetails(_categoryRepository.GetCategoryFeatures(category.Id));
         }
 
-        private List<FeatureDetailViewModel> _GetFeatureDetails(CategoryFeature[] categoryFeatures)
+        private List<FeatureDetailViewModel> _GetFeatureDetails(IQueryable<CategoryFeature> categoryFeatures)
         {
-            return categoryFeatures.Select(cf =>
+            return categoryFeatures
+                .Include(cf => cf.Feature)
+                .ThenInclude(f => f.FeatureEnum)
+                .ThenInclude(fe => fe.FeatureEnumValues)
+                .Include(cf => cf.Feature)
+                .ThenInclude(cf => cf.FeatureInteger)
+                .AsEnumerable()
+                .Select(cf =>
+                {
+                    var model = ModelHelper.CreateAndFillFromObject
+                        <FeatureDetailViewModel, Feature>(cf.Feature);
+
+                    if (cf.Feature.FeatureEnum != null)
+                    {
+                        model.Enum = ModelHelper.CreateAndFillFromObject
+                            <FeatureDetailEnumDetailViewModel, FeatureEnum>(cf.Feature.FeatureEnum);
+
+                        model.Enum.Values = cf.Feature.FeatureEnum.FeatureEnumValues
+                            .Select(fev =>
+                                ModelHelper.CreateAndFillFromObject
+                                    <FeatureDetailEnumValueDetailViewModel, FeatureEnumValue>(fev))
+                            .ToList();
+                    }
+                    if (cf.Feature.FeatureInteger != null)
+                    {
+                        model.Integer = ModelHelper.CreateAndFillFromObject
+                            <FeatureDetailIntegerDetailViewModel, FeatureInteger>(cf.Feature.FeatureInteger);
+                    }
+
+                    return model;
+                }).ToList();
+        }
+
+        public List<FeatureDetailViewModel> GetCategoryFeatureDetailsHierarchy(Category category)
+        {
+            var allCategories = _categoryRepository.GetCategories().AsEnumerable();
+
+
+            var ccategory = allCategories.Single(c => c.Id == category.Id);
+            var hierarchy = new List<int> { ccategory.Id };
+
+            while (ccategory.ParentId != null)
             {
-                var model = ModelHelper.CreateAndFillFromObject
-                    <FeatureDetailViewModel, Feature>(cf.Feature);
+                ccategory = allCategories.Single(c => c.Id == ccategory.ParentId);
+                hierarchy.Add(ccategory.Id);
+            }
 
-                if (cf.Feature.FeatureEnum != null)
-                {
-                    model.Enum = ModelHelper.CreateAndFillFromObject
-                        <FeatureDetailEnumDetailViewModel, FeatureEnum>(cf.Feature.FeatureEnum);
+            return _GetFeatureDetails(
+                _categoryRepository.GetCategoryFeatures(hierarchy.ToArray())
+            );
 
-                    model.Enum.Values = cf.Feature.FeatureEnum.FeatureEnumValues
-                        .Select(fev =>
-                            ModelHelper.CreateAndFillFromObject
-                                <FeatureDetailEnumValueDetailViewModel, FeatureEnumValue>(fev))
-                        .ToList();
-                }
-                if (cf.Feature.FeatureInteger != null)
-                {
-                    model.Integer = ModelHelper.CreateAndFillFromObject
-                        <FeatureDetailIntegerDetailViewModel, FeatureInteger>(cf.Feature.FeatureInteger);
-                }
-
-                return model;
-            }).ToList();
         }
     }
 }
