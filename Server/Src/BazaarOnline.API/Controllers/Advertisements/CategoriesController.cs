@@ -91,13 +91,21 @@ namespace BazaarOnline.API.Controllers.Advertisements
         }
 
         [HttpGet("{id}/Features")]
-        [HasPermission(DefaultPermissions.UpdateCategoryId)]
         public ActionResult<List<FeatureDetailViewModel>> GetCategoryFeatures(int id)
         {
             var category = _categoryService.FindCategory(id);
             if (category == null) return NotFound();
 
             return Ok(_categoryService.GetCategoryFeatureDetails(category));
+        }
+
+        [HttpGet("{id}/Features/Hierarchy")]
+        public ActionResult<List<FeatureDetailViewModel>> GetCategoryFeaturesHierarchy(int id)
+        {
+            var category = _categoryService.FindCategory(id);
+            if (category == null) return NotFound();
+
+            return Ok(_categoryService.GetCategoryFeatureDetailsHierarchy(category));
         }
 
     }
