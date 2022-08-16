@@ -7,7 +7,7 @@ using BazaarOnline.Application.Utils.Extentions;
 using BazaarOnline.Application.ViewModels.Users.UserViewModels;
 using BazaarOnline.Domain.Entities.Permissions;
 using BazaarOnline.Domain.Entities.Users;
-using BazaarOnline.Domain.Interfaces.Users;
+using BazaarOnline.Domain.Interfaces;
 using BazaarOnline.Infra.Data.Seeds.DefaultDatas;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,18 +23,18 @@ namespace BazaarOnline.Application.Services.Users
             nameof(User.IsActive),
         };
 
-        private readonly IUserRepository _userRepository;
+        private readonly IRepositories _repositories;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IRepositories repositories)
         {
-            _userRepository = userRepository;
+            _repositories = repositories;
         }
 
         public void ActivateUser(User user)
         {
             user.IsActive = true;
-            _userRepository.UpdateUser(user);
-            _userRepository.Save();
+            _repositories.Users.Update(user);
+            _repositories.Users.Save();
         }
 
         public bool ComparePassword(User user, string password)
@@ -44,7 +44,7 @@ namespace BazaarOnline.Application.Services.Users
 
         public bool ComparePassword(string email, string password)
         {
-            var foundPassword = _userRepository.GetUsers()
+            var foundPassword = _repositories.Users.GetAll()
                 .Where(u => u.Email == email.ToLower())
                 .Select(u => u.Password).SingleOrDefault();
 
@@ -64,8 +64,8 @@ namespace BazaarOnline.Application.Services.Users
             user.FillFromObject(createDTO);
             user.UserRoles = new List<UserRole>();
             user.UserRoles.AddRange(createDTO.Roles.Distinct().Select(r => new UserRole { RoleId = r }));
-            _userRepository.AddUser(user);
-            _userRepository.Save();
+            _repositories.Users.Add(user);
+            _repositories.Users.Save();
 
             return user;
         }
@@ -81,22 +81,22 @@ namespace BazaarOnline.Application.Services.Users
             user.UserRoles = new List<UserRole>();
             user.UserRoles.Add(new UserRole { RoleId = DefaultRoles.NormalUser.Id });
 
-            _userRepository.AddUser(user);
-            _userRepository.Save();
+            _repositories.Users.Add(user);
+            _repositories.Users.Save();
 
             return user;
         }
 
         public User? FindUser(string email)
         {
-            return _userRepository.GetUsers()
+            return _repositories.Users.GetAll()
                 .SingleOrDefault(u => u.Email == email.ToLower().Trim());
         }
 
         public PaginationResultDTO<UserListDetailViewModel> GetUserListDetails(
             UserFilterDTO filter, PaginationFilterDTO pagination)
         {
-            var users = _userRepository.GetUsers().IgnoreQueryFilters();
+            var users = _repositories.Users.GetAll().IgnoreQueryFilters();
             var count = users.Count();
 
             #region Filters
@@ -141,26 +141,27 @@ namespace BazaarOnline.Application.Services.Users
 
         public bool IsEmailExists(string email)
         {
-            return _userRepository.GetUsers()
+            return _repositories.Users.GetAll()
                 .Any(u => u.Email == email.ToLower());
         }
 
         public bool IsInactiveUserExists(string email)
         {
-            return _userRepository.GetUsers()
+            return _repositories.Users.GetAll()
                 .Any(u => (!u.IsActive && u.Email == email.ToLower()));
         }
 
         public bool IsPhoneNumberExists(string phone)
         {
-            return _userRepository.GetUsers()
+            return _repositories.Users.GetAll()
                 .Any(u => u.PhoneNumber == phone);
         }
 
         public void SoftDeleteUser(User user)
         {
-            _userRepository.SoftDeleteUser(user);
-            _userRepository.Save();
+            user.IsDeleted = true;
+            _repositories.Users.Update(user);
+            _repositories.Users.Save();
         }
 
         public void UpdateUser(User user, UserUpdateDTO updateDTO)
@@ -171,18 +172,18 @@ namespace BazaarOnline.Application.Services.Users
             updateDTO.TrimStrings();
             user.FillFromObject(updateDTO, ignoreNulls: true);
 
-            _userRepository.UpdateUser(user);
-            _userRepository.Save();
+            _repositories.Users.Update(user);
+            _repositories.Users.Save();
         }
 
         public User? FindUser(int id)
         {
-            return _userRepository.FindUser(id);
+            return _repositories.Users.Get(id);
         }
 
         public UserDetailViewModel? GetUserDetail(int id)
         {
-            var user = _userRepository.GetUsers()
+            var user = _repositories.Users.GetAll()
                 .Include(u => u.UserRoles)
                 .ThenInclude(ur => ur.Role)
                 .SingleOrDefault(u => u.Id == id);
@@ -192,7 +193,7 @@ namespace BazaarOnline.Application.Services.Users
 
         public UserDetailViewModel? GetUserDetail(string email)
         {
-            var user = _userRepository.GetUsers()
+            var user = _repositories.Users.GetAll()
                 .Include(u => u.UserRoles)
                 .ThenInclude(ur => ur.Role)
                 .SingleOrDefault(u => u.Email == email.ToLower().Trim());
@@ -216,16 +217,23 @@ namespace BazaarOnline.Application.Services.Users
 
         public void UpdateUserRoles(User user, UserUpdateRoleDTO updateRoleDTO)
         {
-            var roles = updateRoleDTO.Roles;
-            var oldRoles = _userRepository.GetUserRoles(user)
-                .Select(ur => ur.RoleId).ToList();
+            var userRoles = _repositories.UserRoles.GetAll()
+                .Where(ur => ur.UserId == user.Id);
 
-            var removedRoles = oldRoles.Except(roles).ToList();
-            var newRoles = roles.Except(oldRoles).ToList();
 
-            _userRepository.AddUserRoleRange(newRoles, user);
-            _userRepository.DeleteUserRoleRange(removedRoles, user);
-            _userRepository.Save();
+            var newRoles = updateRoleDTO.Roles
+                .Except(userRoles.Select(ur => ur.RoleId))
+                .Select(r => new UserRole
+                {
+                    RoleId = r,
+                    UserId = user.Id,
+                });
+            var removedRoles = userRoles
+                .Where(ur => !updateRoleDTO.Roles.Contains(ur.RoleId));
+
+            _repositories.UserRoles.AddRange(newRoles);
+            _repositories.UserRoles.RemoveRange(removedRoles);
+            _repositories.UserRoles.Save();
         }
 
     }

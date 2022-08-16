@@ -1,11 +1,9 @@
 using BazaarOnline.Application.DTOs.Permissions.RoleDTOs;
-using BazaarOnline.Application.DTOs.Users.UserDTOs;
 using BazaarOnline.Application.Interfaces.Permissions;
 using BazaarOnline.Application.ViewModels.PermissionViewModels;
 using BazaarOnline.Application.ViewModels.RoleViewModels;
 using BazaarOnline.Domain.Entities.Permissions;
-using BazaarOnline.Domain.Entities.Users;
-using BazaarOnline.Domain.Interfaces.Permissions;
+using BazaarOnline.Domain.Interfaces;
 using BazaarOnline.Infra.Data.Seeds.DefaultDatas;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,11 +11,11 @@ namespace BazaarOnline.Application.Services.Permissions
 {
     public class RoleService : IRoleService
     {
-        private readonly IRoleRepository _roleRepository;
+        private readonly IRepositories _repositories;
 
-        public RoleService(IRoleRepository roleRepository)
+        public RoleService(IRepositories repositories)
         {
-            _roleRepository = roleRepository;
+            _repositories = repositories;
         }
 
         public int CreateRole(RoleCreateDTO roleModel)
@@ -31,32 +29,32 @@ namespace BazaarOnline.Application.Services.Permissions
             ));
 
 
-            var role = _roleRepository.AddRole(new Role
+            var role = _repositories.Roles.Add(new Role
             {
                 Title = roleModel.Title,
                 RolePermissions = rolePermissions,
             });
 
-            _roleRepository.Save();
+            _repositories.Roles.Save();
             return role.Id;
         }
 
         public void DeleteRole(Role role)
         {
-            _roleRepository.DeleteRole(role);
-            _roleRepository.Save();
+            _repositories.Roles.Remove(role);
+            _repositories.Roles.Save();
         }
 
         public Role? FindRole(int id)
         {
-            return _roleRepository.GetRoles()
+            return _repositories.Roles.GetAll()
                 .Include(r => r.RolePermissions)
                 .SingleOrDefault(r => r.Id == id);
         }
 
         public RoleDetailViewModel? GetRoleDetail(int id)
         {
-            return _roleRepository.GetRoles()
+            return _repositories.Roles.GetAll()
                 .Include(r => r.RolePermissions)
                 .ThenInclude(rp => rp.Permission)
                 .Where(r => r.Id == id)
@@ -77,12 +75,12 @@ namespace BazaarOnline.Application.Services.Permissions
 
         public List<int> GetRoleIds()
         {
-            return _roleRepository.GetRoles().Select(r => r.Id).ToList();
+            return _repositories.Roles.GetAll().Select(r => r.Id).ToList();
         }
 
         public List<RoleDetailListViewModel> GetRoles()
         {
-            return _roleRepository.GetRoles()
+            return _repositories.Roles.GetAll()
                 .Select(r => new RoleDetailListViewModel
                 {
                     Id = r.Id,
@@ -92,7 +90,7 @@ namespace BazaarOnline.Application.Services.Permissions
 
         public bool IsRoleExists(string title)
         {
-            return _roleRepository.GetRoles()
+            return _repositories.Roles.GetAll()
                 .Any(r => r.Title.ToLower() == title.Trim().ToLower());
         }
 
@@ -104,22 +102,26 @@ namespace BazaarOnline.Application.Services.Permissions
 
         public void UpdateRole(Role role, RoleUpdateDTO updateDTO)
         {
-            if (!role.RolePermissions.Any())
-            {
-                role.RolePermissions = _roleRepository.GetRolePermissions(role.Id).ToList();
-            }
+            var rolePermissions = _repositories.RolePermissions
+                .GetAll()
+                .Where(rp => rp.RoleId == role.Id);
 
-            var oldPerms = role.RolePermissions.Select(rp => rp.PermissionId).ToList();
+            var newPerms = updateDTO.Permissions
+                .Except(rolePermissions.Select(rp => rp.PermissionId))
+                .Select(p => new RolePermission
+                {
+                    RoleId = role.Id,
+                    PermissionId = p,
+                });
+            var removedPerms = rolePermissions
+                .Where(rp => !updateDTO.Permissions.Contains(rp.PermissionId));
 
-            var newPerms = updateDTO.Permissions.Except(oldPerms).ToList();
-            var removedPerms = oldPerms.Except(updateDTO.Permissions).ToList();
-
-            _roleRepository.AddRolePermissionRange(newPerms, role.Id);
-            _roleRepository.DeleteRolePermissionRange(removedPerms, role.Id);
+            _repositories.RolePermissions.AddRange(newPerms);
+            _repositories.RolePermissions.RemoveRange(removedPerms);
 
             role.Title = updateDTO.Title.Trim();
-            _roleRepository.UpdateRole(role);
-            _roleRepository.Save();
+            _repositories.Roles.Update(role);
+            _repositories.Roles.Save();
         }
     }
 }

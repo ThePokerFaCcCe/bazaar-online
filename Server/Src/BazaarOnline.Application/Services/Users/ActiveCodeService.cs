@@ -1,46 +1,46 @@
 using BazaarOnline.Application.Generators;
 using BazaarOnline.Application.Interfaces.Users;
 using BazaarOnline.Domain.Entities.Users;
-using BazaarOnline.Domain.Interfaces.Users;
+using BazaarOnline.Domain.Interfaces;
 
 namespace BazaarOnline.Application.Services.Users
 {
     public class ActiveCodeService : IActiveCodeService
     {
-        private IActiveCodeRepository _activeCodeRepository;
+        private readonly IRepositories _repositories;
 
-        public ActiveCodeService(IActiveCodeRepository activeCodeRepository)
+        public ActiveCodeService(IRepositories repositories)
         {
-            _activeCodeRepository = activeCodeRepository;
+            _repositories = repositories;
         }
 
         public ActiveCode CreateActiveCode(string email)
         {
-            var activeCode = _activeCodeRepository.AddActiveCode(new ActiveCode
+            var activeCode = _repositories.ActiveCodes.Add(new ActiveCode
             {
                 Email = email.ToLower(),
                 Code = StringGenerator.GenerateActiveCode(),
                 ExpireDate = DateTime.Now.AddMinutes(1)
             });
 
-            _activeCodeRepository.Save();
+            _repositories.ActiveCodes.Save();
             return activeCode;
         }
 
         public ActiveCode? GetActiveCode(string email, string code)
         {
-            return _activeCodeRepository.GetActiveCodes()
+            return _repositories.ActiveCodes.GetAll()
                 .SingleOrDefault(c => c.Email == email.ToLower() && c.Code == code);
         }
 
         public bool IsActiveCodeExists(string email)
         {
-            return _activeCodeRepository.GetActiveCodes()
+            return _repositories.ActiveCodes.GetAll()
                 .Any(c => c.Email == email.ToLower());
         }
         public bool IsActiveCodeExists(string email, string code)
         {
-            return _activeCodeRepository.GetActiveCodes()
+            return _repositories.ActiveCodes.GetAll()
                 .Any(c => c.Email == email.ToLower() && c.Code == code);
         }
     }

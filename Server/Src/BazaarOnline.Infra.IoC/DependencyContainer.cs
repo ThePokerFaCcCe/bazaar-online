@@ -12,17 +12,8 @@ using BazaarOnline.Application.Services.Locations;
 using BazaarOnline.Application.Services.Permissions;
 using BazaarOnline.Application.Services.Senders;
 using BazaarOnline.Application.Services.Users;
-using BazaarOnline.Domain.Interfaces.Advertiesements;
-using BazaarOnline.Domain.Interfaces.Categories;
-using BazaarOnline.Domain.Interfaces.Features;
-using BazaarOnline.Domain.Interfaces.Locations;
-using BazaarOnline.Domain.Interfaces.Permissions;
-using BazaarOnline.Domain.Interfaces.Users;
-using BazaarOnline.Infra.Data.Repositories.Advertiesements;
-using BazaarOnline.Infra.Data.Repositories.Features;
-using BazaarOnline.Infra.Data.Repositories.Locations;
-using BazaarOnline.Infra.Data.Repositories.Permissions;
-using BazaarOnline.Infra.Data.Repositories.Users;
+using BazaarOnline.Domain.Interfaces;
+using BazaarOnline.Infra.Data.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BazaarOnline.Infra.IoC
@@ -68,33 +59,8 @@ namespace BazaarOnline.Infra.IoC
             #endregion
 
             #region Repositories
-
-            #region Users
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IActiveCodeRepository, ActiveCodeRepository>();
-            #endregion
-
-            #region Permission
-            services.AddScoped<IPermissionRepository, PermissionRepository>();
-            services.AddScoped<IRoleRepository, RoleRepository>();
-            #endregion
-
-            #region Categories
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
-            #endregion
-
-            #region Locations
-            services.AddScoped<ILocationRepository, LocationRepository>();
-            #endregion
-
-            #region Features
-            services.AddScoped<IFeatureRepository, FeatureRepository>();
-            #endregion
-
-            #region Advertiesements
-            services.AddScoped<IAdvertiesementRepository, AdvertiesementRepository>();
-            #endregion
-
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IRepositories, Repositories>();
             #endregion
         }
     }

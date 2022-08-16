@@ -5,35 +5,36 @@ using BazaarOnline.Application.Securities;
 using BazaarOnline.Application.Utils.Extentions;
 using BazaarOnline.Application.ViewModels.Users.UserDashboardViewModels;
 using BazaarOnline.Domain.Entities.Users;
-using BazaarOnline.Domain.Interfaces.Users;
+using BazaarOnline.Domain.Interfaces;
 
 namespace BazaarOnline.Application.Services.Users
 {
     public class UserDashboardService : IUserDashboardService
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IRepositories _repositories;
 
-        public UserDashboardService(IUserRepository userRepository)
+        public UserDashboardService(IRepositories repositories)
         {
-            this._userRepository = userRepository;
+            _repositories = repositories;
         }
+
         public User? GetAuthorizedUser(ClaimsPrincipal User)
         {
             if (int.TryParse(User.Identity.Name, out int userId))
-                return _userRepository.FindUser(userId);
+                return _repositories.Users.Get(userId);
             return null;
 
         }
 
         public bool IsPhoneNumberExists(string phone)
         {
-            return _userRepository.GetUsers()
+            return _repositories.Users.GetAll()
                 .Any(u => u.PhoneNumber == phone);
         }
 
         public UserDashboardDetailViewModel? GetUserDashboardDetail(int userId)
         {
-            var user = _userRepository.FindUser(userId);
+            var user = _repositories.Users.Get(userId);
             if (user == null) return null;
 
             var result = new UserDashboardDetailViewModel();
@@ -48,8 +49,8 @@ namespace BazaarOnline.Application.Services.Users
             updateDTO.TrimStrings();
             user.FillFromObject(updateDTO, ignoreNulls: true);
 
-            _userRepository.UpdateUser(user);
-            _userRepository.Save();
+            _repositories.Users.Update(user);
+            _repositories.Users.Save();
         }
     }
 }

@@ -1,22 +1,17 @@
 using BazaarOnline.Application.Interfaces.Permissions;
 using BazaarOnline.Application.ViewModels.PermissionViewModels;
-using BazaarOnline.Domain.Interfaces.Permissions;
+using BazaarOnline.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace BazaarOnline.Application.Services.Permissions
 {
     public class PermissionService : IPermissionService
     {
-        private readonly IPermissionRepository _permissionRepository;
-
-        public PermissionService(IPermissionRepository permissionRepository)
-        {
-            _permissionRepository = permissionRepository;
-        }
+        private readonly IRepositories _repositories;
 
         public List<PermissionGroupDetailViewModel> GetPermissionGroups()
         {
-            return _permissionRepository.GetPermissionGroups()
+            return _repositories.PermissionGroups.GetAll()
                 .Include(pg => pg.Permissions)
                 .Select(pg => new PermissionGroupDetailViewModel
                 {
@@ -32,14 +27,19 @@ namespace BazaarOnline.Application.Services.Permissions
 
         public List<int> GetPermissionIds()
         {
-            return _permissionRepository.GetPermissions()
+            return _repositories.Permissions.GetAll()
                 .Select(p => p.Id)
                 .ToList();
         }
 
         public bool HasUserPermission(int userId, int permissionId)
         {
-            return _permissionRepository.HasUserPermission(userId, permissionId);
+            var roles = _repositories.UserRoles.GetAll()
+                .Where(ur => ur.UserId == userId)
+                .Select(ur => ur.RoleId);
+
+            return _repositories.RolePermissions.GetAll()
+                .Any(rp => roles.Contains(rp.RoleId) && rp.PermissionId == permissionId);
         }
     }
 }

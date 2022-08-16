@@ -3,22 +3,22 @@ using BazaarOnline.Application.Interfaces.Locations;
 using BazaarOnline.Application.Utils.Extentions;
 using BazaarOnline.Application.ViewModels.Locations;
 using BazaarOnline.Domain.Entities.Locations;
-using BazaarOnline.Domain.Interfaces.Locations;
+using BazaarOnline.Domain.Interfaces;
 
 namespace BazaarOnline.Application.Services.Locations
 {
     public class LocationService : ILocationService
     {
-        private readonly ILocationRepository _locationRepository;
+        private readonly IRepositories _repositories;
 
-        public LocationService(ILocationRepository locationRepository)
+        public LocationService(IRepositories repositories)
         {
-            _locationRepository = locationRepository;
+            _repositories = repositories;
         }
 
         public List<CityListDetailViewModel> GetCitiesListDetail(CityFilterDTO filterDTO)
         {
-            var cities = _locationRepository.GetCities();
+            var cities = _repositories.Cities.GetAll();
 
             #region Filters
             filterDTO.TrimStrings();
@@ -36,7 +36,7 @@ namespace BazaarOnline.Application.Services.Locations
 
         public CityDetailViewModel? GetCityDetail(int id)
         {
-            return _locationRepository.GetCities()
+            return _repositories.Cities.GetAll()
                 .Where(c => c.Id == id)
                 .Select(c => new CityDetailViewModel
                 {

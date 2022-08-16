@@ -5,18 +5,18 @@ using BazaarOnline.Application.ViewModels.Categories;
 using BazaarOnline.Application.ViewModels.Features;
 using BazaarOnline.Domain.Entities.Categories;
 using BazaarOnline.Domain.Entities.Features;
-using BazaarOnline.Domain.Interfaces.Categories;
+using BazaarOnline.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace BazaarOnline.Application.Services.Categories
 {
     public class CategoryService : ICategoryService
     {
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly IRepositories _repositories;
 
-        public CategoryService(ICategoryRepository categoryRepository)
+        public CategoryService(IRepositories repositories)
         {
-            _categoryRepository = categoryRepository;
+            _repositories = repositories;
         }
 
         public Category CreateCategory(CategoryCreateDTO createDTO)
@@ -26,23 +26,23 @@ namespace BazaarOnline.Application.Services.Categories
             var category = new Category();
             category.FillFromObject(createDTO);
 
-            _categoryRepository.AddCategory(category);
-            _categoryRepository.Save();
+            _repositories.Categories.Add(category);
+            _repositories.Categories.Save();
 
             return category;
         }
 
         public void DeleteCategory(Category category)
         {
-            _categoryRepository.DeleteCategoryRange(
+            _repositories.Categories.RemoveRange(
                 GetCategoryAndChildrenFlatten(category.Id, true)
             );
-            _categoryRepository.Save();
+            _repositories.Categories.Save();
         }
 
         public Category? FindCategory(int id)
         {
-            return _categoryRepository.FindCategory(id);
+            return _repositories.Categories.Get(id);
         }
 
         public List<CategoryListDetailViewModel> GetCategoryChildrenDetail(
@@ -57,7 +57,7 @@ namespace BazaarOnline.Application.Services.Categories
 
         public CategoryDetailViewModel? GetCategoryDetail(int id)
         {
-            return _categoryRepository.GetCategories()
+            return _repositories.Categories.GetAll()
                 .Include(c => c.ChildCategories)
                 .Include(c => c.ParentCategory)
                 .Where(c => c.Id == id)
@@ -90,7 +90,7 @@ namespace BazaarOnline.Application.Services.Categories
 
         public bool IsCategoryExists(int id)
         {
-            return _categoryRepository.GetCategories()
+            return _repositories.Categories.GetAll()
                 .Any(c => c.Id == id);
         }
 
@@ -98,8 +98,8 @@ namespace BazaarOnline.Application.Services.Categories
         {
             category.FillFromObject(updateDTO);
 
-            _categoryRepository.UpdateCategory(category);
-            _categoryRepository.Save();
+            _repositories.Categories.Update(category);
+            _repositories.Categories.Save();
         }
 
 
@@ -114,7 +114,7 @@ namespace BazaarOnline.Application.Services.Categories
             IEnumerable<Category>? allCategories = null,
             List<Category>? selectedCategories = null)
         {
-            if (allCategories == null) allCategories = _categoryRepository.GetCategories().ToList();
+            if (allCategories == null) allCategories = _repositories.Categories.GetAll().ToList();
             if (selectedCategories == null)
             {
                 selectedCategories = new List<Category>();
@@ -138,30 +138,32 @@ namespace BazaarOnline.Application.Services.Categories
         public void UpdateCategoryFeatures(Category category, CategoryFeatureAddDTO addDTO)
         {
 
-            var oldFeatures = _categoryRepository.GetCategoryFeatures(category.Id).ToList();
+            var oldFeatures = _repositories.CategoryFeatures.GetAll()
+                .Where(cf => cf.CategoryId == category.Id).ToList();
             var oldFeatureIds = oldFeatures.Select(cf => cf.FeatureId);
 
             var newFeatures = addDTO.Features.Except(oldFeatureIds);
             var removedFeatures = oldFeatureIds.Except(addDTO.Features);
 
-            _categoryRepository.AddCategoryFeatureRange(
+            _repositories.CategoryFeatures.AddRange(
                 newFeatures.Select(f => new CategoryFeature
                 {
                     CategoryId = category.Id,
                     FeatureId = f
-                }).ToArray()
+                })
             );
-            _categoryRepository.DeleteCategoryFeatureRange(
+            _repositories.CategoryFeatures.RemoveRange(
                 oldFeatures
                     .Where(cf => removedFeatures.Contains(cf.FeatureId))
-                    .ToArray()
             );
-            _categoryRepository.Save();
+            _repositories.CategoryFeatures.Save();
         }
 
         public List<FeatureDetailViewModel> GetCategoryFeatureDetails(Category category)
         {
-            return _GetFeatureDetails(_categoryRepository.GetCategoryFeatures(category.Id));
+            return _GetFeatureDetails(
+                _repositories.CategoryFeatures.GetAll()
+                    .Where(cf => cf.CategoryId == category.Id));
         }
 
         private List<FeatureDetailViewModel> _GetFeatureDetails(IQueryable<CategoryFeature> categoryFeatures)
@@ -201,7 +203,7 @@ namespace BazaarOnline.Application.Services.Categories
 
         public List<FeatureDetailViewModel> GetCategoryFeatureDetailsHierarchy(Category category)
         {
-            var allCategories = _categoryRepository.GetCategories().AsEnumerable();
+            var allCategories = _repositories.Categories.GetAll().AsEnumerable();
 
 
             var ccategory = allCategories.Single(c => c.Id == category.Id);
@@ -214,8 +216,8 @@ namespace BazaarOnline.Application.Services.Categories
             }
 
             return _GetFeatureDetails(
-                _categoryRepository.GetCategoryFeatures(hierarchy.ToArray())
-            );
+                _repositories.CategoryFeatures.GetAll()
+                    .Where(cf => hierarchy.Contains(cf.CategoryId)));
 
         }
     }
