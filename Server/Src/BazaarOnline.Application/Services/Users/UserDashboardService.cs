@@ -11,30 +11,30 @@ namespace BazaarOnline.Application.Services.Users
 {
     public class UserDashboardService : IUserDashboardService
     {
-        private readonly IRepositories _repositories;
+        private readonly IRepository _repository;
 
-        public UserDashboardService(IRepositories repositories)
+        public UserDashboardService(IRepository repository)
         {
-            _repositories = repositories;
+            _repository = repository;
         }
 
         public User? GetAuthorizedUser(ClaimsPrincipal User)
         {
             if (int.TryParse(User.Identity.Name, out int userId))
-                return _repositories.Users.Get(userId);
+                return _repository.Get<User>(userId);
             return null;
 
         }
 
         public bool IsPhoneNumberExists(string phone)
         {
-            return _repositories.Users.GetAll()
+            return _repository.GetAll<User>()
                 .Any(u => u.PhoneNumber == phone);
         }
 
         public UserDashboardDetailViewModel? GetUserDashboardDetail(int userId)
         {
-            var user = _repositories.Users.Get(userId);
+            var user = _repository.Get<User>(userId);
             if (user == null) return null;
 
             var result = new UserDashboardDetailViewModel();
@@ -49,8 +49,8 @@ namespace BazaarOnline.Application.Services.Users
             updateDTO.TrimStrings();
             user.FillFromObject(updateDTO, ignoreNulls: true);
 
-            _repositories.Users.Update(user);
-            _repositories.Users.Save();
+            _repository.Update<User>(user);
+            _repository.Save();
         }
     }
 }

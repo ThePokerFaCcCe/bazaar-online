@@ -7,40 +7,40 @@ namespace BazaarOnline.Application.Services.Users
 {
     public class ActiveCodeService : IActiveCodeService
     {
-        private readonly IRepositories _repositories;
+        private readonly IRepository _repository;
 
-        public ActiveCodeService(IRepositories repositories)
+        public ActiveCodeService(IRepository repository)
         {
-            _repositories = repositories;
+            _repository = repository;
         }
 
         public ActiveCode CreateActiveCode(string email)
         {
-            var activeCode = _repositories.ActiveCodes.Add(new ActiveCode
+            var activeCode = _repository.Add<ActiveCode>(new ActiveCode
             {
                 Email = email.ToLower(),
                 Code = StringGenerator.GenerateActiveCode(),
                 ExpireDate = DateTime.Now.AddMinutes(1)
             });
 
-            _repositories.ActiveCodes.Save();
+            _repository.Save();
             return activeCode;
         }
 
         public ActiveCode? GetActiveCode(string email, string code)
         {
-            return _repositories.ActiveCodes.GetAll()
+            return _repository.GetAll<ActiveCode>()
                 .SingleOrDefault(c => c.Email == email.ToLower() && c.Code == code);
         }
 
         public bool IsActiveCodeExists(string email)
         {
-            return _repositories.ActiveCodes.GetAll()
+            return _repository.GetAll<ActiveCode>()
                 .Any(c => c.Email == email.ToLower());
         }
         public bool IsActiveCodeExists(string email, string code)
         {
-            return _repositories.ActiveCodes.GetAll()
+            return _repository.GetAll<ActiveCode>()
                 .Any(c => c.Email == email.ToLower() && c.Code == code);
         }
     }

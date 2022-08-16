@@ -1,24 +1,25 @@
 using BazaarOnline.Application.DTOs.AuthDTOs;
 using BazaarOnline.Application.DTOs.JwtDTOs;
+using BazaarOnline.Application.Generators;
 using BazaarOnline.Application.Interfaces.Auth;
 using BazaarOnline.Application.Interfaces.Senders;
-using BazaarOnline.Application.Interfaces.Users;
 using BazaarOnline.Application.Securities;
 using BazaarOnline.Domain.Entities.Users;
+using BazaarOnline.Domain.Interfaces;
 using Microsoft.Extensions.Configuration;
 
 namespace BazaarOnline.Application.Services.Auth
 {
     public class AuthService : IAuthService
     {
-        private readonly IActiveCodeService _activeCodeService;
+        private readonly IRepository _repository;
         private readonly IConfiguration _configuration;
         private readonly IEmailService _emailService;
-        public AuthService(IActiveCodeService activeCodeService, IConfiguration configuration, IEmailService emailService)
+        public AuthService(IConfiguration configuration, IEmailService emailService, IRepository repository)
         {
-            _activeCodeService = activeCodeService;
             _configuration = configuration;
             _emailService = emailService;
+            _repository = repository;
         }
 
 
@@ -34,7 +35,13 @@ namespace BazaarOnline.Application.Services.Auth
 
         public CodeSentResultDTO RegisterUserByEmail(User user)
         {
-            var activeCode = _activeCodeService.CreateActiveCode(user.Email);
+            var activeCode = _repository.Add<ActiveCode>(new ActiveCode
+            {
+                Email = user.Email.ToLower(),
+                Code = StringGenerator.GenerateActiveCode(),
+                ExpireDate = DateTime.Now.AddMinutes(1)
+            });
+            _repository.Save();
 
             _emailService.SendActiveCode(user, activeCode);
 

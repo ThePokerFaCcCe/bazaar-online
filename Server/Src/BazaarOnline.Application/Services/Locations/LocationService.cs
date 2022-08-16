@@ -9,16 +9,16 @@ namespace BazaarOnline.Application.Services.Locations
 {
     public class LocationService : ILocationService
     {
-        private readonly IRepositories _repositories;
+        private readonly IRepository _repository;
 
-        public LocationService(IRepositories repositories)
+        public LocationService(IRepository repository)
         {
-            _repositories = repositories;
+            _repository = repository;
         }
 
         public List<CityListDetailViewModel> GetCitiesListDetail(CityFilterDTO filterDTO)
         {
-            var cities = _repositories.Cities.GetAll();
+            var cities = _repository.GetAll<City>();
 
             #region Filters
             filterDTO.TrimStrings();
@@ -36,7 +36,7 @@ namespace BazaarOnline.Application.Services.Locations
 
         public CityDetailViewModel? GetCityDetail(int id)
         {
-            return _repositories.Cities.GetAll()
+            return _repository.GetAll<City>()
                 .Where(c => c.Id == id)
                 .Select(c => new CityDetailViewModel
                 {

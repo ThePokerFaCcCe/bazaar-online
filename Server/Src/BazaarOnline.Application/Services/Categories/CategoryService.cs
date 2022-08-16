@@ -12,11 +12,11 @@ namespace BazaarOnline.Application.Services.Categories
 {
     public class CategoryService : ICategoryService
     {
-        private readonly IRepositories _repositories;
+        private readonly IRepository _repository;
 
-        public CategoryService(IRepositories repositories)
+        public CategoryService(IRepository repository)
         {
-            _repositories = repositories;
+            _repository = repository;
         }
 
         public Category CreateCategory(CategoryCreateDTO createDTO)
@@ -26,23 +26,23 @@ namespace BazaarOnline.Application.Services.Categories
             var category = new Category();
             category.FillFromObject(createDTO);
 
-            _repositories.Categories.Add(category);
-            _repositories.Categories.Save();
+            _repository.Add<Category>(category);
+            _repository.Save();
 
             return category;
         }
 
         public void DeleteCategory(Category category)
         {
-            _repositories.Categories.RemoveRange(
+            _repository.RemoveRange<Category>(
                 GetCategoryAndChildrenFlatten(category.Id, true)
             );
-            _repositories.Categories.Save();
+            _repository.Save();
         }
 
         public Category? FindCategory(int id)
         {
-            return _repositories.Categories.Get(id);
+            return _repository.Get<Category>(id);
         }
 
         public List<CategoryListDetailViewModel> GetCategoryChildrenDetail(
@@ -57,7 +57,7 @@ namespace BazaarOnline.Application.Services.Categories
 
         public CategoryDetailViewModel? GetCategoryDetail(int id)
         {
-            return _repositories.Categories.GetAll()
+            return _repository.GetAll<Category>()
                 .Include(c => c.ChildCategories)
                 .Include(c => c.ParentCategory)
                 .Where(c => c.Id == id)
@@ -90,7 +90,7 @@ namespace BazaarOnline.Application.Services.Categories
 
         public bool IsCategoryExists(int id)
         {
-            return _repositories.Categories.GetAll()
+            return _repository.GetAll<Category>()
                 .Any(c => c.Id == id);
         }
 
@@ -98,8 +98,8 @@ namespace BazaarOnline.Application.Services.Categories
         {
             category.FillFromObject(updateDTO);
 
-            _repositories.Categories.Update(category);
-            _repositories.Categories.Save();
+            _repository.Update<Category>(category);
+            _repository.Save();
         }
 
 
@@ -114,7 +114,7 @@ namespace BazaarOnline.Application.Services.Categories
             IEnumerable<Category>? allCategories = null,
             List<Category>? selectedCategories = null)
         {
-            if (allCategories == null) allCategories = _repositories.Categories.GetAll().ToList();
+            if (allCategories == null) allCategories = _repository.GetAll<Category>().ToList();
             if (selectedCategories == null)
             {
                 selectedCategories = new List<Category>();
@@ -138,31 +138,31 @@ namespace BazaarOnline.Application.Services.Categories
         public void UpdateCategoryFeatures(Category category, CategoryFeatureAddDTO addDTO)
         {
 
-            var oldFeatures = _repositories.CategoryFeatures.GetAll()
+            var oldFeatures = _repository.GetAll<CategoryFeature>()
                 .Where(cf => cf.CategoryId == category.Id).ToList();
             var oldFeatureIds = oldFeatures.Select(cf => cf.FeatureId);
 
             var newFeatures = addDTO.Features.Except(oldFeatureIds);
             var removedFeatures = oldFeatureIds.Except(addDTO.Features);
 
-            _repositories.CategoryFeatures.AddRange(
+            _repository.AddRange<CategoryFeature>(
                 newFeatures.Select(f => new CategoryFeature
                 {
                     CategoryId = category.Id,
                     FeatureId = f
                 })
             );
-            _repositories.CategoryFeatures.RemoveRange(
+            _repository.RemoveRange<CategoryFeature>(
                 oldFeatures
                     .Where(cf => removedFeatures.Contains(cf.FeatureId))
             );
-            _repositories.CategoryFeatures.Save();
+            _repository.Save();
         }
 
         public List<FeatureDetailViewModel> GetCategoryFeatureDetails(Category category)
         {
             return _GetFeatureDetails(
-                _repositories.CategoryFeatures.GetAll()
+                _repository.GetAll<CategoryFeature>()
                     .Where(cf => cf.CategoryId == category.Id));
         }
 
@@ -203,7 +203,7 @@ namespace BazaarOnline.Application.Services.Categories
 
         public List<FeatureDetailViewModel> GetCategoryFeatureDetailsHierarchy(Category category)
         {
-            var allCategories = _repositories.Categories.GetAll().AsEnumerable();
+            var allCategories = _repository.GetAll<Category>();
 
 
             var ccategory = allCategories.Single(c => c.Id == category.Id);
@@ -216,7 +216,7 @@ namespace BazaarOnline.Application.Services.Categories
             }
 
             return _GetFeatureDetails(
-                _repositories.CategoryFeatures.GetAll()
+                _repository.GetAll<CategoryFeature>()
                     .Where(cf => hierarchy.Contains(cf.CategoryId)));
 
         }

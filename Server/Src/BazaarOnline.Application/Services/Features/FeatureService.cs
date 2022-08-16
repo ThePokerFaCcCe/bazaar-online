@@ -11,11 +11,11 @@ namespace BazaarOnline.Application.Services.Features
 {
     public class FeatureService : IFeatureService
     {
-        private readonly IRepositories _repositories;
+        private readonly IRepository _repository;
 
-        public FeatureService(IRepositories repositories)
+        public FeatureService(IRepository repository)
         {
-            _repositories = repositories;
+            _repository = repository;
         }
 
         public Feature CreateFeature(FeatureCreateDTO createDTO)
@@ -49,23 +49,23 @@ namespace BazaarOnline.Application.Services.Features
                     }
             };
 
-            _repositories.Features.Add(feature);
-            _repositories.Features.Save();
+            _repository.Add<Feature>(feature);
+            _repository.Save();
             return feature;
         }
 
         public void DeleteFeature(Feature feature)
         {
-            _repositories.Features.Remove(feature);
-            _repositories.Features.Save();
+            _repository.Remove<Feature>(feature);
+            _repository.Save();
         }
 
         public Feature? FindFeature(int id, bool includeType = false)
         {
             if (!includeType)
-                return _repositories.Features.Get(id);
+                return _repository.Get<Feature>(id);
 
-            return _repositories.Features.GetAll()
+            return _repository.GetAll<Feature>()
                 .Where(f => f.Id == id)
                 .Include(f => f.FeatureInteger)
                 .Include(f => f.FeatureEnum)
@@ -75,7 +75,7 @@ namespace BazaarOnline.Application.Services.Features
 
         public FeatureDetailViewModel? GetFeatureDetail(int id)
         {
-            return _repositories.Features.GetAll()
+            return _repository.GetAll<Feature>()
                 .Where(f => f.Id == id)
                 .Include(f => f.FeatureInteger)
                 .Include(f => f.FeatureEnum)
@@ -110,7 +110,7 @@ namespace BazaarOnline.Application.Services.Features
 
         public List<int> GetFeatureIds()
         {
-            return _repositories.Features.GetAll()
+            return _repository.GetAll<Feature>()
                 .Select(f => f.Id)
                 .ToList();
         }
@@ -118,7 +118,7 @@ namespace BazaarOnline.Application.Services.Features
         public PaginationResultDTO<FeatureListDetailViewModel> GetFeatureListDetail(FeatureFilterDTO filter, PaginationFilterDTO pagination)
         {
 
-            var features = _repositories.Features.GetAll();
+            var features = _repository.GetAll<Feature>();
             int count = features.Count();
 
             #region Filters
@@ -153,11 +153,11 @@ namespace BazaarOnline.Application.Services.Features
 
             if (updateDTO.FeatureEnumValues != null)
             {
-                _repositories.FeatureEnumValues.RemoveRange(
-                    _repositories.FeatureEnumValues.GetAll()
+                _repository.RemoveRange<FeatureEnumValue>(
+                    _repository.GetAll<FeatureEnumValue>()
                     .Where(fev => fev.FeatureEnumId == featureEnum.Id)
                 );
-                _repositories.FeatureEnumValues.AddRange(
+                _repository.AddRange<FeatureEnumValue>(
                     updateDTO.FeatureEnumValues
                     .Select(fev => new FeatureEnumValue
                     {
@@ -167,8 +167,8 @@ namespace BazaarOnline.Application.Services.Features
                 ));
             }
 
-            _repositories.FeatureEnums.Update(featureEnum);
-            _repositories.FeatureEnums.Save();
+            _repository.Update<FeatureEnum>(featureEnum);
+            _repository.Save();
         }
 
         public void UpdateFeatureInteger(FeatureInteger featureInteger, FeatureIntegerUpdateDTO updateDTO)
@@ -176,8 +176,8 @@ namespace BazaarOnline.Application.Services.Features
             updateDTO.TrimStrings();
             featureInteger.FillFromObject(updateDTO);
 
-            _repositories.FeatureIntegers.Update(featureInteger);
-            _repositories.FeatureIntegers.Save();
+            _repository.Update<FeatureInteger>(featureInteger);
+            _repository.Save();
         }
     }
 }

@@ -59,8 +59,7 @@ namespace BazaarOnline.Infra.IoC
             #endregion
 
             #region Repositories
-            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            services.AddScoped<IRepositories, Repositories>();
+            services.AddScoped<IRepository, Repository>();
             #endregion
         }
     }
