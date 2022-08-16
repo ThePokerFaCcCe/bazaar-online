@@ -20,13 +20,12 @@ namespace BazaarOnline.Application.Services.Permissions
 
         public int CreateRole(RoleCreateDTO roleModel)
         {
-            var rolePermissions = new List<RolePermission>();
-            roleModel.Permissions.ForEach(p => rolePermissions.Add(
+            var rolePermissions = roleModel.Permissions.Select(p =>
                 new RolePermission
                 {
                     PermissionId = p
                 }
-            ));
+            ).ToList();
 
 
             var role = _repository.Add<Role>(new Role
