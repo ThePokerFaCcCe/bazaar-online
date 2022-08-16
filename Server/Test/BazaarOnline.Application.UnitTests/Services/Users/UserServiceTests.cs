@@ -5,7 +5,7 @@ using BazaarOnline.Application.DTOs.Users.UserDTOs;
 using BazaarOnline.Application.Securities;
 using BazaarOnline.Application.Services.Users;
 using BazaarOnline.Domain.Entities.Users;
-using BazaarOnline.Domain.Interfaces.Users;
+using BazaarOnline.Domain.Interfaces;
 using BazaarOnline.Infra.Data.Seeds.DefaultDatas;
 using Moq;
 using NUnit.Framework;
@@ -15,14 +15,14 @@ namespace BazaarOnline.Application.UnitTests.Services.Users;
 [TestFixture]
 public class UserServiceTests
 {
-    private Mock<IUserRepository> _userRepositoryMock;
+    private Mock<IRepository> _repositoryMock;
     private UserService _userService;
 
     [SetUp]
     public void SetUp()
     {
-        _userRepositoryMock = new Mock<IUserRepository>();
-        _userService = new UserService(_userRepositoryMock.Object);
+        _repositoryMock = new Mock<IRepository>();
+        _userService = new UserService(_repositoryMock.Object);
     }
 
     [Test]
@@ -42,8 +42,8 @@ public class UserServiceTests
 
         _userService.ActivateUser(user);
 
-        _userRepositoryMock.Verify(m => m.UpdateUser(user));
-        _userRepositoryMock.Verify(m => m.Save());
+        _repositoryMock.Verify(m => m.Update<User>(user));
+        _repositoryMock.Verify(m => m.Save());
     }
 
     [Test]
@@ -71,7 +71,7 @@ public class UserServiceTests
     [Test]
     public void ComparePasswordEmail_UserNotFound_ReturnFalse()
     {
-        _userRepositoryMock.Setup(m => m.GetUsers()).Returns(new List<User>().AsQueryable());
+        _repositoryMock.Setup(m => m.GetAll<User>()).Returns(new List<User>().AsQueryable());
 
         var result = _userService.ComparePassword("a@b.c", "password");
 
@@ -83,7 +83,7 @@ public class UserServiceTests
     {
         var password = "pa$$word";
 
-        _userRepositoryMock.Setup(m => m.GetUsers()).Returns(new List<User>{
+        _repositoryMock.Setup(m => m.GetAll<User>()).Returns(new List<User>{
             new User {Email="a@b.c", Password = PasswordHelper.HashPassword(password) },
         }.AsQueryable());
 
@@ -97,7 +97,7 @@ public class UserServiceTests
     {
         var password = "pa$$word";
 
-        _userRepositoryMock.Setup(m => m.GetUsers()).Returns(new List<User>{
+        _repositoryMock.Setup(m => m.GetAll<User>()).Returns(new List<User>{
             new User {Email="a@b.c", Password = PasswordHelper.HashPassword(password) },
         }.AsQueryable());
 
@@ -111,8 +111,8 @@ public class UserServiceTests
     {
         _userService.CreateUser(new UserCreateDTO { Password = "a", Email = "" });
 
-        _userRepositoryMock.Verify(m => m.AddUser(It.IsAny<User>()));
-        _userRepositoryMock.Verify(m => m.Save());
+        _repositoryMock.Verify(m => m.Add<User>(It.IsAny<User>()));
+        _repositoryMock.Verify(m => m.Save());
     }
 
     [Test]
@@ -164,8 +164,8 @@ public class UserServiceTests
     {
         _userService.CreateUser(new UserRegisterDTO { Password = "a", Email = "" });
 
-        _userRepositoryMock.Verify(m => m.AddUser(It.IsAny<User>()));
-        _userRepositoryMock.Verify(m => m.Save());
+        _repositoryMock.Verify(m => m.Add<User>(It.IsAny<User>()));
+        _repositoryMock.Verify(m => m.Save());
     }
 
     [Test]
@@ -179,7 +179,7 @@ public class UserServiceTests
     [Test]
     public void FindUserEmail_UserNotFound_ReturnNull()
     {
-        _userRepositoryMock.Setup(m => m.GetUsers()).Returns(new List<User>().AsQueryable());
+        _repositoryMock.Setup(m => m.GetAll<User>()).Returns(new List<User>().AsQueryable());
 
         var result = _userService.FindUser("a@b.c");
 
@@ -189,7 +189,7 @@ public class UserServiceTests
     [Test]
     public void FindUserEmail_UserFound_ReturnUserObject()
     {
-        _userRepositoryMock.Setup(m => m.GetUsers()).Returns(new List<User>{
+        _repositoryMock.Setup(m => m.GetAll<User>()).Returns(new List<User>{
             new User {Email="a@b.c"},
         }.AsQueryable());
 
@@ -201,7 +201,7 @@ public class UserServiceTests
     [Test]
     public void IsEmailExists_EmailNotFound_ReturnFalse()
     {
-        _userRepositoryMock.Setup(m => m.GetUsers()).Returns(new List<User>().AsQueryable());
+        _repositoryMock.Setup(m => m.GetAll<User>()).Returns(new List<User>().AsQueryable());
 
         var result = _userService.IsEmailExists("a@b.c");
 
@@ -211,7 +211,7 @@ public class UserServiceTests
     [Test]
     public void IsEmailExists_EmailFound_ReturnTrue()
     {
-        _userRepositoryMock.Setup(m => m.GetUsers()).Returns(new List<User>{
+        _repositoryMock.Setup(m => m.GetAll<User>()).Returns(new List<User>{
             new User {Email="a@b.c"},
         }.AsQueryable());
 
@@ -223,7 +223,7 @@ public class UserServiceTests
     [Test]
     public void IsPhoneNumberExists_PhoneNotFound_ReturnFalse()
     {
-        _userRepositoryMock.Setup(m => m.GetUsers()).Returns(new List<User>().AsQueryable());
+        _repositoryMock.Setup(m => m.GetAll<User>()).Returns(new List<User>().AsQueryable());
 
         var result = _userService.IsPhoneNumberExists("a@b.c");
 
@@ -233,7 +233,7 @@ public class UserServiceTests
     [Test]
     public void IsPhoneNumberExists_PhoneFound_ReturnTrue()
     {
-        _userRepositoryMock.Setup(m => m.GetUsers()).Returns(new List<User>{
+        _repositoryMock.Setup(m => m.GetAll<User>()).Returns(new List<User>{
             new User {PhoneNumber="0"},
         }.AsQueryable());
 
@@ -245,7 +245,7 @@ public class UserServiceTests
     [Test]
     public void IsInactiveUserExists_EmailNotFound_ReturnFalse()
     {
-        _userRepositoryMock.Setup(m => m.GetUsers()).Returns(new List<User>().AsQueryable());
+        _repositoryMock.Setup(m => m.GetAll<User>()).Returns(new List<User>().AsQueryable());
 
         var result = _userService.IsInactiveUserExists("a@b.c");
 
@@ -255,7 +255,7 @@ public class UserServiceTests
     [Test]
     public void IsInactiveUserExists_EmailFoundUserIsActive_ReturnFalse()
     {
-        _userRepositoryMock.Setup(m => m.GetUsers()).Returns(new List<User>{
+        _repositoryMock.Setup(m => m.GetAll<User>()).Returns(new List<User>{
             new User {Email="a@b.c", IsActive=true},
         }.AsQueryable());
 
@@ -267,7 +267,7 @@ public class UserServiceTests
     [Test]
     public void IsInactiveUserExists_EmailFoundUserIsNotActive_ReturnTrue()
     {
-        _userRepositoryMock.Setup(m => m.GetUsers()).Returns(new List<User>{
+        _repositoryMock.Setup(m => m.GetAll<User>()).Returns(new List<User>{
             new User {Email="a@b.c", IsActive=false},
         }.AsQueryable());
 
@@ -277,14 +277,14 @@ public class UserServiceTests
     }
 
     [Test]
-    public void SoftDeleteUser_WhenCalled_CallSaveAndSoftDelete()
+    public void SoftDeleteUser_WhenCalled_CallSaveAndUpdate()
     {
         User user = new User();
 
         _userService.SoftDeleteUser(user);
 
-        _userRepositoryMock.Verify(m => m.SoftDeleteUser(user));
-        _userRepositoryMock.Verify(m => m.Save());
+        _repositoryMock.Verify(m => m.Update(user));
+        _repositoryMock.Verify(m => m.Save());
     }
 
     [Test]
@@ -294,8 +294,8 @@ public class UserServiceTests
 
         _userService.UpdateUser(user, new UserUpdateDTO());
 
-        _userRepositoryMock.Verify(m => m.UpdateUser(user));
-        _userRepositoryMock.Verify(m => m.Save());
+        _repositoryMock.Verify(m => m.Update<User>(user));
+        _repositoryMock.Verify(m => m.Save());
     }
 
 
@@ -307,7 +307,7 @@ public class UserServiceTests
         _userService.UpdateUserRoles(user,
             new UserUpdateRoleDTO { Roles = new List<int>() });
 
-        _userRepositoryMock.Verify(m => m.AddUserRoleRange(It.IsAny<List<int>>(), user));
+        _repositoryMock.Verify(m => m.AddRange<UserRole>(It.IsAny<IEnumerable<UserRole>>()));
     }
 
     [Test]
@@ -318,7 +318,7 @@ public class UserServiceTests
         _userService.UpdateUserRoles(user,
             new UserUpdateRoleDTO { Roles = new List<int>() });
 
-        _userRepositoryMock.Verify(m => m.DeleteUserRoleRange(It.IsAny<List<int>>(), user));
+        _repositoryMock.Verify(m => m.RemoveRange<UserRole>(It.IsAny<IEnumerable<UserRole>>()));
     }
 
     [Test]
@@ -329,7 +329,7 @@ public class UserServiceTests
         _userService.UpdateUserRoles(user,
             new UserUpdateRoleDTO { Roles = new List<int>() });
 
-        _userRepositoryMock.Verify(m => m.Save());
+        _repositoryMock.Verify(m => m.Save());
     }
 
 

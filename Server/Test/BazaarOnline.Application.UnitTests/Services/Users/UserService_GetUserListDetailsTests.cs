@@ -4,7 +4,7 @@ using BazaarOnline.Application.DTOs.PaginationDTO;
 using BazaarOnline.Application.DTOs.Users.UserDTOs;
 using BazaarOnline.Application.Services.Users;
 using BazaarOnline.Domain.Entities.Users;
-using BazaarOnline.Domain.Interfaces.Users;
+using BazaarOnline.Domain.Interfaces;
 using Moq;
 using NUnit.Framework;
 
@@ -13,7 +13,7 @@ namespace BazaarOnline.Application.UnitTests.Services.Users;
 [TestFixture]
 public class UserService_GetUserListDetailsTests
 {
-    private Mock<IUserRepository> _userRepositoryMock;
+    private Mock<IRepository> _repositoryMock;
     private UserService _userService;
 
     private User user;
@@ -21,11 +21,11 @@ public class UserService_GetUserListDetailsTests
     [SetUp]
     public void SetUp()
     {
-        _userRepositoryMock = new Mock<IUserRepository>();
-        _userService = new UserService(_userRepositoryMock.Object);
+        _repositoryMock = new Mock<IRepository>();
+        _userService = new UserService(_repositoryMock.Object);
 
         user = new User { Id = 1 };
-        _userRepositoryMock.Setup(m => m.GetUsers()).Returns(new List<User>{
+        _repositoryMock.Setup(m => m.GetAll<User>()).Returns(new List<User>{
             user,
         }.AsQueryable());
     }

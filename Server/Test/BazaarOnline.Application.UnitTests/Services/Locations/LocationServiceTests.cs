@@ -3,7 +3,7 @@ using System.Linq;
 using BazaarOnline.Application.DTOs.Locations;
 using BazaarOnline.Application.Services.Locations;
 using BazaarOnline.Domain.Entities.Locations;
-using BazaarOnline.Domain.Interfaces.Locations;
+using BazaarOnline.Domain.Interfaces;
 using Moq;
 using NUnit.Framework;
 
@@ -12,16 +12,16 @@ namespace BazaarOnline.Application.UnitTests.Services.Locations;
 [TestFixture]
 public class LocationServiceTests
 {
-    private Mock<ILocationRepository> _locationRepositoryMock;
+    private Mock<IRepository> _repositoryMock;
     private LocationService _locationService;
 
     [SetUp]
     public void SetUp()
     {
-        _locationRepositoryMock = new Mock<ILocationRepository>();
-        _locationService = new LocationService(_locationRepositoryMock.Object);
+        _repositoryMock = new Mock<IRepository>();
+        _locationService = new LocationService(_repositoryMock.Object);
 
-        _locationRepositoryMock.Setup(m => m.GetCities())
+        _repositoryMock.Setup(m => m.GetAll<City>())
             .Returns(new List<City> {
                 new City {Id=1,Name="abc"},
                 new City {Id=2,Name="def"},

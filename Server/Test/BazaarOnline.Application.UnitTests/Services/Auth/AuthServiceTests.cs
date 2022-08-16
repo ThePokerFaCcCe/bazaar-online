@@ -1,9 +1,9 @@
 using System;
 using BazaarOnline.Application.DTOs.AuthDTOs;
 using BazaarOnline.Application.Interfaces.Senders;
-using BazaarOnline.Application.Interfaces.Users;
 using BazaarOnline.Application.Services.Auth;
 using BazaarOnline.Domain.Entities.Users;
+using BazaarOnline.Domain.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using NUnit.Framework;
@@ -13,21 +13,24 @@ namespace BazaarOnline.Application.UnitTests.Services.Auth;
 [TestFixture]
 public class AuthServiceTests
 {
-    private Mock<IActiveCodeService> _activeCodeMock;
+    private Mock<IRepository> _repository;
     private Mock<IEmailService> _emailMock;
     private AuthService _authService;
 
     private User user;
+    private ActiveCode activeCode;
 
     [SetUp]
     public void SetUp()
     {
-        _activeCodeMock = new Mock<IActiveCodeService>();
+        _repository = new Mock<IRepository>();
         _emailMock = new Mock<IEmailService>();
-        _authService = new AuthService(_activeCodeMock.Object, new Mock<IConfiguration>().Object, _emailMock.Object);
+        _authService = new AuthService(new Mock<IConfiguration>().Object, _emailMock.Object, _repository.Object);
 
         user = new User { Email = "a@b.com" };
-        _activeCodeMock.Setup(m => m.CreateActiveCode(It.IsAny<string>())).Returns(new ActiveCode());
+
+        activeCode = new ActiveCode { ExpireDate = DateTime.Now };
+        _repository.Setup(m => m.Add<ActiveCode>(It.IsAny<ActiveCode>())).Returns(activeCode);
     }
 
     #region RegisterUserByEmail
@@ -37,7 +40,7 @@ public class AuthServiceTests
     {
         _authService.RegisterUserByEmail(user);
 
-        _activeCodeMock.Verify(m => m.CreateActiveCode(user.Email));
+        _repository.Verify(m => m.Add<ActiveCode>(It.IsAny<ActiveCode>()));
     }
 
     [Test]
@@ -60,10 +63,6 @@ public class AuthServiceTests
     [Test]
     public void RegisterUserByEmail_WhenCalled_ReturnCorrectExpireDate()
     {
-        ActiveCode activeCode = new ActiveCode { ExpireDate = DateTime.Now };
-
-        _activeCodeMock.Setup(m => m.CreateActiveCode(user.Email)).Returns(activeCode);
-
         var result = _authService.RegisterUserByEmail(user);
 
         Assert.That(result.ExpireDate, Is.EqualTo(activeCode.ExpireDate));

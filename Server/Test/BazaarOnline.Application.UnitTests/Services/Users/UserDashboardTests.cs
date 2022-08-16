@@ -4,7 +4,7 @@ using BazaarOnline.Application.DTOs.Users.UserDashboardDTOs;
 using BazaarOnline.Application.Services.Users;
 using BazaarOnline.Application.ViewModels.Users.UserDashboardViewModels;
 using BazaarOnline.Domain.Entities.Users;
-using BazaarOnline.Domain.Interfaces.Users;
+using BazaarOnline.Domain.Interfaces;
 using Moq;
 using NUnit.Framework;
 
@@ -13,20 +13,20 @@ namespace BazaarOnline.Application.UnitTests.Services.Users;
 [TestFixture]
 public class UserDashboardTests
 {
-    private Mock<IUserRepository> _userRepositoryMock;
+    private Mock<IRepository> _repositoryMock;
     private UserDashboardService _userDashboardService;
 
     [SetUp]
     public void SetUp()
     {
-        _userRepositoryMock = new Mock<IUserRepository>();
-        _userDashboardService = new UserDashboardService(_userRepositoryMock.Object);
+        _repositoryMock = new Mock<IRepository>();
+        _userDashboardService = new UserDashboardService(_repositoryMock.Object);
     }
 
     [Test]
     public void GetUserDashboardDetail_UserIdExists_ReturnUserDashboardDetailViewModel()
     {
-        _userRepositoryMock.Setup(m => m.FindUser(1)).Returns(new User());
+        _repositoryMock.Setup(m => m.Get<User>(1)).Returns(new User());
 
         var result = _userDashboardService.GetUserDashboardDetail(1);
 
@@ -57,14 +57,14 @@ public class UserDashboardTests
     {
         _userDashboardService.UpdateUser(new User(), new UserDashboardUpdateDTO());
 
-        _userRepositoryMock.Verify(m => m.UpdateUser(It.IsAny<User>()));
-        _userRepositoryMock.Verify(m => m.Save());
+        _repositoryMock.Verify(m => m.Update<User>(It.IsAny<User>()));
+        _repositoryMock.Verify(m => m.Save());
     }
 
     [Test]
     public void IsEmailExists_PhoneNumberNotFound_ReturnFalse()
     {
-        _userRepositoryMock.Setup(m => m.GetUsers()).Returns(new List<User>().AsQueryable());
+        _repositoryMock.Setup(m => m.GetAll<User>()).Returns(new List<User>().AsQueryable());
 
         var result = _userDashboardService.IsPhoneNumberExists("00");
 
@@ -74,7 +74,7 @@ public class UserDashboardTests
     [Test]
     public void IsPhoneNumberExists_PhoneNumberFound_ReturnTrue()
     {
-        _userRepositoryMock.Setup(m => m.GetUsers()).Returns(new List<User>{
+        _repositoryMock.Setup(m => m.GetAll<User>()).Returns(new List<User>{
             new User {PhoneNumber="00"},
         }.AsQueryable());
 

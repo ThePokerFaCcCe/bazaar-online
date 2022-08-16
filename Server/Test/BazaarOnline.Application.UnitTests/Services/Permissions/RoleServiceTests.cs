@@ -1,12 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using BazaarOnline.Application.DTOs.Permissions.RoleDTOs;
-using BazaarOnline.Application.DTOs.Users.UserDTOs;
 using BazaarOnline.Application.Services.Permissions;
 using BazaarOnline.Application.ViewModels.RoleViewModels;
 using BazaarOnline.Domain.Entities.Permissions;
-using BazaarOnline.Domain.Entities.Users;
-using BazaarOnline.Domain.Interfaces.Permissions;
+using BazaarOnline.Domain.Interfaces;
 using BazaarOnline.Infra.Data.Seeds.DefaultDatas;
 using Moq;
 using NUnit.Framework;
@@ -17,35 +15,35 @@ namespace BazaarOnline.Application.UnitTests.Services.Permissions;
 public class RoleServiceTests
 {
 
-    private Mock<IRoleRepository> _roleRepositoryMock;
+    private Mock<IRepository> _repositoryMock;
     private RoleService _roleService;
 
     [SetUp]
     public void SetUp()
     {
-        _roleRepositoryMock = new Mock<IRoleRepository>();
-        _roleService = new RoleService(_roleRepositoryMock.Object);
+        _repositoryMock = new Mock<IRepository>();
+        _roleService = new RoleService(_repositoryMock.Object);
 
     }
 
     [Test]
     public void CreateRole_WhenCalled_CallAddRole()
     {
-        _roleRepositoryMock.Setup(m => m.AddRole(It.IsAny<Role>())).Returns(new Role());
+        _repositoryMock.Setup(m => m.Add<Role>(It.IsAny<Role>())).Returns(new Role());
 
         _roleService.CreateRole(new RoleCreateDTO { Permissions = new List<int>() });
 
-        _roleRepositoryMock.Verify(m => m.AddRole(It.IsAny<Role>()));
+        _repositoryMock.Verify(m => m.Add<Role>(It.IsAny<Role>()));
     }
 
     [Test]
     public void CreateRole_WhenCalled_CallSave()
     {
-        _roleRepositoryMock.Setup(m => m.AddRole(It.IsAny<Role>())).Returns(new Role());
+        _repositoryMock.Setup(m => m.Add<Role>(It.IsAny<Role>())).Returns(new Role());
 
         _roleService.CreateRole(new RoleCreateDTO { Permissions = new List<int>() });
 
-        _roleRepositoryMock.Verify(m => m.Save());
+        _repositoryMock.Verify(m => m.Save());
     }
 
     [Test]
@@ -53,7 +51,7 @@ public class RoleServiceTests
     {
         _roleService.DeleteRole(new Role());
 
-        _roleRepositoryMock.Verify(m => m.DeleteRole(It.IsAny<Role>()));
+        _repositoryMock.Verify(m => m.Remove<Role>(It.IsAny<Role>()));
     }
 
     [Test]
@@ -61,13 +59,13 @@ public class RoleServiceTests
     {
         _roleService.DeleteRole(new Role());
 
-        _roleRepositoryMock.Verify(m => m.Save());
+        _repositoryMock.Verify(m => m.Save());
     }
 
     [Test]
     public void FindRole_RoleExists_ReturnRole()
     {
-        _roleRepositoryMock.Setup(m => m.GetRoles()).Returns(new List<Role>(){
+        _repositoryMock.Setup(m => m.GetAll<Role>()).Returns(new List<Role>(){
             new Role{Id=1},
         }.AsQueryable());
 
@@ -79,7 +77,7 @@ public class RoleServiceTests
     [Test]
     public void FindRole_RoleNotExists_ReturnNull()
     {
-        _roleRepositoryMock.Setup(m => m.GetRoles()).Returns(new List<Role>(){
+        _repositoryMock.Setup(m => m.GetAll<Role>()).Returns(new List<Role>(){
             new Role{Id=1},
         }.AsQueryable());
 
@@ -92,7 +90,7 @@ public class RoleServiceTests
     [Test]
     public void GetRoleDetail_RoleExists_ReturnRoleDetailViewModel()
     {
-        _roleRepositoryMock.Setup(m => m.GetRoles()).Returns(new List<Role>(){
+        _repositoryMock.Setup(m => m.GetAll<Role>()).Returns(new List<Role>(){
             new Role{Id=1,RolePermissions=new List<RolePermission>()},
         }.AsQueryable());
 
@@ -104,7 +102,7 @@ public class RoleServiceTests
     [Test]
     public void GetRoleDetail_RoleNotExists_ReturnNull()
     {
-        _roleRepositoryMock.Setup(m => m.GetRoles()).Returns(new List<Role>(){
+        _repositoryMock.Setup(m => m.GetAll<Role>()).Returns(new List<Role>(){
             new Role{Id=1,RolePermissions=new List<RolePermission>()},
         }.AsQueryable());
 
@@ -136,7 +134,7 @@ public class RoleServiceTests
             new Role { Id = 1, RolePermissions = new List<RolePermission>() },
             new RoleUpdateDTO { Title = string.Empty, Permissions = new List<int>() });
 
-        _roleRepositoryMock.Verify(m => m.AddRolePermissionRange(It.IsAny<List<int>>(), 1));
+        _repositoryMock.Verify(m => m.AddRange<RolePermission>(It.IsAny<IEnumerable<RolePermission>>()));
     }
 
     [Test]
@@ -146,7 +144,7 @@ public class RoleServiceTests
             new Role { Id = 1, RolePermissions = new List<RolePermission>() },
             new RoleUpdateDTO { Title = string.Empty, Permissions = new List<int>() });
 
-        _roleRepositoryMock.Verify(m => m.DeleteRolePermissionRange(It.IsAny<List<int>>(), 1));
+        _repositoryMock.Verify(m => m.RemoveRange<RolePermission>(It.IsAny<IEnumerable<RolePermission>>()));
     }
 
     [Test]
@@ -156,7 +154,7 @@ public class RoleServiceTests
             new Role { Id = 1, RolePermissions = new List<RolePermission>() },
             new RoleUpdateDTO { Title = string.Empty, Permissions = new List<int>() });
 
-        _roleRepositoryMock.Verify(m => m.UpdateRole(It.IsAny<Role>()));
+        _repositoryMock.Verify(m => m.Update<Role>(It.IsAny<Role>()));
     }
 
     [Test]
@@ -166,6 +164,6 @@ public class RoleServiceTests
             new Role { Id = 1, RolePermissions = new List<RolePermission>() },
             new RoleUpdateDTO { Title = string.Empty, Permissions = new List<int>() });
 
-        _roleRepositoryMock.Verify(m => m.Save());
+        _repositoryMock.Verify(m => m.Save());
     }
 }

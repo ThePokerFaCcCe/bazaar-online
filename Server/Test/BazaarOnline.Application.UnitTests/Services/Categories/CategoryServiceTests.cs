@@ -4,7 +4,7 @@ using BazaarOnline.Application.DTOs.CategoryDTOs;
 using BazaarOnline.Application.Services.Categories;
 using BazaarOnline.Application.ViewModels.Categories;
 using BazaarOnline.Domain.Entities.Categories;
-using BazaarOnline.Domain.Interfaces.Categories;
+using BazaarOnline.Domain.Interfaces;
 using Moq;
 using NUnit.Framework;
 
@@ -13,16 +13,16 @@ namespace BazaarOnline.Application.UnitTests.Services.Categories;
 [TestFixture]
 public class CategoryServiceTests
 {
-    private Mock<ICategoryRepository> _categoryRepositoryMock;
+    private Mock<IRepository> _repositoryMock;
     private CategoryService _categoryService;
 
     [SetUp]
     public void SetUp()
     {
-        _categoryRepositoryMock = new Mock<ICategoryRepository>();
-        _categoryService = new CategoryService(_categoryRepositoryMock.Object);
+        _repositoryMock = new Mock<IRepository>();
+        _categoryService = new CategoryService(_repositoryMock.Object);
 
-        _categoryRepositoryMock.Setup(m => m.GetCategories()).Returns(new List<Category>
+        _repositoryMock.Setup(m => m.GetAll<Category>()).Returns(new List<Category>
         {
             new Category{
                 Id=1,
@@ -44,8 +44,8 @@ public class CategoryServiceTests
     {
         _categoryService.CreateCategory(new CategoryCreateDTO());
 
-        _categoryRepositoryMock.Verify(m => m.AddCategory(It.IsAny<Category>()));
-        _categoryRepositoryMock.Verify(m => m.Save());
+        _repositoryMock.Verify(m => m.Add<Category>(It.IsAny<Category>()));
+        _repositoryMock.Verify(m => m.Save());
     }
 
     [Test]
@@ -53,8 +53,8 @@ public class CategoryServiceTests
     {
         _categoryService.DeleteCategory(new Category());
 
-        _categoryRepositoryMock.Verify(m => m.DeleteCategoryRange(It.IsAny<IEnumerable<Category>>()));
-        _categoryRepositoryMock.Verify(m => m.Save());
+        _repositoryMock.Verify(m => m.RemoveRange<Category>(It.IsAny<IEnumerable<Category>>()));
+        _repositoryMock.Verify(m => m.Save());
     }
 
     [Test]
@@ -62,14 +62,14 @@ public class CategoryServiceTests
     {
         _categoryService.UpdateCategory(new Category(), new CategoryUpdateDTO());
 
-        _categoryRepositoryMock.Verify(m => m.UpdateCategory(It.IsAny<Category>()));
-        _categoryRepositoryMock.Verify(m => m.Save());
+        _repositoryMock.Verify(m => m.Update<Category>(It.IsAny<Category>()));
+        _repositoryMock.Verify(m => m.Save());
     }
 
     [Test]
     public void FindCategory_CategoryIdExists_ReturnCategory()
     {
-        _categoryRepositoryMock.Setup(m => m.FindCategory(1)).Returns(new Category());
+        _repositoryMock.Setup(m => m.Get<Category>(1)).Returns(new Category());
 
         var result = _categoryService.FindCategory(1);
 
@@ -79,7 +79,7 @@ public class CategoryServiceTests
     [Test]
     public void FindCategory_CategoryIdNotExists_ReturnNull()
     {
-        _categoryRepositoryMock.Setup(m => m.FindCategory(1)).Returns(value: null);
+        _repositoryMock.Setup(m => m.Get<Category>(1)).Returns(value: null);
 
         var result = _categoryService.FindCategory(1);
 
@@ -89,7 +89,7 @@ public class CategoryServiceTests
     [Test]
     public void IsCategoryExists_CategoryIdExists_ReturnTrue()
     {
-        _categoryRepositoryMock.Setup(m => m.GetCategories()).Returns(new List<Category>{
+        _repositoryMock.Setup(m => m.GetAll<Category>()).Returns(new List<Category>{
             new Category{Id=1},
         }.AsQueryable());
 
@@ -101,7 +101,7 @@ public class CategoryServiceTests
     [Test]
     public void IsCategoryExists_CategoryIdNotExists_ReturnFalse()
     {
-        _categoryRepositoryMock.Setup(m => m.GetCategories())
+        _repositoryMock.Setup(m => m.GetAll<Category>())
             .Returns(new List<Category>().AsQueryable());
 
         var result = _categoryService.IsCategoryExists(1);
@@ -112,7 +112,7 @@ public class CategoryServiceTests
     [Test]
     public void GetCategoryDetail_CategoryIdExists_ReturnCategory()
     {
-        _categoryRepositoryMock.Setup(m => m.GetCategories()).Returns(new List<Category>{
+        _repositoryMock.Setup(m => m.GetAll<Category>()).Returns(new List<Category>{
             new Category{Id=1,ChildCategories=new List<Category>()},
         }.AsQueryable());
 
@@ -124,7 +124,7 @@ public class CategoryServiceTests
     [Test]
     public void GetCategoryDetail_CategoryIdNotExists_ReturnNull()
     {
-        _categoryRepositoryMock.Setup(m => m.GetCategories())
+        _repositoryMock.Setup(m => m.GetAll<Category>())
             .Returns(new List<Category>().AsQueryable());
 
         var result = _categoryService.GetCategoryDetail(1);

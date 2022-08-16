@@ -1,5 +1,9 @@
+using System.Collections.Generic;
+using System.Linq;
 using BazaarOnline.Application.Services.Permissions;
-using BazaarOnline.Domain.Interfaces.Permissions;
+using BazaarOnline.Domain.Entities.Permissions;
+using BazaarOnline.Domain.Entities.Users;
+using BazaarOnline.Domain.Interfaces;
 using Moq;
 using NUnit.Framework;
 
@@ -9,22 +13,36 @@ namespace BazaarOnline.Application.UnitTests.Services.Permissions;
 public class PermissionServiceTests
 {
 
-    private Mock<IPermissionRepository> _permissionRepositoryMock;
+    private Mock<IRepository> _repositoryMock;
     private PermissionService _permissionService;
 
     [SetUp]
     public void SetUp()
     {
-        _permissionRepositoryMock = new Mock<IPermissionRepository>();
-        _permissionService = new PermissionService(_permissionRepositoryMock.Object);
+        _repositoryMock = new Mock<IRepository>();
+        _permissionService = new PermissionService(_repositoryMock.Object);
     }
 
     [Test]
     public void HasUserPermission_HasPerm_ReturnTrue()
     {
-        _permissionRepositoryMock.Setup(m => m.HasUserPermission(1, 2)).Returns(true);
+        _repositoryMock.Setup(m => m.GetAll<UserRole>())
+            .Returns(new List<UserRole>{
+                new UserRole{
+                    UserId=1,
+                    RoleId=2,
+                }
+            }.AsQueryable());
 
-        var result = _permissionService.HasUserPermission(1, 2);
+        _repositoryMock.Setup(m => m.GetAll<RolePermission>())
+            .Returns(new List<RolePermission>{
+                new RolePermission{
+                    RoleId=2,
+                    PermissionId=3,
+                }
+            }.AsQueryable());
+
+        var result = _permissionService.HasUserPermission(userId: 1, permissionId: 3);
 
         Assert.IsTrue(result);
     }
@@ -32,9 +50,10 @@ public class PermissionServiceTests
     [Test]
     public void HasUserPermission_HasNotPerm_ReturnFalse()
     {
-        _permissionRepositoryMock.Setup(m => m.HasUserPermission(1, 2)).Returns(false);
+        _repositoryMock.Setup(m => m.GetAll<UserRole>())
+            .Returns(new List<UserRole>().AsQueryable());
 
-        var result = _permissionService.HasUserPermission(1, 2);
+        var result = _permissionService.HasUserPermission(userId: 1, permissionId: 3);
 
         Assert.IsFalse(result);
     }
