@@ -45,5 +45,10 @@ namespace BazaarOnline.Application.Services.Locations
                 }).SingleOrDefault();
 
         }
+
+        public bool IsCityExists(int id)
+        {
+            return _repository.GetAll<City>().Any(c => c.Id == id);
+        }
     }
 }

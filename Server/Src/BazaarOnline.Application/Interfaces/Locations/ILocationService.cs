@@ -8,5 +8,7 @@ namespace BazaarOnline.Application.Interfaces.Locations
         List<CityListDetailViewModel> GetCitiesListDetail(CityFilterDTO filterDTO);
 
         CityDetailViewModel? GetCityDetail(int id);
+
+        bool IsCityExists(int id);
     }
 }
