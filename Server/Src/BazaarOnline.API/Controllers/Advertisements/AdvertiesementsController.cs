@@ -1,21 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BazaarOnline.Application.DTOs.Advertiesements;
 using BazaarOnline.Application.Interfaces.Advertiesements;
+using BazaarOnline.Application.Securities.Attributes;
 using BazaarOnline.Application.ViewModels.Advertiesements;
+using BazaarOnline.Infra.Data.Seeds.DefaultDatas;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BazaarOnline.API.Controllers.Advertisements
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AdvertiesementController : ControllerBase
+    public class AdvertiesementsController : ControllerBase
     {
         private readonly IAdvertiesementService _advertiesementService;
 
-        public AdvertiesementController(IAdvertiesementService advertiesementService)
+        public AdvertiesementsController(IAdvertiesementService advertiesementService)
         {
             _advertiesementService = advertiesementService;
         }
@@ -30,7 +28,8 @@ namespace BazaarOnline.API.Controllers.Advertisements
         }
 
         [HttpPost]
-        public ActionResult CreateAdvertiesement([FromBody] AdvertiesementCreateDTO createDTO)
+        [HasPermission(DefaultPermissions.CreateAdvertisementId)]
+        public ActionResult CreateAdvertiesement([FromForm] AdvertiesementCreateDTO createDTO)
         {
             if (!ModelState.IsValid) return BadRequest(createDTO);
 
@@ -38,6 +37,5 @@ namespace BazaarOnline.API.Controllers.Advertisements
             var advertiesement = _advertiesementService.CreateAdvertiesement(createDTO, userId);
             return CreatedAtAction(nameof(GetAdvertiesement), new { Id = advertiesement.Id }, null);
         }
-
     }
 }
