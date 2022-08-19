@@ -14,7 +14,6 @@ const categoryApi =
   (next: Next) =>
   async (action: Action) => {
     if (action.type !== apiCallBegan.type) next(action);
-    console.log(getState());
     if (getState().entities.category === null) {
       try {
         const { data } = await axios.get(`${config.apiEndPoint}/Categories`);

@@ -17,6 +17,7 @@ const NavBar = (): JSX.Element => {
   const { signModalVisible } = useSelector(
     (state: Store) => state.entities.ui.modals
   );
+
   // Render
   return (
     <>

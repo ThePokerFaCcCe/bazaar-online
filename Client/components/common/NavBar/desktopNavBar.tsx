@@ -17,18 +17,19 @@ import {
   megaMenuToggle,
   signModalToggle,
 } from "../../../store/state/ui";
-import { DesktopNavBarProps, Store } from "../../../types/type";
+import { Store } from "../../../types/type";
 import MegaMenu from "./megaMenu";
 import MyBazzarMenu from "./myBazzarMenu";
 import styles from "../../../styles/NavBar.module.css";
 const DesktopNavBar = (): JSX.Element => {
   // Redux Setup
   const dispatch = useDispatch();
+  //
   const { desktopMenuVisible, megaMenuVisible } = useSelector(
     (state: Store) => state.entities.ui.navbar
   );
-  // Local State
-  const [loggedIn, setLoggedIn] = useState(true);
+  const { isLoggedIn } = useSelector((state: Store) => state.entities);
+
   // Render
   return (
     <>
@@ -148,7 +149,7 @@ const DesktopNavBar = (): JSX.Element => {
                 <Button className={styles.nav__items}>پشتیبانی</Button>
               </Grid>
               <Grid item>
-                {loggedIn ? (
+                {isLoggedIn ? (
                   <Link href="/ad/new">
                     <Button className={styles.navbar__btn} variant="contained">
                       ثبت آگهی

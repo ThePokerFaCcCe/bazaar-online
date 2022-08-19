@@ -3,6 +3,8 @@ import { toast } from "react-toastify";
 import config from "../config.json";
 import { StepTwoProps, User, UserActive, LoginUser } from "../types/type";
 
+var isToday = require("dayjs/plugin/isToday");
+
 const header = {
   headers: {
     "Content-Type": "application/json",
@@ -60,7 +62,7 @@ export const stepTwoPost = async (
   setStep: (paramter: number) => void
 ) => {
   try {
-    await handlePostActiveCode({ Code: code, email: value.email });
+    await handlePostActiveCode({ code, email: value.email });
     setStep(3);
   } catch ({ response }) {
     handleExpectedError(response);
@@ -68,14 +70,21 @@ export const stepTwoPost = async (
 };
 
 // Login
-export const handleLogin = async (user: LoginUser): Promise<void> => {
+export const handleLogin = async (user: LoginUser) => {
   try {
-    await axios.post(
+    const { data } = await axios.post(
       `${config.apiEndPoint}/auth/jwt/createtoken`,
       user,
       header
     );
+    localStorage.setItem("sessionExpire", data.expireDate);
+    window.location.replace("/");
   } catch ({ response }) {
     handleExpectedError(response);
   }
+};
+
+export const logout = () => {
+  localStorage?.removeItem("sessionExpire");
+  window.location.replace("/");
 };

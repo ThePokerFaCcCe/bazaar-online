@@ -5,9 +5,10 @@ import {
   Home,
   MarkunreadMailboxOutlined,
   Close,
-  PeopleOutlined,
   Search,
-  PeopleOutline,
+  Login,
+  Logout,
+  PeopleOutlined,
 } from "@mui/icons-material";
 import { Input } from "antd";
 import { Sidebar } from "primereact/sidebar";
@@ -16,11 +17,27 @@ import { useSelector, useDispatch } from "react-redux";
 import { mobileMenuToggle, signModalToggle } from "../../../store/state/ui";
 import styles from "../../../styles/NavBar.module.css";
 import Logo from "./logo";
-import { useState } from "react";
+import { logout } from "../../../services/httpService";
 
 const navItems: NavItems = [
   { title: "خانه", icon: <Home className={styles.navbar__icon} /> },
-  { title: "ورود | ثبت نام", icon: <PeopleOutline /> },
+  {
+    title: "ورود | ثبت نام",
+    icon: <Login className={styles.navbar__icon} />,
+  },
+  {
+    title: "آگهی ها",
+    icon: <MarkunreadMailboxOutlined className={styles.navbar__icon} />,
+  },
+  {
+    title: "درباره ما",
+    icon: <PeopleOutlined className={styles.navbar__icon} />,
+  },
+];
+
+const navItemsLoggedIn: NavItems = [
+  { title: "خانه", icon: <Home className={styles.navbar__icon} /> },
+  { title: "خروج", icon: <Logout className={styles.navbar__icon} /> },
   {
     title: "آگهی ها",
     icon: <MarkunreadMailboxOutlined className={styles.navbar__icon} />,
@@ -34,22 +51,27 @@ const navItems: NavItems = [
 const MobileNavBar = (): JSX.Element => {
   // Redux Setup
   const dispatch = useDispatch();
-
+  //
   const { mobileMenuVisible } = useSelector(
     (state: Store) => state.entities.ui.navbar
   );
-  // Local State
-  const [loggedIn, setLoggedIn] = useState(false);
+  const { isLoggedIn } = useSelector((state: Store) => state.entities);
 
+  //
+  const navItemToShow = isLoggedIn ? navItemsLoggedIn : navItems;
   // Event Handler
 
   const modalToOpen = (title: string) => {
-    if (title === "ورود | ثبت نام") {
-      dispatch(mobileMenuToggle());
-      dispatch(signModalToggle());
-      return;
+    switch (title) {
+      case "ورود | ثبت نام":
+        dispatch(mobileMenuToggle());
+        dispatch(signModalToggle());
+        return;
+      case "خروج":
+        logout();
+      default:
+        null;
     }
-    return null;
   };
 
   // Render
@@ -64,7 +86,7 @@ const MobileNavBar = (): JSX.Element => {
             <Logo />
           </div>
         </Link>
-        {loggedIn ? (
+        {isLoggedIn ? (
           <Link href="/ad/new">
             <Button className={styles.navbar__btn} variant="contained">
               ثبت آگهی
@@ -93,21 +115,23 @@ const MobileNavBar = (): JSX.Element => {
         onHide={() => dispatch(mobileMenuToggle())}
       >
         <Box className={styles.navbar__drawer}>
-          {navItems.map((item, index) => (
-            <Box
-              sx={{ fontWeight: "500" }}
-              key={index}
-              onClick={() => modalToOpen(item.title)}
-              className="w-100 border-bottom p-3"
-            >
-              <Grid container spacing={2} direction="row" alignItems="center">
-                <Grid item>{item.icon}</Grid>
-                <Grid item>
-                  <a className={styles.navbar__title}>{item.title}</a>
+          {navItemToShow.map((item, index) => {
+            return (
+              <Box
+                sx={{ fontWeight: "500" }}
+                key={index}
+                onClick={() => modalToOpen(item.title)}
+                className="w-100 border-bottom p-3"
+              >
+                <Grid container spacing={2} direction="row" alignItems="center">
+                  <Grid item>{item.icon}</Grid>
+                  <Grid item>
+                    <a className={styles.navbar__title}>{item.title}</a>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Box>
-          ))}
+              </Box>
+            );
+          })}
           <Box sx={{ fontWeight: "500" }} className="w-100 border-bottom p-3">
             <label className="pb-2">جستجو</label>
             <Input
