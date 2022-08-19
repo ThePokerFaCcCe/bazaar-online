@@ -5,7 +5,6 @@ const { actions, reducer } = createSlice({
   initialState: null,
   reducers: {
     statesReceived: (state, { payload }) => {
-      console.log(payload);
       return (state = payload);
     },
   },

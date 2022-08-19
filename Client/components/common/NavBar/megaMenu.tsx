@@ -29,8 +29,7 @@ const MegaMenu = () => {
   const [megaMenu2Display, setMegaMenu2Display] = useState<
     CategoryObject | any
   >(category?.[0]);
-  console.log("store ", megaMenu2Display);
-  console.log("megaMenu", megaMenu2Display);
+
   return (
     <Box className={styles.megamenu__content}>
       <Box className={styles.navbar__category}>

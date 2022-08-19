@@ -147,3 +147,13 @@ export interface UserCardProps {
   createDate: string;
   status: boolean;
 }
+
+export interface UserActive {
+  Code: string;
+  email: string;
+}
+
+export interface LoginUser {
+  email: string;
+  password: string;
+}

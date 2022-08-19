@@ -1,7 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import config from "../config.json";
-import { StepTwoProps, User } from "../types/type";
+import { StepTwoProps, User, UserActive, LoginUser } from "../types/type";
 
 const header = {
   headers: {
@@ -18,27 +18,12 @@ export const handleExpectedError = (response: any) => {
   }
 };
 
-// Login & Register
-
-export const handleRegister = async (user: User): Promise<void> => {
+// Register
+const handleRegister = async (user: User): Promise<void> => {
   await axios.post(`${config.apiEndPoint}/auth/register`, user, header);
 };
 
-export const handleLogin = async (user: any): Promise<void> => {
-  try {
-    await axios.post(
-      `${config.apiEndPoint}/auth/jwt/createtoken`,
-      user,
-      header
-    );
-  } catch ({ response }) {
-    handleExpectedError(response);
-  }
-};
-
-export const handeGetActivateCode = async (
-  email: StepTwoProps
-): Promise<void> => {
+const handeGetActivateCode = async (email: StepTwoProps): Promise<void> => {
   try {
     const { data } = await axios.post(
       `${config.apiEndPoint}/Auth/EmailActiveCode`,
@@ -51,12 +36,7 @@ export const handeGetActivateCode = async (
   }
 };
 
-interface UserActive {
-  Code: string;
-  email: string;
-}
-
-export const handlePostActiveCode = async (user: UserActive): Promise<void> => {
+const handlePostActiveCode = async (user: UserActive): Promise<void> => {
   await axios.post(`${config.apiEndPoint}/Auth/Activate`, user, header);
 };
 
@@ -82,6 +62,19 @@ export const stepTwoPost = async (
   try {
     await handlePostActiveCode({ Code: code, email: value.email });
     setStep(3);
+  } catch ({ response }) {
+    handleExpectedError(response);
+  }
+};
+
+// Login
+export const handleLogin = async (user: LoginUser): Promise<void> => {
+  try {
+    await axios.post(
+      `${config.apiEndPoint}/auth/jwt/createtoken`,
+      user,
+      header
+    );
   } catch ({ response }) {
     handleExpectedError(response);
   }

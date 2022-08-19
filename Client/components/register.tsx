@@ -3,6 +3,7 @@ import { Divider } from "antd";
 import { useState } from "react";
 import { useFormik } from "formik";
 import { stepOnePost, stepTwoPost } from "../services/httpService";
+import { User } from "../types/type";
 import StepOne from "./common/Register/stepOne";
 import StepTwo from "./common/Register/stepTwo";
 import StepThree from "./common/Register/stepThree";
@@ -47,12 +48,14 @@ const Register = (): JSX.Element => {
     }
   };
 
-  const handleNextStep = async (value: any) => {
+  const handleNextStep = (value: User) => {
     switch (step) {
       case 1:
         stepOnePost(value, step, setStep);
+        break;
       case 2:
         stepTwoPost(value, code, setStep);
+        break;
     }
   };
 
