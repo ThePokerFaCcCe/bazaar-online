@@ -27,9 +27,12 @@ builder.Services.AddCors(options =>
     });
 });
 
+// XML Content Type
+builder.Services.AddControllers();
 
-builder.Services.AddControllers()
-    .AddXmlSerializerFormatters();
+// Access to HttpContext in DI
+// https://stackoverflow.com/a/56388997/14034832
+// builder.Services.AddHttpContextAccessor();
 
 // DB
 builder.Services.AddDbContext<BazaarDbContext>(options =>
@@ -121,10 +124,11 @@ if (app.Environment.IsDevelopment())
     using (var scope = app.Services.CreateScope())
     {
         var services = scope.ServiceProvider;
-        ExampleSeeder.Seed(services, forceRecreate: true);
+        ExampleSeeder.Seed(services, forceRecreate: false);
     }
 }
 
+app.UseStaticFiles();
 app.UseCors(NextJsOrigin);
 
 app.UseAuthentication();
