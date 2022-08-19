@@ -1,5 +1,6 @@
 using BazaarOnline.Application.DTOs.Advertiesements;
 using BazaarOnline.Application.Interfaces.Advertiesements;
+using BazaarOnline.Application.Utils;
 using BazaarOnline.Application.Utils.Extentions;
 using BazaarOnline.Application.ViewModels.Advertiesements;
 using BazaarOnline.Domain.Entities.Advertiesements;
@@ -30,6 +31,15 @@ namespace BazaarOnline.Application.Services.Advertiesements
                 AdvertiesementFeatureValues = createDTO.AdvertiesementFeatureValues
                     .Select(af => new AdvertiesementFeatureValue().FillFromObject(af))
                     .ToList(),
+                AdvertiesementPictures = createDTO.AdvertiesementPictures
+                    .Select(p => new AdvertiesementPicture
+                    {
+                        PictureName = FileHelper.SaveImageWithThumb(
+                            p,
+                            PathHelper.PAdvertiesementImage,
+                            PathHelper.PAdvertiesementThumb
+                            )
+                    }).ToList(),
             }.FillFromObject(createDTO);
 
             _repository.Add<Advertiesement>(advertiesement);
@@ -67,7 +77,8 @@ namespace BazaarOnline.Application.Services.Advertiesements
                     model.Pictures = a.AdvertiesementPictures
                         .Select(p => new AdvertiesementPictureDetailViewModel
                         {
-                            // TODO Add picture urls
+                            Image = $"/{Path.Combine(PathHelper.PAdvertiesementImage, p.PictureName)}",
+                            Thumbnail = $"/{Path.Combine(PathHelper.PAdvertiesementThumb, p.PictureName)}",
                         });
 
                     model.FeatureValues = a.AdvertiesementFeatureValues
@@ -80,6 +91,11 @@ namespace BazaarOnline.Application.Services.Advertiesements
                     return model;
                 })
                 .SingleOrDefault();
+        }
+
+        public Advertiesement? FindAdvertiesement(int id)
+        {
+            return _repository.Get<Advertiesement>(id);
         }
     }
 }

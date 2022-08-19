@@ -9,5 +9,6 @@ namespace BazaarOnline.Application.Interfaces.Advertiesements
         AdvertiesementDetailViewModel? GetAdvertiesementDetail(int id);
         // IEnumerable<AdvertiesementListDetailViewModel> GetAdvertiesementListDetail();
         Advertiesement CreateAdvertiesement(AdvertiesementCreateDTO createDTO, int userId);
+        Advertiesement? FindAdvertiesement(int id);
     }
 }

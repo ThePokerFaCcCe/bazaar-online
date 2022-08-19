@@ -44,5 +44,6 @@ namespace BazaarOnline.Application.DTOs.Advertiesements
             = new List<AdvertiesementFeatureValueCreateDTO>();
 
         public List<IFormFile>? AdvertiesementPictures { get; set; }
+            = new List<IFormFile>();
     }
 }

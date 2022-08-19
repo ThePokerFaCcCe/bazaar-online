@@ -5,6 +5,7 @@ using BazaarOnline.Domain.Entities.Categories;
 using BazaarOnline.Domain.Entities.Features;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Testing.Application.Validators;
 
 namespace BazaarOnline.Application.FluentValidations.Advertiesements
 {
@@ -25,6 +26,14 @@ namespace BazaarOnline.Application.FluentValidations.Advertiesements
                     .Must((v, cityId) => true)
                     .WithMessage("محدوده مشخص شده در نقشه خارج از استان است");
             });
+
+            RuleForEach(v => v.AdvertiesementPictures)
+            .Must(ap => ap.IsValidImage())
+            .WithMessage("عکس معتبر نیست")
+            .Must(ap => ap.IsSizeSmallerThan(1000))
+            .WithMessage("حجم عکس بیشتر از 1000 کیلوبایت است")
+            .Must(ap => ap.HasValidExtension(new[] { ".jpg", ".png" }))
+            .WithMessage("فرمت عکس باید jpg یا png باشد");
 
             RuleFor(v => v.AdvertiesementPrice)
             .ChildRules(ap =>
