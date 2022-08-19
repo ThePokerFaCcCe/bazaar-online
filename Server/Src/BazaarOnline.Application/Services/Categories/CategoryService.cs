@@ -40,9 +40,14 @@ namespace BazaarOnline.Application.Services.Categories
             _repository.Save();
         }
 
-        public Category? FindCategory(int id)
+        public Category? FindCategory(int id, bool includeChildren = false)
         {
-            return _repository.Get<Category>(id);
+            if (!includeChildren)
+                return _repository.Get<Category>(id);
+
+            return _repository.GetAll<Category>()
+                .Include(c => c.ChildCategories)
+                .SingleOrDefault(c => c.Id == id);
         }
 
         public List<CategoryListDetailViewModel> GetCategoryChildrenDetail(
@@ -170,10 +175,10 @@ namespace BazaarOnline.Application.Services.Categories
         {
             return categoryFeatures
                 .Include(cf => cf.Feature)
-                .ThenInclude(f => f.FeatureEnum)
-                .ThenInclude(fe => fe.FeatureEnumValues)
+                    .ThenInclude(f => f.FeatureEnum)
+                    .ThenInclude(fe => fe.FeatureEnumValues)
                 .Include(cf => cf.Feature)
-                .ThenInclude(cf => cf.FeatureInteger)
+                    .ThenInclude(cf => cf.FeatureInteger)
                 .AsEnumerable()
                 .Select(cf =>
                 {
@@ -203,22 +208,48 @@ namespace BazaarOnline.Application.Services.Categories
 
         public List<FeatureDetailViewModel> GetCategoryFeatureDetailsHierarchy(Category category)
         {
-            var allCategories = _repository.GetAll<Category>();
-
-
-            var ccategory = allCategories.Single(c => c.Id == category.Id);
-            var hierarchy = new List<int> { ccategory.Id };
-
-            while (ccategory.ParentId != null)
-            {
-                ccategory = allCategories.Single(c => c.Id == ccategory.ParentId);
-                hierarchy.Add(ccategory.Id);
-            }
+            var hierarchy = GetCategoryAndParentFlatten(category.Id, includeSelf: true)
+                .Select(c => c.Id);
 
             return _GetFeatureDetails(
                 _repository.GetAll<CategoryFeature>()
                     .Where(cf => hierarchy.Contains(cf.CategoryId)));
 
+        }
+
+        public IEnumerable<Category> GetCategoryAndParentFlatten(int? categoryId, bool includeSelf = false)
+        {
+            // TODO: Refactor this method!
+            var allCategories = _repository.GetAll<Category>();
+
+            var hierarchy = new List<Category>();
+            var ccategory = allCategories.SingleOrDefault(c => c.Id == categoryId);
+
+            if (ccategory == null) return hierarchy;
+            hierarchy.Add(ccategory);
+
+            while (ccategory.ParentId != null)
+            {
+                ccategory = allCategories.Single(c => c.Id == ccategory.ParentId);
+                hierarchy.Add(ccategory);
+            }
+
+            return hierarchy;
+        }
+
+        public IEnumerable<Feature> GetCategoryFeaturesHierarchy(Category category)
+        {
+            var hierarchy = GetCategoryAndParentFlatten(category.Id, includeSelf: true)
+                .Select(c => c.Id);
+
+            return _repository.GetAll<CategoryFeature>()
+                    .Where(cf => hierarchy.Contains(cf.CategoryId))
+                    .Include(cf => cf.Feature)
+                        .ThenInclude(f => f.FeatureEnum)
+                        .ThenInclude(fe => fe.FeatureEnumValues)
+                    .Include(cf => cf.Feature)
+                        .ThenInclude(f => f.FeatureInteger)
+                    .Select(cf => cf.Feature);
         }
     }
 }
