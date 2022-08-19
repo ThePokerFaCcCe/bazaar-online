@@ -56,6 +56,7 @@ namespace BazaarOnline.Infra.IoC
 
             #region Advertiesements
             services.AddScoped<IAdvertiesementService, AdvertiesementService>();
+            services.AddScoped<IAdvertiesementManagementService, AdvertiesementManagementService>();
             #endregion
 
             #endregion
