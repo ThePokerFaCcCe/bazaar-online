@@ -60,7 +60,7 @@ const Register = (): JSX.Element => {
   };
 
   const handleBackStep = () => {
-    if (step !== 1) return setStep(step - 1);
+    step !== 1 && setStep(step - 1);
   };
 
   // Render

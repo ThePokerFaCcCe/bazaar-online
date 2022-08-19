@@ -6,7 +6,9 @@ const { actions, reducer } = createSlice({
   initialState: null,
   reducers: {
     categoryReceived: (state, { payload }) => {
-      return (state = payload);
+      if (state === null) {
+        return (state = payload);
+      }
     },
   },
 });

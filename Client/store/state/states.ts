@@ -5,7 +5,9 @@ const { actions, reducer } = createSlice({
   initialState: null,
   reducers: {
     statesReceived: (state, { payload }) => {
-      return (state = payload);
+      if (state === null) {
+        return (state = payload);
+      }
     },
   },
 });

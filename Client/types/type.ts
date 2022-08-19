@@ -35,6 +35,7 @@ export type CategoryObjectWithChildren = {
 
 export interface Store {
   entities: {
+    isLoggedIn: boolean;
     ui: {
       modals: {
         signModalVisible: boolean;
@@ -149,7 +150,7 @@ export interface UserCardProps {
 }
 
 export interface UserActive {
-  Code: string;
+  code: string;
   email: string;
 }
 
