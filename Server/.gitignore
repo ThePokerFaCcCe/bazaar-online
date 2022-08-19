@@ -455,3 +455,6 @@ $RECYCLE.BIN/
 
 # Environments
 .env
+
+# wwwroot
+wwwroot
