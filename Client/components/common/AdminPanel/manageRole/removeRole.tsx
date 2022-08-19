@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { Input, Select, Button } from "antd";
 import React, { useState } from "react";
-import styles from "../../../styles/Dashboard.module.css";
+import styles from "../../../../styles/Dashboard.module.css";
 const { Option } = Select;
 
 const RemoveRole = (): JSX.Element => {

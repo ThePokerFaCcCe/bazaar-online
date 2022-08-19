@@ -6,24 +6,25 @@ import {
   RadioGroup,
   Radio,
 } from "@mui/material";
-import { Checkbox, Input } from "antd";
-import { useState } from "react";
+import { Input } from "antd";
+import { useMemo, useState } from "react";
+import ChangeRole from "./manageRole/changeRole";
+import NewRole from "./manageRole/newRole";
+import RemoveRole from "./manageRole/removeRole";
 
 const ManageRoles = (): JSX.Element => {
-  const [purpose, setPurpose] = useState("");
+  const [purpose, setPurpose] = useState("newRole");
 
-  function formToShow() {
+  const formToShow: JSX.Element | undefined = useMemo(() => {
     switch (purpose) {
-      case "newRole":
-        return (
-          <Box>
-            <form>
-              <Input addonBefore="نام نقش جدید" placeholder="Basic usage" />
-            </form>
-          </Box>
-        );
+      case "changeRole":
+        return <ChangeRole />;
+      case "removeRole":
+        return <RemoveRole />;
+      default:
+        return <NewRole />;
     }
-  }
+  }, [purpose]);
 
   return (
     <>
@@ -47,12 +48,13 @@ const ManageRoles = (): JSX.Element => {
               label="تغییر نقش"
             />
             <FormControlLabel
-              value="deleteRole"
+              value="removeRole"
               control={<Radio />}
               label="حذف نقش"
             />
           </RadioGroup>
         </FormControl>
+        <Box>{formToShow}</Box>
       </Box>
     </>
   );

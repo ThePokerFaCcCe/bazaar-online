@@ -2,16 +2,15 @@ import { Typography, Box, Link } from "@mui/material";
 import { InputNumber } from "antd";
 import { useState } from "react";
 
-const StepTwo = (): JSX.Element => {
+const StepTwo = ({ code, onSetCode }: any): JSX.Element => {
   // Local State
-  const [code, setCode] = useState("000000");
 
   // Event Handler
   const handleInput = (value: number, index: number) => {
     if (value) {
       const clone = [...code];
       clone[index] = value.toString();
-      setCode(clone.join().replaceAll(",", ""));
+      onSetCode(clone.join().replaceAll(",", ""));
     }
   };
   // Render

@@ -1,10 +1,10 @@
 import { Box } from "@mui/material";
-import { Input, Select, Button } from "antd";
+import { Select, Button } from "antd";
 import React, { useState } from "react";
-import styles from "../../../styles/Dashboard.module.css";
+import styles from "../../../../styles/Dashboard.module.css";
 const { Option } = Select;
 
-const ChangeRole = (): JSX.Element => {
+const RemoveCategory = (): JSX.Element => {
   const [data, setData] = useState({
     name: "",
     role: [""],
@@ -25,22 +25,7 @@ const ChangeRole = (): JSX.Element => {
             <Select
               allowClear
               style={{ width: "100%" }}
-              placeholder="نقش خود را انتخاب کنید"
-            >
-              <Option key={"salam1"}>Salam</Option>
-              <Option key={"salam2"}>Salam</Option>
-              <Option key={"salam3"}>Salam</Option>
-            </Select>
-            <Input
-              onChange={handleChange}
-              name="name"
-              placeholder="تغییر نام نقش"
-            />
-            <Select
-              mode="multiple"
-              allowClear
-              style={{ width: "100%" }}
-              placeholder="یک یا چند دسترسی انتخاب کنید"
+              placeholder="دسته بندی خود را انتخاب کنید"
             >
               <Option key={"salam1"}>Salam</Option>
               <Option key={"salam2"}>Salam</Option>
@@ -51,9 +36,10 @@ const ChangeRole = (): JSX.Element => {
                 width: "30%",
                 marginTop: "1rem",
               }}
+              danger
               type="primary"
             >
-              ثبت تغییرات
+              حذف
             </Button>
           </Box>
         </form>
@@ -62,4 +48,4 @@ const ChangeRole = (): JSX.Element => {
   );
 };
 
-export default ChangeRole;
+export default RemoveCategory;

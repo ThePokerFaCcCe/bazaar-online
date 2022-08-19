@@ -1,11 +1,10 @@
 import { Box } from "@mui/material";
 import { Input, Select, Button } from "antd";
 import React, { useState } from "react";
-import styles from "../../../styles/Dashboard.module.css";
-
+import styles from "../../../../styles/Dashboard.module.css";
 const { Option } = Select;
 
-const NewRole = (): JSX.Element => {
+const ChangeCategory = (): JSX.Element => {
   const [data, setData] = useState({
     name: "",
     role: [""],
@@ -23,10 +22,19 @@ const NewRole = (): JSX.Element => {
       <Box sx={{ mt: 2 }}>
         <form>
           <Box className={styles.role__holder}>
+            <Select
+              allowClear
+              style={{ width: "100%" }}
+              placeholder="دسته بندی خود را انتخاب کنید"
+            >
+              <Option key={"salam1"}>Salam</Option>
+              <Option key={"salam2"}>Salam</Option>
+              <Option key={"salam3"}>Salam</Option>
+            </Select>
             <Input
               onChange={handleChange}
               name="name"
-              placeholder="نام نقش جدید"
+              placeholder="تغییر نام دسته بندی"
             />
             <Select
               mode="multiple"
@@ -38,8 +46,14 @@ const NewRole = (): JSX.Element => {
               <Option key={"salam2"}>Salam</Option>
               <Option key={"salam3"}>Salam</Option>
             </Select>
-            <Button style={{ width: "30%", marginTop: "1rem" }} type="primary">
-              ثبت نقش جدید
+            <Button
+              style={{
+                width: "30%",
+                marginTop: "1rem",
+              }}
+              type="primary"
+            >
+              ثبت تغییرات
             </Button>
           </Box>
         </form>
@@ -48,4 +62,4 @@ const NewRole = (): JSX.Element => {
   );
 };
 
-export default NewRole;
+export default ChangeCategory;

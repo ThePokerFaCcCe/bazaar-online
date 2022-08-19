@@ -19,7 +19,8 @@ namespace BazaarOnline.Infra.Data.Seeds
             var examplesDir = Path.Combine(seedsDir, "ExampleDatas");
 
             var context = services.GetRequiredService<BazaarDbContext>();
-
+            context.Users.RemoveRange(context.Users);
+            context.SaveChanges();
             using (var transaction = context.Database.BeginTransaction())
             {
                 if (forceRecreate)

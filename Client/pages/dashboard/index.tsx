@@ -10,15 +10,15 @@ import {
   MarkunreadSharp,
 } from "@mui/icons-material";
 import RTL from "../../services/rtl";
-import ManageUsers from "../../components/AdminPanel/manageUsers";
 import { useRouter } from "next/router";
 import styles from "../../styles/Dashboard.module.css";
 import { GetServerSideProps } from "next";
 import axios from "axios";
-import ManageRoles from "../../components/AdminPanel/manageRoles";
-import ManageAds from "../../components/AdminPanel/mangeAds";
-import ManageCategories from "../../components/AdminPanel/manageCategories";
-import ManageFields from "../../components/AdminPanel/manageFields";
+import ManageUsers from "../../components/common/AdminPanel/manageUsers";
+import ManageRoles from "../../components/common/AdminPanel/manageRoles";
+import ManageAds from "../../components/common/AdminPanel/manageAds";
+import ManageCategories from "../../components/common/AdminPanel/manageCategories";
+import ManageFields from "../../components/common/AdminPanel/manageFields";
 import Head from "next/head";
 const { Option } = Select;
 const { Search } = Input;

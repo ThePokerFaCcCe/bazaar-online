@@ -62,7 +62,7 @@ export interface Card {
 }
 
 export interface AdvertisementListProps {
-  post: object;
+  title: string;
 }
 
 export type StepsProp = {

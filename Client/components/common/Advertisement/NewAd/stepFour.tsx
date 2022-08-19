@@ -75,7 +75,7 @@ const StepFour = ({
               .includes(input.toLowerCase())
           }
         >
-          {city?.map((ct) => (
+          {city?.map((ct: any) => (
             <Option key={ct.id} value={ct.id}>
               {ct.name}
             </Option>

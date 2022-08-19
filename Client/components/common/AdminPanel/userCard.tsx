@@ -7,7 +7,7 @@ import {
   Block,
   Check,
 } from "@mui/icons-material";
-import { UserCardProps } from "../../../types/type";
+import { UserCardProps } from "../../types/type";
 
 const UserCard = ({
   name,

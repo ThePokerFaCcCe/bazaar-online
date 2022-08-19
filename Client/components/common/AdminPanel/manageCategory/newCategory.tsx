@@ -1,10 +1,11 @@
 import { Box } from "@mui/material";
 import { Input, Select, Button } from "antd";
 import React, { useState } from "react";
-import styles from "../../../styles/Dashboard.module.css";
+import styles from "../../../../styles/Dashboard.module.css";
+
 const { Option } = Select;
 
-const ChangeCategory = (): JSX.Element => {
+const NewCategory = (): JSX.Element => {
   const [data, setData] = useState({
     name: "",
     role: [""],
@@ -22,38 +23,23 @@ const ChangeCategory = (): JSX.Element => {
       <Box sx={{ mt: 2 }}>
         <form>
           <Box className={styles.role__holder}>
-            <Select
-              allowClear
-              style={{ width: "100%" }}
-              placeholder="دسته بندی خود را انتخاب کنید"
-            >
-              <Option key={"salam1"}>Salam</Option>
-              <Option key={"salam2"}>Salam</Option>
-              <Option key={"salam3"}>Salam</Option>
-            </Select>
             <Input
               onChange={handleChange}
               name="name"
-              placeholder="تغییر نام دسته بندی"
+              placeholder="نام دسته بندی جدید"
             />
             <Select
               mode="multiple"
               allowClear
               style={{ width: "100%" }}
-              placeholder="یک یا چند دسترسی انتخاب کنید"
+              placeholder="زیر مجموعه های خود را وارد کنید"
             >
               <Option key={"salam1"}>Salam</Option>
               <Option key={"salam2"}>Salam</Option>
               <Option key={"salam3"}>Salam</Option>
             </Select>
-            <Button
-              style={{
-                width: "30%",
-                marginTop: "1rem",
-              }}
-              type="primary"
-            >
-              ثبت تغییرات
+            <Button style={{ width: "40%", marginTop: "1rem" }} type="primary">
+              ثبت دسته بندی جدید
             </Button>
           </Box>
         </form>
@@ -62,4 +48,4 @@ const ChangeCategory = (): JSX.Element => {
   );
 };
 
-export default ChangeCategory;
+export default NewCategory;
