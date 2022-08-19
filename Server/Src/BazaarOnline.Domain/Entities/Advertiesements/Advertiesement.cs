@@ -18,6 +18,10 @@ namespace BazaarOnline.Domain.Entities.Advertiesements
 
         public double Latitude { get; set; }
 
+        public string? DeniedByAdminReason { get; set; }
+
+        public bool IsDeniedByAdmin { get; set; }
+
         public bool IsAccepted { get; set; }
 
         public bool IsDeleted { get; set; }

@@ -27,6 +27,9 @@ public class AdvertiesementFluentConfig : IEntityTypeConfiguration<Advertiesemen
             .IsRequired()
             .HasMaxLength(1000);
 
+        builder.Property(a => a.DeniedByAdminReason)
+            .HasMaxLength(1000);
+
         builder.Property(a => a.Address)
             .HasMaxLength(100);
 
@@ -41,6 +44,10 @@ public class AdvertiesementFluentConfig : IEntityTypeConfiguration<Advertiesemen
             .HasDefaultValue(false);
 
         builder.Property(a => a.IsDeleted)
+            .IsRequired()
+            .HasDefaultValue(false);
+
+        builder.Property(a => a.IsDeniedByAdmin)
             .IsRequired()
             .HasDefaultValue(false);
 
