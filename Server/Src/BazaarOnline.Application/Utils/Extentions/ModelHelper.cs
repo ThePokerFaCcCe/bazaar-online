@@ -21,7 +21,11 @@ namespace BazaarOnline.Application.Utils.Extentions
                 {
                     var value = p.GetValue(filler);
                     if (!ignoreNulls || value != null)
-                        modelType.GetProperty(p.Name)?.SetValue(model, value);
+                    {
+                        var prop = modelType.GetProperty(p.Name);
+                        if (prop != null && (prop.PropertyType.IsValueType || prop?.PropertyType == typeof(string)))
+                            prop?.SetValue(model, value);
+                    }
                 }
             );
 
@@ -48,7 +52,11 @@ namespace BazaarOnline.Application.Utils.Extentions
                 {
                     var value = p.GetValue(filler);
                     if (!ignoreNulls || value != null)
-                        modelType.GetProperty(p.Name)?.SetValue(model, value);
+                    {
+                        var prop = modelType.GetProperty(p.Name);
+                        if (prop != null && (prop.PropertyType.IsValueType || prop?.PropertyType == typeof(string)))
+                            prop?.SetValue(model, value);
+                    }
                 }
             );
 
