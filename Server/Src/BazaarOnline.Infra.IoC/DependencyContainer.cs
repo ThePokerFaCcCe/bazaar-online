@@ -1,3 +1,4 @@
+using BazaarOnline.Application.Interfaces.Advertiesements;
 using BazaarOnline.Application.Interfaces.Auth;
 using BazaarOnline.Application.Interfaces.Categories;
 using BazaarOnline.Application.Interfaces.Features;
@@ -5,6 +6,7 @@ using BazaarOnline.Application.Interfaces.Locations;
 using BazaarOnline.Application.Interfaces.Permissions;
 using BazaarOnline.Application.Interfaces.Senders;
 using BazaarOnline.Application.Interfaces.Users;
+using BazaarOnline.Application.Services.Advertiesements;
 using BazaarOnline.Application.Services.Auth;
 using BazaarOnline.Application.Services.Categories;
 using BazaarOnline.Application.Services.Features;
@@ -53,7 +55,7 @@ namespace BazaarOnline.Infra.IoC
             #endregion
 
             #region Advertiesements
-            // services.AddScoped<IAdvertiesementService, AdvertiesementService>();
+            services.AddScoped<IAdvertiesementService, AdvertiesementService>();
             #endregion
 
             #endregion
