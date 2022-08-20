@@ -43,18 +43,20 @@ namespace BazaarOnline.Infra.Data.Seeds
 
         private static void SeedCategories()
         {
-            if (Context.Categories.Count() == 0)
-            {
-                Context.Categories.AddRange(
-                    SeedHelper.LoadFromJson<Category>(Path.Combine(ExamplesDir, "CategorySeed.json"))
-                );
-            }
+            if (Context.Categories.Any()) return;
+
+            Context.Categories.AddRange(
+                SeedHelper.LoadFromJson<Category>(Path.Combine(ExamplesDir, "CategorySeed.json"))
+            );
+
 
             SaveChangesWithIdentityInsert<Category>();
         }
 
         private static void SeedUsers()
         {
+            if (Context.Users.Any()) return;
+
             Context.Users.Add(new User
             {
                 Id = 1,
