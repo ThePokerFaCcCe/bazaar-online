@@ -25,6 +25,12 @@ namespace BazaarOnline.Application.Services.Categories
 
             var category = new Category();
             category.FillFromObject(createDTO);
+            category.ChildCategories = createDTO.Children.Select(
+                c => new Category
+                {
+                    Title = c.Title
+                }
+            ).ToList();
 
             _repository.Add<Category>(category);
             _repository.Save();
