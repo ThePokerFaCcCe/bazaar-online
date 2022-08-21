@@ -9,6 +9,8 @@ namespace BazaarOnline.Application.Interfaces.Locations
 
         CityDetailViewModel? GetCityDetail(int id);
 
+        string? GetCityISOCode(int id);
+
         bool IsCityExists(int id);
     }
 }

@@ -46,6 +46,14 @@ namespace BazaarOnline.Application.Services.Locations
 
         }
 
+        public string? GetCityISOCode(int id)
+        {
+            return _repository.GetAll<City>()
+                .Where(c => c.Id == id)
+                .Select(c => c.ISO3166)
+                .SingleOrDefault();
+        }
+
         public bool IsCityExists(int id)
         {
             return _repository.GetAll<City>().Any(c => c.Id == id);
