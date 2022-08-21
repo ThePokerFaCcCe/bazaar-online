@@ -6,6 +6,7 @@ using BazaarOnline.Infra.IoC;
 using FluentValidation.AspNetCore;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -127,7 +128,10 @@ if (app.Environment.IsDevelopment())
         ExampleSeeder.Seed(services, forceRecreate: false);
     }
 }
-
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture("en-US")
+});
 app.UseStaticFiles();
 app.UseCors(NextJsOrigin);
 
