@@ -1,6 +1,7 @@
 using BazaarOnline.Application.DTOs.Advertiesements;
 using BazaarOnline.Application.Interfaces.Categories;
 using BazaarOnline.Application.Interfaces.Locations;
+using BazaarOnline.Application.Interfaces.ReverseGeocoding;
 using BazaarOnline.Domain.Entities.Categories;
 using BazaarOnline.Domain.Entities.Features;
 using FluentValidation;
@@ -12,7 +13,7 @@ namespace BazaarOnline.Application.FluentValidations.Advertiesements
     public class AdvertiesementCreateFluentValidation : AbstractValidator<AdvertiesementCreateDTO>
     {
         private ICategoryService _categoryService;
-        public AdvertiesementCreateFluentValidation(ICategoryService categoryService, ILocationService locationService)
+        public AdvertiesementCreateFluentValidation(ICategoryService categoryService, ILocationService locationService, IReverseGeocodingService _reverseGeocodingService)
         {
             _categoryService = categoryService;
 
@@ -21,9 +22,17 @@ namespace BazaarOnline.Application.FluentValidations.Advertiesements
                 .WithMessage("استان معتبر نیست")
             .DependentRules(() =>
             {
-                // TODO: Validato longitude & Latitude
                 RuleFor(v => v.CityId)
-                    .Must((v, cityId) => true)
+                    .Must((v, cityId) =>
+                    {
+                        var task = Task.Run(() => _reverseGeocodingService.IsCoordinateInsideProvince(
+                            locationService.GetCityISOCode(cityId),
+                            v.Latitude,
+                            v.Longitude
+                        ));
+                        task.Wait();
+                        return task.Result;
+                    })
                     .WithMessage("محدوده مشخص شده در نقشه خارج از استان است");
             });
 
