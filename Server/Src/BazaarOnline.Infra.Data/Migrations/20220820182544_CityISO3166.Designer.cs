@@ -4,6 +4,7 @@ using BazaarOnline.Infra.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BazaarOnline.Infra.Data.Migrations
 {
     [DbContext(typeof(BazaarDbContext))]
-    partial class BazaarDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220820182544_CityISO3166")]
+    partial class CityISO3166
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -315,10 +317,8 @@ namespace BazaarOnline.Infra.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ISO3166")
-                        .IsRequired()
-                        .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)");
+                    b.Property<int>("ISO3166")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -336,187 +336,187 @@ namespace BazaarOnline.Infra.Data.Migrations
                         new
                         {
                             Id = 1,
-                            ISO3166 = "IR-03",
+                            ISO3166 = 3,
                             Name = "آذربایجان شرقی"
                         },
                         new
                         {
                             Id = 2,
-                            ISO3166 = "IR-04",
+                            ISO3166 = 4,
                             Name = "آذربایجان غربی"
                         },
                         new
                         {
                             Id = 3,
-                            ISO3166 = "IR-24",
+                            ISO3166 = 24,
                             Name = "اردبیل"
                         },
                         new
                         {
                             Id = 4,
-                            ISO3166 = "IR-10",
+                            ISO3166 = 10,
                             Name = "اصفهان"
                         },
                         new
                         {
                             Id = 5,
-                            ISO3166 = "IR-30",
+                            ISO3166 = 30,
                             Name = "البرز"
                         },
                         new
                         {
                             Id = 6,
-                            ISO3166 = "IR-16",
+                            ISO3166 = 16,
                             Name = "ایلام"
                         },
                         new
                         {
                             Id = 7,
-                            ISO3166 = "IR-18",
+                            ISO3166 = 18,
                             Name = "بوشهر"
                         },
                         new
                         {
                             Id = 8,
-                            ISO3166 = "IR-23",
+                            ISO3166 = 23,
                             Name = "تهران"
                         },
                         new
                         {
                             Id = 9,
-                            ISO3166 = "IR-14",
+                            ISO3166 = 14,
                             Name = "چهارمحال وبختیاری"
                         },
                         new
                         {
                             Id = 10,
-                            ISO3166 = "IR-29",
+                            ISO3166 = 29,
                             Name = "خراسان جنوبی"
                         },
                         new
                         {
                             Id = 11,
-                            ISO3166 = "IR-09",
+                            ISO3166 = 9,
                             Name = "خراسان رضوی"
                         },
                         new
                         {
                             Id = 12,
-                            ISO3166 = "IR-28",
+                            ISO3166 = 28,
                             Name = "خراسان شمالی"
                         },
                         new
                         {
                             Id = 13,
-                            ISO3166 = "IR-06",
+                            ISO3166 = 6,
                             Name = "خوزستان"
                         },
                         new
                         {
                             Id = 14,
-                            ISO3166 = "IR-19",
+                            ISO3166 = 19,
                             Name = "زنجان"
                         },
                         new
                         {
                             Id = 15,
-                            ISO3166 = "IR-20",
+                            ISO3166 = 20,
                             Name = "سمنان"
                         },
                         new
                         {
                             Id = 16,
-                            ISO3166 = "IR-11",
+                            ISO3166 = 11,
                             Name = "سیستان وبلوچستان"
                         },
                         new
                         {
                             Id = 17,
-                            ISO3166 = "IR-07",
+                            ISO3166 = 7,
                             Name = "فارس"
                         },
                         new
                         {
                             Id = 18,
-                            ISO3166 = "IR-26",
+                            ISO3166 = 26,
                             Name = "قزوین"
                         },
                         new
                         {
                             Id = 19,
-                            ISO3166 = "IR-25",
+                            ISO3166 = 25,
                             Name = "قم"
                         },
                         new
                         {
                             Id = 20,
-                            ISO3166 = "IR-12",
+                            ISO3166 = 12,
                             Name = "کردستان"
                         },
                         new
                         {
                             Id = 21,
-                            ISO3166 = "IR-08",
+                            ISO3166 = 8,
                             Name = "کرمان"
                         },
                         new
                         {
                             Id = 22,
-                            ISO3166 = "IR-05",
+                            ISO3166 = 5,
                             Name = "کرمانشاه"
                         },
                         new
                         {
                             Id = 23,
-                            ISO3166 = "IR-17",
+                            ISO3166 = 17,
                             Name = "کهگیلویه وبویراحمد"
                         },
                         new
                         {
                             Id = 24,
-                            ISO3166 = "IR-27",
+                            ISO3166 = 27,
                             Name = "گلستان"
                         },
                         new
                         {
                             Id = 25,
-                            ISO3166 = "IR-01",
+                            ISO3166 = 1,
                             Name = "گیلان"
                         },
                         new
                         {
                             Id = 26,
-                            ISO3166 = "IR-15",
+                            ISO3166 = 15,
                             Name = "لرستان"
                         },
                         new
                         {
                             Id = 27,
-                            ISO3166 = "IR-02",
+                            ISO3166 = 2,
                             Name = "مازندران"
                         },
                         new
                         {
                             Id = 28,
-                            ISO3166 = "IR-00",
+                            ISO3166 = 0,
                             Name = "مرکزی"
                         },
                         new
                         {
                             Id = 29,
-                            ISO3166 = "IR-22",
+                            ISO3166 = 22,
                             Name = "هرمزگان"
                         },
                         new
                         {
                             Id = 30,
-                            ISO3166 = "IR-13",
+                            ISO3166 = 13,
                             Name = "همدان"
                         },
                         new
                         {
                             Id = 31,
-                            ISO3166 = "IR-21",
+                            ISO3166 = 21,
                             Name = "یزد"
                         });
                 });

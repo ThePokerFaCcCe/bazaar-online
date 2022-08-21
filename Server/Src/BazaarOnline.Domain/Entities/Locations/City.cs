@@ -8,6 +8,8 @@ namespace BazaarOnline.Domain.Entities.Locations
 
         public string Name { get; set; }
 
+        public string ISO3166 { get; set; }
+
         #region Relations
         public List<Advertiesement> Advertiesements { get; set; }
         #endregion

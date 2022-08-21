@@ -22,6 +22,10 @@ public class CityFluentConfig : IEntityTypeConfiguration<City>
         builder.Property(c => c.Name)
             .IsRequired()
             .HasMaxLength(100);
+
+        builder.Property(c => c.ISO3166)
+            .IsRequired()
+            .HasMaxLength(5);
     }
 
     private void ConfigureRelations(EntityTypeBuilder<City> builder)
@@ -33,7 +37,8 @@ public class CityFluentConfig : IEntityTypeConfiguration<City>
 
     private void ConfigureIndexes(EntityTypeBuilder<City> builder)
     {
-
+        builder.HasIndex(c => c.ISO3166)
+            .IsUnique();
     }
 
     private void ConfigureQueryFilters(EntityTypeBuilder<City> builder)
