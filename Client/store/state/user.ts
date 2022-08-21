@@ -8,6 +8,7 @@ const { actions, reducer } = createSlice({
       if (payload !== status) {
         return (status = payload);
       }
+      return status;
     },
   },
 });

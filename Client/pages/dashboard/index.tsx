@@ -106,7 +106,7 @@ const App = (): JSX.Element => {
         <title>بازار آنلاین | پنل مدیریت</title>
       </Head>
       <div className="row">
-        <div className="col-sm-9">
+        <div className="col-sm-9 order2">
           <Box sx={{ p: 2 }}>
             {/* <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -126,7 +126,7 @@ const App = (): JSX.Element => {
             <Box className={styles.users__holder}>{categoryToShow}</Box>
           </Box>
         </div>
-        <div className="col-sm-3">
+        <div className="col-sm-3 order1">
           <Box className="border">
             <Menu
               theme="light"

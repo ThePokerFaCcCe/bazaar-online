@@ -6,26 +6,34 @@ import {
   RadioGroup,
   Radio,
 } from "@mui/material";
-import { Input } from "antd";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
+import { handleGetData as getRoles } from "../../../services/httpService";
+import { Roles } from "../../../types/type";
 import ChangeRole from "./manageRole/changeRole";
 import NewRole from "./manageRole/newRole";
 import RemoveRole from "./manageRole/removeRole";
 
 const ManageRoles = (): JSX.Element => {
+  // Local Store
   const [purpose, setPurpose] = useState("newRole");
-
+  const [roles, setRoles] = useState<Roles | []>([]);
+  // CDM
+  useEffect(() => {
+    getRoles("roles", setRoles);
+  }, []);
+  //
   const formToShow: JSX.Element | undefined = useMemo(() => {
     switch (purpose) {
       case "changeRole":
-        return <ChangeRole />;
+        return <ChangeRole roles={roles} />;
       case "removeRole":
-        return <RemoveRole />;
+        return <RemoveRole roles={roles} />;
       default:
-        return <NewRole />;
+        return <NewRole roles={roles} />;
     }
-  }, [purpose]);
+  }, [purpose, roles]);
 
+  // Render
   return (
     <>
       <Box>

@@ -1,9 +1,14 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import config from "../config.json";
-import { StepTwoProps, User, UserActive, LoginUser } from "../types/type";
-
-var isToday = require("dayjs/plugin/isToday");
+import {
+  StepTwoProps,
+  User,
+  UserActive,
+  LoginUser,
+  GetUsersProp,
+  GetRolesProp,
+} from "../types/type";
 
 const header = {
   headers: {
@@ -42,6 +47,7 @@ const handlePostActiveCode = async (user: UserActive): Promise<void> => {
   await axios.post(`${config.apiEndPoint}/Auth/Activate`, user, header);
 };
 
+// Register Steps
 export const stepOnePost = async (
   value: User,
   step: number,
@@ -57,12 +63,12 @@ export const stepOnePost = async (
   }
 };
 export const stepTwoPost = async (
-  value: User,
+  email: string,
   code: string,
   setStep: (paramter: number) => void
 ) => {
   try {
-    await handlePostActiveCode({ code, email: value.email });
+    await handlePostActiveCode({ code, email });
     setStep(3);
   } catch ({ response }) {
     handleExpectedError(response);
@@ -78,13 +84,45 @@ export const handleLogin = async (user: LoginUser) => {
       header
     );
     localStorage.setItem("sessionExpire", data.expireDate);
+    localStorage.setItem("token", data.token);
     window.location.replace("/");
   } catch ({ response }) {
     handleExpectedError(response);
   }
 };
-
+// Logout
 export const logout = () => {
   localStorage?.removeItem("sessionExpire");
+  localStorage?.removeItem("token");
   window.location.replace("/");
+};
+
+// Admin Dashboard
+
+export const handleGetData = async (path: string, setState: GetRolesProp) => {
+  if (window !== undefined) {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const { data } = await axios.get(`${config.apiEndPoint}/${path}`, {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      });
+      setState(data);
+      return data;
+    }
+  }
+};
+
+export const handleRemove = async (path: string, id: number) => {
+  if (window !== undefined) {
+    const token = localStorage.getItem("token");
+    if (token) {
+      await axios.delete(`${config.apiEndPoint}/Roles/${id}`, {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      });
+    }
+  }
 };

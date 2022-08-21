@@ -1,43 +1,50 @@
-import { Box } from "@mui/material";
-import { Input, Select, Button } from "antd";
+import { Box, Button } from "@mui/material";
+import { Select } from "antd";
 import React, { useState } from "react";
+// Renaming Function
+import { handleRemove as removeRole } from "../../../../services/httpService";
 import styles from "../../../../styles/Dashboard.module.css";
+import { RolePagesProps } from "../../../../types/type";
 const { Option } = Select;
 
-const RemoveRole = (): JSX.Element => {
-  const [data, setData] = useState({
-    name: "",
-    role: [""],
-  });
-
-  const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-    return setData((data) => ({
-      ...data,
-      name: target.value,
-    }));
+const RemoveRole = ({ roles }: RolePagesProps): JSX.Element => {
+  // Local State
+  const [selectedRole, setSelectedRole] = useState<number | null>(null);
+  // Event Handlers
+  const handleChange = (value: number) => {
+    setSelectedRole(value);
   };
 
+  const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (selectedRole) {
+      removeRole("roles", selectedRole);
+    }
+  };
+  // Render
   return (
     <>
       <Box sx={{ mt: 2 }}>
-        <form>
+        <form onSubmit={handleSubmit}>
           <Box className={styles.role__holder}>
             <Select
+              onChange={handleChange}
               allowClear
               style={{ width: "100%" }}
               placeholder="نقش خود را انتخاب کنید"
             >
-              <Option key={"salam1"}>Salam</Option>
-              <Option key={"salam2"}>Salam</Option>
-              <Option key={"salam3"}>Salam</Option>
+              {roles.length === 0 ? (
+                <Option key="loading">درحال بارگیری اطلاعات</Option>
+              ) : (
+                roles.map((role) => <Option key={role.id}>{role.title}</Option>)
+              )}
             </Select>
             <Button
-              style={{
-                width: "30%",
-                marginTop: "1rem",
-              }}
-              danger
-              type="primary"
+              sx={{ width: "25%", marginTop: "1rem" }}
+              type="submit"
+              color="error"
+              variant="contained"
+              size="medium"
             >
               حذف
             </Button>

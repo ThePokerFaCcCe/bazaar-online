@@ -1,43 +1,53 @@
-import { Box } from "@mui/material";
-import { Select, Button } from "antd";
+import { Box, Button } from "@mui/material";
+import { Select } from "antd";
 import React, { useState } from "react";
 import styles from "../../../../styles/Dashboard.module.css";
+import { handleRemove as removeCategory } from "../../../../services/httpService";
+import { ManageCategoriesProps } from "../../../../types/type";
 const { Option } = Select;
 
-const RemoveCategory = (): JSX.Element => {
-  const [data, setData] = useState({
-    name: "",
-    role: [""],
-  });
+const RemoveCategory = ({ categories }: ManageCategoriesProps): JSX.Element => {
+  // Local State
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
 
-  const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-    return setData((data) => ({
-      ...data,
-      name: target.value,
-    }));
+  // Event Handlers
+  const handleChange = (value: number) => {
+    setSelectedCategory(value);
   };
 
+  const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (selectedCategory) {
+      removeCategory("category", selectedCategory);
+    }
+  };
+
+  // Render
   return (
     <>
       <Box sx={{ mt: 2 }}>
-        <form>
+        <form onSubmit={handleSubmit}>
           <Box className={styles.role__holder}>
             <Select
+              onChange={handleChange}
               allowClear
               style={{ width: "100%" }}
               placeholder="دسته بندی خود را انتخاب کنید"
             >
-              <Option key={"salam1"}>Salam</Option>
-              <Option key={"salam2"}>Salam</Option>
-              <Option key={"salam3"}>Salam</Option>
+              {categories.length === 0 ? (
+                <Option key="loading">درحال بارگیری اطلاعات</Option>
+              ) : (
+                categories.map?.((ctg) => (
+                  <Option key={ctg.id}>{ctg.title}</Option>
+                ))
+              )}
             </Select>
             <Button
-              style={{
-                width: "30%",
-                marginTop: "1rem",
-              }}
-              danger
-              type="primary"
+              sx={{ width: "25%", marginTop: "1rem" }}
+              type="submit"
+              color="error"
+              variant="contained"
+              size="medium"
             >
               حذف
             </Button>

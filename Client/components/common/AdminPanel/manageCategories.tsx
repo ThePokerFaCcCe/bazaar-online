@@ -7,25 +7,36 @@ import {
   Radio,
 } from "@mui/material";
 import { Input } from "antd";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import NewCategory from "./manageCategory/newCategory";
 import ChangeCategory from "./manageCategory/changeCategory";
 import RemoveCategory from "./manageCategory/removeCategory";
+import { handleGetData } from "../../../services/httpService";
+import { Category } from "../../../types/type";
 
 const ManageCategories = (): JSX.Element => {
+  // Local Store
   const [purpose, setPurpose] = useState("newCategory");
+  const [categories, setCategories] = useState<Category | []>([]);
 
+  // CDM
+  useEffect(() => {
+    handleGetData("categories", setCategories);
+  }, []);
+
+  //
   const formToShow: JSX.Element | undefined = useMemo(() => {
     switch (purpose) {
       case "changeCategory":
-        return <ChangeCategory />;
+        return <ChangeCategory categories={categories} />;
       case "removeCategory":
-        return <RemoveCategory />;
+        return <RemoveCategory categories={categories} />;
       default:
-        return <NewCategory />;
+        return <NewCategory categories={categories} />;
     }
-  }, [purpose]);
+  }, [purpose, categories]);
 
+  // Render
   return (
     <>
       <Box>
