@@ -27,6 +27,7 @@ namespace BazaarOnline.Application.DTOs.Advertiesements
         [Required(ErrorMessage = "این فیلد اجباری است")]
         public double Latitude { get; set; }
 
+        [Required(ErrorMessage = "این فیلد اجباری است")]
         public bool IsChatOnly { get; set; } = false;
 
         [Required(ErrorMessage = "این فیلد اجباری است")]

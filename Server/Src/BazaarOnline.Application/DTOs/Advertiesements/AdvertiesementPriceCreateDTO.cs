@@ -10,6 +10,7 @@ namespace BazaarOnline.Application.DTOs.Advertiesements
         public int? Value { get; set; }
 
         [DisplayName("توافقی")]
+        [Required(ErrorMessage = "این فیلد اجباری است")]
         public bool IsAgreement { get; set; }
 
         [DisplayName("نوع")]
