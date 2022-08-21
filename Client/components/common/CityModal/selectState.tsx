@@ -15,7 +15,7 @@ const SelectState = ({ onSelectState }: any): JSX.Element => {
   let filtered: City = [];
 
   if (search !== null) {
-    city.forEach((item: CityObj) => {
+   city && city.forEach((item: CityObj) => {
       if (item.name.startsWith(search)) filtered.push(item);
     });
   }

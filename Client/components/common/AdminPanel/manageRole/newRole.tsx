@@ -2,10 +2,11 @@ import { Box } from "@mui/material";
 import { Input, Select, Button } from "antd";
 import React, { useState } from "react";
 import styles from "../../../../styles/Dashboard.module.css";
+import { RolePagesProps } from "../../../../types/type";
 
 const { Option } = Select;
 
-const NewRole = (): JSX.Element => {
+const NewRole = ({ roles }: RolePagesProps): JSX.Element => {
   const [data, setData] = useState({
     name: "",
     role: [""],

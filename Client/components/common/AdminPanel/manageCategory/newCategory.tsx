@@ -2,10 +2,11 @@ import { Box } from "@mui/material";
 import { Input, Select, Button } from "antd";
 import React, { useState } from "react";
 import styles from "../../../../styles/Dashboard.module.css";
+import { ManageCategoriesProps } from "../../../../types/type";
 
 const { Option } = Select;
 
-const NewCategory = (): JSX.Element => {
+const NewCategory = ({ categories }: ManageCategoriesProps): JSX.Element => {
   const [data, setData] = useState({
     name: "",
     role: [""],

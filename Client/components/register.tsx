@@ -54,7 +54,7 @@ const Register = (): JSX.Element => {
         stepOnePost(value, step, setStep);
         break;
       case 2:
-        stepTwoPost(value, code, setStep);
+        stepTwoPost(value.email, code, setStep);
         break;
     }
   };

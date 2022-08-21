@@ -158,3 +158,27 @@ export interface LoginUser {
   email: string;
   password: string;
 }
+
+export type UserDashboard = {
+  createDate: string;
+  email: string;
+  fullName: string;
+  id: number;
+  isActive: true;
+}[];
+
+export type Roles = {
+  id: string;
+  title: string;
+}[];
+
+export type GetUsersProp = Dispatch<SetStateAction<UserDashboard | []>>;
+export type GetRolesProp = Dispatch<SetStateAction<any>>;
+
+export interface RolePagesProps {
+  roles: Roles | [];
+}
+
+export interface ManageCategoriesProps {
+  categories: Category | [];
+}

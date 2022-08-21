@@ -83,9 +83,12 @@ const MegaMenu = () => {
               return (
                 <Box className={styles.category__menu_holder} key={index}>
                   <a className={styles.category__menu_title}>{item.title}</a>
-                  {item?.children?.map((items: any) => {
+                  {item?.children?.map((items: any, index: number) => {
                     return (
-                      <a className={styles.category__menu_item}>
+                      <a
+                        key={index.toString()}
+                        className={styles.category__menu_item}
+                      >
                         {items.title}
                       </a>
                     );

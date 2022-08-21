@@ -9,6 +9,7 @@ const { actions, reducer } = createSlice({
       if (state === null) {
         return (state = payload);
       }
+      return state;
     },
   },
 });
