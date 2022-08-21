@@ -4,6 +4,7 @@ using BazaarOnline.Application.Interfaces.Categories;
 using BazaarOnline.Application.Interfaces.Features;
 using BazaarOnline.Application.Interfaces.Locations;
 using BazaarOnline.Application.Interfaces.Permissions;
+using BazaarOnline.Application.Interfaces.ReverseGeocoding;
 using BazaarOnline.Application.Interfaces.Senders;
 using BazaarOnline.Application.Interfaces.Users;
 using BazaarOnline.Application.Services.Advertiesements;
@@ -48,6 +49,10 @@ namespace BazaarOnline.Infra.IoC
 
             #region Senders
             services.AddScoped<IEmailService, EmailService>();
+            #endregion
+
+            #region ReverseGeocoding
+            services.AddScoped<IReverseGeocodingService, ReverseGeocodingService>();
             #endregion
 
             #region Features
