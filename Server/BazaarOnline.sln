@@ -21,8 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BazaarOnline.API.UnitTests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BazaarOnline.Application.UnitTests", "Test\BazaarOnline.Application.UnitTests\BazaarOnline.Application.UnitTests.csproj", "{EFB1C54D-E64E-4415-B972-92206FE7D2D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BazaarOnline.Infra.Data.UnitTests", "Test\BazaarOnline.Infra.Data.UnitTests\BazaarOnline.Infra.Data.UnitTests.csproj", "{7CE31FE5-4A41-45DB-BD1D-791A8ADCDCF6}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,10 +58,6 @@ Global
 		{EFB1C54D-E64E-4415-B972-92206FE7D2D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFB1C54D-E64E-4415-B972-92206FE7D2D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFB1C54D-E64E-4415-B972-92206FE7D2D5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7CE31FE5-4A41-45DB-BD1D-791A8ADCDCF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7CE31FE5-4A41-45DB-BD1D-791A8ADCDCF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7CE31FE5-4A41-45DB-BD1D-791A8ADCDCF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7CE31FE5-4A41-45DB-BD1D-791A8ADCDCF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EB38E262-D93C-4484-A823-5091DC479E04} = {52698490-DDA0-4EEB-AFFF-783825F65786}
@@ -73,6 +67,5 @@ Global
 		{438F4921-486F-42ED-B7FD-1E67D715C3A6} = {52698490-DDA0-4EEB-AFFF-783825F65786}
 		{A6967B62-EBDA-4513-B2B5-023A2F890CF1} = {ECA1C3AD-DAB1-4E1C-AFEC-67EFE3596083}
 		{EFB1C54D-E64E-4415-B972-92206FE7D2D5} = {ECA1C3AD-DAB1-4E1C-AFEC-67EFE3596083}
-		{7CE31FE5-4A41-45DB-BD1D-791A8ADCDCF6} = {ECA1C3AD-DAB1-4E1C-AFEC-67EFE3596083}
 	EndGlobalSection
 EndGlobal
