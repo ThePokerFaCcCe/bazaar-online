@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BazaarOnline.API.Controllers.Users
 {
-    [Route("users/me")]
+    [Route("api/Users/Me")]
     [ApiController]
     [Authorize]
     public class UserDashboardController : ControllerBase
