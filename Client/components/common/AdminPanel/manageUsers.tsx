@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
-import { handleGetData as getUsers } from "../../../services/httpService";
-import UserCard from "./userCard";
+import { handleGetData as getUsers } from "../../../services/httpService"; // Renaming Import Function
 import { UserDashboard } from "../../../types/type";
 import isoToPersianDate from "../../../services/isoToPersianDate";
-import paginate from "../../../services/paginate";
-import { Pagination } from "@mui/material";
+import UserCard from "./userCard";
 
 const ManageUsers = (): JSX.Element => {
   const [users, setUsers] = useState<UserDashboard | []>([]);
 
   useEffect(() => {
     if (users.length === 0) {
-      // I Did this because the data is nested.
+      // I await for it because the data is nested.
       async function getUserList() {
         const { content } = await getUsers("users", setUsers);
         setUsers(content);
@@ -31,15 +29,6 @@ const ManageUsers = (): JSX.Element => {
           status={user.isActive}
         />
       ))}
-      {/* <Pagination
-        count={10}
-        color="primary"
-        sx={{
-          position: "absolute",
-          bottom: 200,
-          direction: "ltr !important",
-        }}
-      /> */}
     </>
   );
 };

@@ -2,15 +2,18 @@ import { Box } from "@mui/material";
 import { Input, Select, Button } from "antd";
 import React, { useState } from "react";
 import styles from "../../../../styles/Dashboard.module.css";
-import { RolePagesProps } from "../../../../types/type";
+import { NewRolePropos } from "../../../../types/type";
 
-const { Option } = Select;
+const { Option, OptGroup } = Select;
 
-const NewRole = ({ roles }: RolePagesProps): JSX.Element => {
+const NewRole = ({ permissions }: NewRolePropos): JSX.Element => {
   const [data, setData] = useState({
     name: "",
     role: [""],
   });
+  const [selectedPermissions, setSelectedPermissions] = useState<string[] | []>(
+    []
+  );
 
   const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     return setData((data) => ({
@@ -35,9 +38,17 @@ const NewRole = ({ roles }: RolePagesProps): JSX.Element => {
               style={{ width: "100%" }}
               placeholder="یک یا چند دسترسی انتخاب کنید"
             >
-              <Option key={"salam1"}>Salam</Option>
-              <Option key={"salam2"}>Salam</Option>
-              <Option key={"salam3"}>Salam</Option>
+              {permissions.length === 0 ? (
+                <Option value="loading">درحال دریافت اطلاعات </Option>
+              ) : (
+                permissions.map((item) => (
+                  <OptGroup label={item.groupTitle}>
+                    {item.permissions.map((subChild) => (
+                      <Option value={subChild.id}>{subChild.title}</Option>
+                    ))}
+                  </OptGroup>
+                ))
+              )}
             </Select>
             <Button style={{ width: "30%", marginTop: "1rem" }} type="primary">
               ثبت نقش جدید

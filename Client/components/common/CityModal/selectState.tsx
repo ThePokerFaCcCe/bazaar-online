@@ -30,7 +30,7 @@ const SelectState = ({ onSelectState }: any): JSX.Element => {
               className={styles.city__names}
               justifyContent="space-between"
               alignItems="center"
-              onClick={() => onSelectState(true)}
+              onClick={() => onSelectState(ct.id)}
             >
               <Grid item>
                 <span>{ct.name}</span>

@@ -3,10 +3,20 @@ import { Input } from "antd";
 import { useDispatch } from "react-redux";
 import { Search, ArrowForward } from "@mui/icons-material";
 import styles from "../../../styles/CityModal.module.css";
+import { useEffect, useState } from "react";
+import { getCities } from "../../../services/httpService";
+import { Cities } from "../../../types/type";
 
-const SelectCity = ({ onSelectState }: any): JSX.Element => {
-  // Redux Setup
-  const dispatch = useDispatch();
+const SelectCity = ({ selectedState, onSelectState }: any): JSX.Element => {
+  // Local State
+  const [selectedCity, setSelectedCity] = useState<number | null>(null);
+  const [cityList, setCityList] = useState<Cities | null>(null);
+
+  //  CDM
+  useEffect(() => {
+    getCities(selectedState, setCityList);
+  }, []);
+
   // Render
   return (
     <>
@@ -36,7 +46,7 @@ const SelectCity = ({ onSelectState }: any): JSX.Element => {
           container
           className={styles.city__names}
           alignItems="center"
-          onClick={() => onSelectState(false)}
+          onClick={() => onSelectState(null)}
           sx={{ paddingTop: "1rem" }}
         >
           <Grid item>
@@ -53,7 +63,8 @@ const SelectCity = ({ onSelectState }: any): JSX.Element => {
           alignItems="center"
         >
           <Grid item>
-            <span>همه شهرهای آذربایجان شرقی</span>
+            <span>همه شهرهای </span>
+            <span>{cityList?.name}</span>
           </Grid>
           <Grid item>
             <Checkbox />

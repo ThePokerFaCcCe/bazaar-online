@@ -178,7 +178,24 @@ export type GetRolesProp = Dispatch<SetStateAction<any>>;
 export interface RolePagesProps {
   roles: Roles | [];
 }
+export interface ChangeRoleProps {
+  roles: Roles | [];
+  permissions: Permissions[];
+}
 
 export interface ManageCategoriesProps {
   categories: Category | [];
+}
+
+export interface Permissions {
+  groupTitle: string;
+  permissions: { id: number; title: string }[];
+}
+export interface NewRolePropos {
+  permissions: Permissions[];
+}
+
+export interface Cities {
+  id: number;
+  name: string;
 }

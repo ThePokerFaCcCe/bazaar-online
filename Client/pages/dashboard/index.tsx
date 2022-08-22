@@ -1,27 +1,21 @@
 import React, { useMemo, useState } from "react";
-import { Menu, MenuProps, Select, Input } from "antd";
-import { Box, Grid } from "@mui/material";
+import { Menu, MenuProps } from "antd";
+import { Box } from "@mui/material";
 import {
   PeopleOutline,
   Key,
   Newspaper,
   Category,
   HistoryEdu,
-  MarkunreadSharp,
 } from "@mui/icons-material";
-import RTL from "../../services/rtl";
 import { useRouter } from "next/router";
 import styles from "../../styles/Dashboard.module.css";
-import { GetServerSideProps } from "next";
-import axios from "axios";
 import ManageUsers from "../../components/common/AdminPanel/manageUsers";
 import ManageRoles from "../../components/common/AdminPanel/manageRoles";
 import ManageAds from "../../components/common/AdminPanel/manageAds";
 import ManageCategories from "../../components/common/AdminPanel/manageCategories";
 import ManageFields from "../../components/common/AdminPanel/manageFields";
 import Head from "next/head";
-const { Option } = Select;
-const { Search } = Input;
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -75,12 +69,10 @@ const items: MenuItem[] = [
 ];
 
 const App = (): JSX.Element => {
+  // Local State
   const [current, setCurrent] = useState("sub1");
   const { query, push, pathname } = useRouter();
-
-  const onClick: MenuProps["onClick"] = ({ key }) => {
-    setCurrent(key);
-  };
+  //
   const categoryToShow = useMemo(() => {
     switch (current) {
       case "sub2":
@@ -95,11 +87,16 @@ const App = (): JSX.Element => {
         return <ManageUsers />;
     }
   }, [current]);
+  // Event Handlers
+  const onClick: MenuProps["onClick"] = ({ key }) => {
+    setCurrent(key);
+  };
 
   const handleChange = (value: string) => {
     push(`${pathname}?filterBy=${value}`);
   };
 
+  // Render
   return (
     <>
       <Head>

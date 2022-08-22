@@ -6,13 +6,22 @@ import {
   User,
   UserActive,
   LoginUser,
-  GetUsersProp,
   GetRolesProp,
 } from "../types/type";
+
+let token: string | null = null;
+
+if (typeof window !== "undefined") {
+  token = localStorage.getItem("token");
+}
+
+console.log(token);
+console.log(typeof token);
 
 const header = {
   headers: {
     "Content-Type": "application/json",
+    Authorization: `${token}`,
   },
 };
 
@@ -100,29 +109,61 @@ export const logout = () => {
 // Admin Dashboard
 
 export const handleGetData = async (path: string, setState: GetRolesProp) => {
-  if (window !== undefined) {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const { data } = await axios.get(`${config.apiEndPoint}/${path}`, {
-        headers: {
-          Authorization: `bearer ${token}`,
-        },
-      });
-      setState(data);
-      return data;
-    }
+  if (token) {
+    const { data } = await axios.get(`${config.apiEndPoint}/${path}`);
+    setState(data);
+    return data;
   }
 };
 
-export const handleRemove = async (path: string, id: number) => {
-  if (window !== undefined) {
-    const token = localStorage.getItem("token");
-    if (token) {
-      await axios.delete(`${config.apiEndPoint}/Roles/${id}`, {
-        headers: {
-          Authorization: `bearer ${token}`,
-        },
-      });
-    }
+export const handleRemove = async (urlPath: string, id: number) => {
+  if (token) {
+    await axios.delete(`${config.apiEndPoint}/${urlPath}/${id}`);
   }
+};
+
+export const getPermissionList = async (setState: GetRolesProp) => {
+  if (token) {
+    const { data } = await axios.get(`${config.apiEndPoint}/permissions`, {
+      headers: {
+        Authorization: `bearer ${token}`,
+      },
+    });
+    setState(data);
+    return data;
+  }
+};
+
+export const getFeaturesList = async () => {
+  if (token) {
+    const { data } = await axios.get(`${config.apiEndPoint}/Features`, {
+      headers: {
+        Authorization: `bearer ${token}`,
+      },
+    });
+    console.log("data", data);
+  }
+};
+export const getRolePermissions = async (
+  selectedRole: number | null,
+  setState: (object: any) => void
+) => {
+  if (selectedRole) {
+    const { data } = await axios.get(
+      `${config.apiEndPoint}/Roles/${selectedRole}`
+    );
+    setState(data);
+  }
+};
+
+// City Modal
+
+export const getCities = async (
+  stateId: number,
+  setState: (object: any) => void
+) => {
+  const { data } = await axios.get(
+    `${config.apiEndPoint}/Locations/Cities/${stateId}`
+  );
+  return setState(data);
 };

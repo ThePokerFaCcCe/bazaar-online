@@ -1,8 +1,7 @@
 import { Box, Button } from "@mui/material";
 import { Select } from "antd";
-import React, { useState } from "react";
-// Renaming Function
-import { handleRemove as removeRole } from "../../../../services/httpService";
+import { useState } from "react";
+import { handleRemove as removeRole } from "../../../../services/httpService"; // Renaming Import Function
 import styles from "../../../../styles/Dashboard.module.css";
 import { RolePagesProps } from "../../../../types/type";
 const { Option } = Select;

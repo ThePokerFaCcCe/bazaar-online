@@ -1,8 +1,8 @@
 import { Box, Button } from "@mui/material";
 import { Select } from "antd";
-import React, { useState } from "react";
+import { useState } from "react";
 import styles from "../../../../styles/Dashboard.module.css";
-import { handleRemove as removeCategory } from "../../../../services/httpService";
+import { handleRemove as removeCategory } from "../../../../services/httpService"; // Renaming Import Function
 import { ManageCategoriesProps } from "../../../../types/type";
 const { Option } = Select;
 

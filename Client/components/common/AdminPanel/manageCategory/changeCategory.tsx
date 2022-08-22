@@ -1,21 +1,21 @@
 import { Box } from "@mui/material";
 import { Input, Select, Button } from "antd";
-import React, { useState } from "react";
+import { useState } from "react";
 import styles from "../../../../styles/Dashboard.module.css";
 import { ManageCategoriesProps } from "../../../../types/type";
 const { Option } = Select;
 
 const ChangeCategory = ({ categories }: ManageCategoriesProps): JSX.Element => {
-  const [data, setData] = useState({
-    name: "",
-    role: [""],
-  });
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [ctgNewName, setNewCtgName] = useState("");
 
-  const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-    return setData((data) => ({
-      ...data,
-      name: target.value,
-    }));
+  const handleChange = (value: string) => {
+    setSelectedCategory(value);
+  };
+
+  const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Do the changes
   };
 
   return (
@@ -24,29 +24,24 @@ const ChangeCategory = ({ categories }: ManageCategoriesProps): JSX.Element => {
         <form>
           <Box className={styles.role__holder}>
             <Select
+              onChange={handleChange}
               allowClear
               style={{ width: "100%" }}
               placeholder="دسته بندی خود را انتخاب کنید"
             >
-              <Option key={"salam1"}>Salam</Option>
-              <Option key={"salam2"}>Salam</Option>
-              <Option key={"salam3"}>Salam</Option>
+              {categories.length === 0 ? (
+                <Option key="loading">در حال بارگیری اطلاعات</Option>
+              ) : (
+                categories.map((item) => (
+                  <Option key={item.id}>{item.title}</Option>
+                ))
+              )}
             </Select>
             <Input
-              onChange={handleChange}
+              onChange={(e) => setNewCtgName(e.target.value)}
               name="name"
               placeholder="تغییر نام دسته بندی"
             />
-            <Select
-              mode="multiple"
-              allowClear
-              style={{ width: "100%" }}
-              placeholder="یک یا چند دسترسی انتخاب کنید"
-            >
-              <Option key={"salam1"}>Salam</Option>
-              <Option key={"salam2"}>Salam</Option>
-              <Option key={"salam3"}>Salam</Option>
-            </Select>
             <Button
               style={{
                 width: "30%",

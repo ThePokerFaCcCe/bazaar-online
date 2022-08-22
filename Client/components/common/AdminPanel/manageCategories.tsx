@@ -6,13 +6,12 @@ import {
   RadioGroup,
   Radio,
 } from "@mui/material";
-import { Input } from "antd";
 import { useMemo, useState, useEffect } from "react";
+import { handleGetData as getCategories } from "../../../services/httpService"; // Renaming Import Function
+import { Category } from "../../../types/type";
 import NewCategory from "./manageCategory/newCategory";
 import ChangeCategory from "./manageCategory/changeCategory";
 import RemoveCategory from "./manageCategory/removeCategory";
-import { handleGetData } from "../../../services/httpService";
-import { Category } from "../../../types/type";
 
 const ManageCategories = (): JSX.Element => {
   // Local Store
@@ -21,7 +20,7 @@ const ManageCategories = (): JSX.Element => {
 
   // CDM
   useEffect(() => {
-    handleGetData("categories", setCategories);
+    getCategories("categories", setCategories);
   }, []);
 
   //
@@ -51,17 +50,17 @@ const ManageCategories = (): JSX.Element => {
             <FormControlLabel
               value="newCategory"
               control={<Radio />}
-              label="ساخت نقش جدید"
+              label="ساخت دسته بندی جدید"
             />
             <FormControlLabel
               value="changeCategory"
               control={<Radio />}
-              label="تغییر نقش"
+              label="تغییر دسته بندی"
             />
             <FormControlLabel
               value="removeCategory"
               control={<Radio />}
-              label="حذف نقش"
+              label="حذف دسته بندی"
             />
           </RadioGroup>
         </FormControl>

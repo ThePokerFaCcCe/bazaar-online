@@ -7,7 +7,10 @@ import {
   Radio,
 } from "@mui/material";
 import { useMemo, useState, useEffect } from "react";
-import { handleGetData as getRoles } from "../../../services/httpService";
+import {
+  getPermissionList,
+  handleGetData as getRoles,
+} from "../../../services/httpService"; // Renaming Import Function
 import { Roles } from "../../../types/type";
 import ChangeRole from "./manageRole/changeRole";
 import NewRole from "./manageRole/newRole";
@@ -17,21 +20,23 @@ const ManageRoles = (): JSX.Element => {
   // Local Store
   const [purpose, setPurpose] = useState("newRole");
   const [roles, setRoles] = useState<Roles | []>([]);
+  const [permissions, setPermissions] = useState([]);
   // CDM
   useEffect(() => {
     getRoles("roles", setRoles);
+    getPermissionList(setPermissions);
   }, []);
   //
   const formToShow: JSX.Element | undefined = useMemo(() => {
     switch (purpose) {
       case "changeRole":
-        return <ChangeRole roles={roles} />;
+        return <ChangeRole roles={roles} permissions={permissions} />;
       case "removeRole":
         return <RemoveRole roles={roles} />;
       default:
-        return <NewRole roles={roles} />;
+        return <NewRole permissions={permissions} />;
     }
-  }, [purpose, roles]);
+  }, [purpose, roles, permissions]);
 
   // Render
   return (

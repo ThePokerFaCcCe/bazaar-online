@@ -31,11 +31,11 @@ const NavBar = (): JSX.Element => {
         footer={null}
       >
         <Tabs defaultActiveKey="1">
-          <TabPane tab="ثبت نام" key="1">
-            <Register />
-          </TabPane>
-          <TabPane tab="ورود" key="2">
+          <TabPane tab="ورود" key="1">
             <Login />
+          </TabPane>
+          <TabPane tab="ثبت نام" key="2">
+            <Register />
           </TabPane>
         </Tabs>
       </Modal>

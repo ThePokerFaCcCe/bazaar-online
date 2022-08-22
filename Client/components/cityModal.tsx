@@ -15,7 +15,7 @@ const CityModal = (): JSX.Element => {
     (state: Store) => state.entities.ui.modals
   );
   // Local State
-  const [stateSelected, setStateSelected] = useState(false);
+  const [selectedState, setSelectedState] = useState<number | null>(null);
   // Render
   return (
     <>
@@ -30,10 +30,13 @@ const CityModal = (): JSX.Element => {
         cancelText="انصراف"
         centered
       >
-        {stateSelected ? (
-          <SelectCity onSelectState={setStateSelected} />
+        {selectedState ? (
+          <SelectCity
+            selectedState={selectedState}
+            onSelectState={setSelectedState}
+          />
         ) : (
-          <SelectState onSelectState={setStateSelected} />
+          <SelectState onSelectState={setSelectedState} />
         )}
       </Modal>
     </>
