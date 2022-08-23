@@ -22,9 +22,13 @@ namespace BazaarOnline.Domain.Entities.Advertiesements
 
         public bool IsDeniedByAdmin { get; set; }
 
-        public bool IsAccepted { get; set; }
+        public string? DeletedByAdminReason { get; set; }
+
+        public bool IsDeletedByAdmin { get; set; }
 
         public bool IsDeleted { get; set; }
+
+        public bool IsAccepted { get; set; }
 
         public bool IsChatOnly { get; set; }
 
