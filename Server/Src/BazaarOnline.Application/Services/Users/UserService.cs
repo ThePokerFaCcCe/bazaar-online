@@ -1,6 +1,7 @@
 using BazaarOnline.Application.DTOs.AuthDTOs;
 using BazaarOnline.Application.DTOs.PaginationDTO;
 using BazaarOnline.Application.DTOs.Users.UserDTOs;
+using BazaarOnline.Application.Filters;
 using BazaarOnline.Application.Interfaces.Users;
 using BazaarOnline.Application.Securities;
 using BazaarOnline.Application.Utils.Extentions;
@@ -101,22 +102,7 @@ namespace BazaarOnline.Application.Services.Users
 
             #region Filters
             filter.TrimStrings();
-
-            // IsDeleted
-            users = users.Where(u => u.IsDeleted == filter.IsDeleted);
-
-            if (filter.IsActive != null)
-                users = users.Where(u => u.IsActive == filter.IsActive);
-
-            if (!string.IsNullOrEmpty(filter.Email))
-                users = users.Where(u => u.Email.Contains(filter.Email.ToLower()));
-
-            if (!string.IsNullOrEmpty(filter.Name))
-                users = users.Where(
-                    u => u.FirstName.Contains(filter.Name.ToLower())
-                      || u.LastName.Contains(filter.Name.ToLower()));
-
-
+            users = users.Filter(filter);
             #endregion
 
             #region Ordering

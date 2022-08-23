@@ -116,6 +116,7 @@ namespace BazaarOnline.Application.Services.Advertiesements
 
             #region Filters
             filter.TrimStrings();
+
             ads = ads.Filter(filter);
             #endregion
 

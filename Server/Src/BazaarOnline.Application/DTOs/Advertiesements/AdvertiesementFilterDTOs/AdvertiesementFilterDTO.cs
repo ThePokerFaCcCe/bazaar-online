@@ -8,14 +8,14 @@ namespace BazaarOnline.Application.DTOs.Advertiesements.AdvertiesementFilterDTOs
     {
         public string? Title { get; set; }
 
-        public IEnumerable<int>? Categories { get; set; }
+        public List<int>? Categories { get; set; }
 
-        public IEnumerable<int>? Cities { get; set; }
+        public List<int>? Cities { get; set; }
 
         public AdvertiesementPriceType? PriceType { get; set; }
 
-        public long? StartPrice { get; set; }
+        public long StartPrice { get; set; } = 0;
 
-        public long? EndPrice { get; set; }
+        public long EndPrice { get; set; } = Int64.MaxValue;
     }
 }

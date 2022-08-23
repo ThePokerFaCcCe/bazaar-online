@@ -1,4 +1,5 @@
 using BazaarOnline.Application.DTOs.Locations;
+using BazaarOnline.Application.Filters;
 using BazaarOnline.Application.Interfaces.Locations;
 using BazaarOnline.Application.Utils.Extentions;
 using BazaarOnline.Application.ViewModels.Locations;
@@ -23,9 +24,7 @@ namespace BazaarOnline.Application.Services.Locations
             #region Filters
             filterDTO.TrimStrings();
 
-            if (!string.IsNullOrEmpty(filterDTO.Name))
-                cities = cities.Where(c => c.Name.Contains(filterDTO.Name.ToLower()));
-
+            cities = cities.Filter(filterDTO);
             #endregion
 
             return cities.Select(c =>
