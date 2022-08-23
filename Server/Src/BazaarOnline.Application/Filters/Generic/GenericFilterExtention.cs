@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using System.Reflection;
 using BazaarOnline.Application.Filters.Generic.Attributes;
 
@@ -28,48 +29,60 @@ namespace BazaarOnline.Application.Filters
 
                 string propName = filterattr.ModelPropertyName ?? property.Name;
 
+                var modelParam = Expression.Parameter(modelType, "model");
+                var modelProp = GetProperty(modelParam, propName);
+                var value = Expression.Constant(filterValue);
+
+                Expression expression = null;
+
                 switch (filterattr.FilterType)
                 {
                     case FilterTypeEnum.Equals:
-                        query = query.Where(m => GetPropertyValue(m, propName).Equals(filterValue));
+                        expression = Expression.Equal(modelProp, value);
                         break;
 
                     case FilterTypeEnum.ModelGreaterThanEqualThis:
-                        query = query.Where(m =>
-                            Double.Parse(GetPropertyValue(m, propName).ToString())
-                            >=
-                            Double.Parse(filterValue.ToString()));
+                        expression = Expression.GreaterThanOrEqual(
+                            Expression.Convert(modelProp, typeof(double)),
+                            Expression.Convert(value, typeof(double)));
                         break;
 
                     case FilterTypeEnum.ModelSmallerThanEqualThis:
-                        query = query.Where(m =>
-                            Double.Parse(GetPropertyValue(m, propName).ToString())
-                            <=
-                            Double.Parse(filterValue.ToString()));
+                        expression = Expression.LessThanOrEqual(
+                            Expression.Convert(modelProp, typeof(double)),
+                            Expression.Convert(value, typeof(double)));
                         break;
 
                     case FilterTypeEnum.ModelContainsThis:
-                        query = query.Where(m => (bool)GetPropertyValue(m, propName).GetType()
-                            .GetMethod("Contains", new[] { property.PropertyType })
-                            .Invoke(GetPropertyValue(m, propName), new[] { filterValue }));
+                        expression = Expression.Call(
+                            modelProp,
+                            modelProp.Type.GetMethod("Contains", new[] { property.PropertyType }),
+                            value);
                         break;
 
                     case FilterTypeEnum.ThisContainsModel:
-                        query = query.Where(m => (bool)property.PropertyType
-                            .GetMethod("Contains", new[] { GetPropertyValue(m, propName).GetType() })
-                            .Invoke(filterValue, new[] { GetPropertyValue(m, propName) }));
+                        expression = Expression.Call(
+                            value,
+                            property.PropertyType.GetMethod("Contains", new[] { modelProp.Type }),
+                            modelProp);
                         break;
 
                 }
+
+                var lambda = Expression.Lambda<Func<TEntity, bool>>(expression, modelParam);
+                query = query.Where(lambda);
             }
             return query;
         }
-        private static object GetPropertyValue(object obj, string propertyName)
+        private static MemberExpression GetProperty(ParameterExpression param, string propertyNameDotted)
         {
-            foreach (var prop in propertyName.Split('.').Select(s => obj.GetType().GetProperty(s)))
-                obj = prop.GetValue(obj, null);
+            var propNames = propertyNameDotted.Split('.');
+            MemberExpression property = Expression.PropertyOrField(param, propNames.First());
 
-            return obj;
+            foreach (var propName in propNames.Skip(1))
+                property = Expression.PropertyOrField(property, propName);
+
+            return property;
         }
     }
 }
