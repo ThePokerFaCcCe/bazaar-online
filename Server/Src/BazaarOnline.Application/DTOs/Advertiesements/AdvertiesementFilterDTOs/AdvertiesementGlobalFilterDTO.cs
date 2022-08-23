@@ -8,11 +8,11 @@ namespace BazaarOnline.Application.DTOs.Advertiesements.AdvertiesementFilterDTOs
         [Filter(FilterTypeEnum.ModelContainsThis)]
         public string? Title { get; set; }
 
-        [Filter(FilterTypeEnum.Equals)]
+        [Filter(FilterTypeEnum.Equals, ModelPropertyName = nameof(Advertiesement.CategoryId))]
         public int? Category { get; set; }
 
-        [Filter(FilterTypeEnum.ThisContainsModel, ModelPropertyName = nameof(Advertiesement.City))]
-        public IEnumerable<int>? Cities { get; set; }
+        [Filter(FilterTypeEnum.ThisContainsModel, ModelPropertyName = nameof(Advertiesement.CityId))]
+        public List<int>? Cities { get; set; }
 
         [Filter(FilterTypeEnum.Equals, ModelPropertyName = $"{nameof(Advertiesement.AdvertiesementPrice)}.{nameof(Advertiesement.AdvertiesementPrice.Type)}")]
         public AdvertiesementPriceType? PriceType { get; set; }
