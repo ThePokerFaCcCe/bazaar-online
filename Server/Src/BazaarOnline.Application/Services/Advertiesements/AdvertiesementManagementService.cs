@@ -1,4 +1,6 @@
+using BazaarOnline.Application.DTOs.Advertiesements.AdvertiesementManagement;
 using BazaarOnline.Application.Interfaces.Advertiesements;
+using BazaarOnline.Application.Utils.Extentions;
 using BazaarOnline.Domain.Entities.Advertiesements;
 using BazaarOnline.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +16,11 @@ namespace BazaarOnline.Application.Services.Advertiesements
             _repository = repository;
         }
 
-        public void DenyAdvertiesement(Advertiesement advertiesement, string? reason = null)
+        public void DenyAdvertiesement(Advertiesement advertiesement, AdvertiesementDenyDTO denyDTO)
         {
+            denyDTO.TrimStrings();
             advertiesement.IsDeniedByAdmin = true;
-            advertiesement.DeniedByAdminReason = reason;
+            advertiesement.DeniedByAdminReason = denyDTO.Reason;
             advertiesement.IsAccepted = false;
 
             _repository.Update(advertiesement);
@@ -39,6 +42,17 @@ namespace BazaarOnline.Application.Services.Advertiesements
             return _repository.GetAll<Advertiesement>()
                 .IgnoreQueryFilters()
                 .SingleOrDefault(a => a.Id == id);
+        }
+
+        public void DeleteAdvertiesement(Advertiesement advertiesement, AdvertiesementDeleteDTO deleteDTO)
+        {
+            deleteDTO.TrimStrings();
+            advertiesement.IsDeleted = true;
+            advertiesement.IsDeletedByAdmin = true;
+            advertiesement.DeniedByAdminReason = deleteDTO.Reason;
+
+            _repository.Update(advertiesement);
+            _repository.Save();
         }
     }
 }
