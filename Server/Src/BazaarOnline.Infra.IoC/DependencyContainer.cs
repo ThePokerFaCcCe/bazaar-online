@@ -41,6 +41,7 @@ namespace BazaarOnline.Infra.IoC
 
             #region Categories
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICategoryHirearchyService, CategoryHirearchyService>();
             #endregion
 
             #region Locations
