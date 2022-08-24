@@ -120,8 +120,8 @@ namespace BazaarOnline.Application.Services.Advertiesements
             ads = ads.Filter(filter);
             #endregion
 
-            int count = ads.Count();
             #region Pagination
+            int count = ads.Count();
             ads = ads.Paginate(pagination);
             #endregion
 

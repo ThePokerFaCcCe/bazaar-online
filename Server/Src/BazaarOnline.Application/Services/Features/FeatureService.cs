@@ -1,5 +1,6 @@
 using BazaarOnline.Application.DTOs.Features;
 using BazaarOnline.Application.DTOs.PaginationDTO;
+using BazaarOnline.Application.Filters;
 using BazaarOnline.Application.Interfaces.Features;
 using BazaarOnline.Application.Utils.Extentions;
 using BazaarOnline.Application.ViewModels.Features;
@@ -119,20 +120,15 @@ namespace BazaarOnline.Application.Services.Features
         {
 
             var features = _repository.GetAll<Feature>();
-            int count = features.Count();
 
             #region Filters
             filter.TrimStrings();
 
-            if (filter.FeatureType != null)
-                features = features.Where(f => f.FeatureType == filter.FeatureType);
-
-            if (filter.Title != null)
-                features = features.Where(f => f.Title.ToLower().Contains(filter.Title.ToLower()));
-
+            features = features.Filter(filter);
             #endregion
 
             #region Pagination
+            int count = features.Count();
             features = features.Paginate(pagination);
             #endregion
 

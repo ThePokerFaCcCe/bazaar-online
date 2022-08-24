@@ -98,7 +98,6 @@ namespace BazaarOnline.Application.Services.Users
             UserFilterDTO filter, PaginationFilterDTO pagination)
         {
             var users = _repository.GetAll<User>().IgnoreQueryFilters();
-            var count = users.Count();
 
             #region Filters
             filter.TrimStrings();
@@ -111,6 +110,7 @@ namespace BazaarOnline.Application.Services.Users
             #endregion
 
             #region Pagination
+            var count = users.Count();
             users = users.Paginate(pagination);
             #endregion
 
