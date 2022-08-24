@@ -35,14 +35,20 @@ namespace BazaarOnline.Application.FluentValidations.Advertiesements
                     })
                     .WithMessage("محدوده مشخص شده در نقشه خارج از استان است");
             });
-
-            RuleForEach(v => v.AdvertiesementPictures)
-            .Must(ap => ap.IsValidImage())
-            .WithMessage("عکس معتبر نیست")
-            .Must(ap => ap.IsSizeSmallerThan(1000))
-            .WithMessage("حجم عکس بیشتر از 1000 کیلوبایت است")
-            .Must(ap => ap.HasValidExtension(new[] { ".jpg", ".png" }))
-            .WithMessage("فرمت عکس باید jpg یا png باشد");
+            RuleFor(v => v.AdvertiesementPictures)
+                .Must(pics => pics.Count() <= 5)
+                .WithMessage("حداکثر میتوانید 5 عکس ثبت کنید")
+                .When(v => v.AdvertiesementPictures != null)
+                .DependentRules(() =>
+                {
+                    RuleForEach(v => v.AdvertiesementPictures)
+                        .Must(ap => ap.IsValidImage())
+                        .WithMessage("عکس معتبر نیست")
+                        .Must(ap => ap.IsSizeSmallerThan(1000))
+                        .WithMessage("حجم عکس بیشتر از 1000 کیلوبایت است")
+                        .Must(ap => ap.HasValidExtension(new[] { ".jpg", ".png" }))
+                        .WithMessage("فرمت عکس باید jpg یا png باشد");
+                });
 
             RuleFor(v => v.AdvertiesementPrice)
             .ChildRules(ap =>
