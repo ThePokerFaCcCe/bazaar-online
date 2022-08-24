@@ -7,7 +7,7 @@ namespace BazaarOnline.Application.DTOs.Advertiesements
     public class AdvertiesementPriceCreateDTO
     {
         [DisplayName("مبلغ")]
-        public int? Value { get; set; }
+        public long? Value { get; set; }
 
         [DisplayName("توافقی")]
         [Required(ErrorMessage = "این فیلد اجباری است")]
