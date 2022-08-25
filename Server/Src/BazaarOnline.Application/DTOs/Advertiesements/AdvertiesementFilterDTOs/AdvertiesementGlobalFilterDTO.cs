@@ -26,6 +26,6 @@ namespace BazaarOnline.Application.DTOs.Advertiesements.AdvertiesementFilterDTOs
         [Order(nameof(Advertiesement.Title))]
         [Order(nameof(Advertiesement.CreateDate))]
         [Order("Price", Property = $"{nameof(Advertiesement.AdvertiesementPrice)}.{nameof(Advertiesement.AdvertiesementPrice.Value)}")]
-        public string? OrderBy { get; set; }
+        public string? OrderBy { get; set; } = $"-{nameof(Advertiesement.CreateDate)}";
     }
 }

@@ -9,6 +9,6 @@ namespace BazaarOnline.Application.DTOs.Locations
         public string? Name { get; set; } = string.Empty;
 
         [Order(nameof(City.Name))]
-        public string? OrderBy { get; set; }
+        public string? OrderBy { get; set; } = nameof(City.Name);
     }
 }

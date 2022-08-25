@@ -20,6 +20,6 @@ namespace BazaarOnline.Application.DTOs.Users.UserDTOs
         [Order(nameof(User.CreateDate))]
         [Order(nameof(User.Email))]
         [Order(nameof(User.IsActive))]
-        public string? OrderBy { get; set; }
+        public string? OrderBy { get; set; } = $"-{nameof(User.CreateDate)}";
     }
 }

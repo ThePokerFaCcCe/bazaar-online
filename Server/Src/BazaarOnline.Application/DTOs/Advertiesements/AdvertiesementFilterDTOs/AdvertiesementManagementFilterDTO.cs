@@ -33,6 +33,6 @@ namespace BazaarOnline.Application.DTOs.Advertiesements.AdvertiesementFilterDTOs
         [Order(nameof(Advertiesement.IsDeniedByAdmin))]
         [Order(nameof(Advertiesement.IsDeleted))]
         [Order(nameof(Advertiesement.IsDeletedByAdmin))]
-        public string? OrderBy { get; set; }
+        public string? OrderBy { get; set; } = $"-{nameof(Advertiesement.CreateDate)}";
     }
 }
