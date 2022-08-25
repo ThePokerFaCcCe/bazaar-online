@@ -4,6 +4,9 @@ namespace BazaarOnline.Application.DTOs.ReverseGeocoding
 {
     public class ReverseGeocodingResponseDTO
     {
+        [JsonProperty("error")]
+        public object? Error { get; set; }
+
         [JsonProperty("address")]
         public ReverseGeocodingAddressDTO Address { get; set; }
     }
