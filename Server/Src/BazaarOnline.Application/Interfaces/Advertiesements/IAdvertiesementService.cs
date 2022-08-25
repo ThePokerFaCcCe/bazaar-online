@@ -14,5 +14,6 @@ namespace BazaarOnline.Application.Interfaces.Advertiesements
         AdvertiesementDetailViewModel? GetAdvertiesementDetail(int id);
         Advertiesement CreateAdvertiesement(AdvertiesementCreateDTO createDTO, int userId);
         Advertiesement? FindAdvertiesement(int id);
+        void DeleteAdvertiesement(Advertiesement advertiesement);
     }
 }

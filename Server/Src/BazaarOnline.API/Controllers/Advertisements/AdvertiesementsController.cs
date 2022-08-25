@@ -49,5 +49,26 @@ namespace BazaarOnline.API.Controllers.Advertisements
             var advertiesement = _advertiesementService.CreateAdvertiesement(createDTO, userId);
             return CreatedAtAction(nameof(GetAdvertiesement), new { Id = advertiesement.Id }, null);
         }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public ActionResult DeleteAdvertiesement(int id)
+        {
+
+            var advertiesement = _advertiesementService.FindAdvertiesement(id);
+            if (advertiesement == null) return NotFound();
+
+            var userId = int.Parse(User.Identity.Name);
+            if (advertiesement.UserId != userId) return Forbid();
+
+            if (advertiesement.IsDeleted)
+            {
+                ModelState.AddModelError(nameof(id), "این آگهی حذف شده است");
+                return ValidationProblem(ModelState);
+            }
+
+            _advertiesementService.DeleteAdvertiesement(advertiesement);
+            return NoContent();
+        }
     }
 }

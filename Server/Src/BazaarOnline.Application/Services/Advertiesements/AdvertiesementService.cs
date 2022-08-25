@@ -146,5 +146,12 @@ namespace BazaarOnline.Application.Services.Advertiesements
                 }.FillFromObject(a, false)).ToList()
             };
         }
+
+        public void DeleteAdvertiesement(Advertiesement advertiesement)
+        {
+            advertiesement.IsDeleted = true;
+            _repository.Remove(advertiesement);
+            _repository.Save();
+        }
     }
 }
