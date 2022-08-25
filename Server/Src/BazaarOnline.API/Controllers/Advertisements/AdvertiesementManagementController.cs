@@ -68,12 +68,23 @@ namespace BazaarOnline.API.Controllers.Advertisements
             return NoContent();
         }
 
-        [HttpGet("Management")]
+        [HttpGet("Management/List")]
         public ActionResult<IEnumerable<AdvertiesementManagementListDetailViewModel>>
             GetAdvertiesementList([FromQuery] AdvertiesementManagementFilterDTO filter,
                                   [FromQuery] PaginationFilterDTO pagination)
         {
             return Ok(_advertiesementManagementService.GetAdvertiesementListDetail(filter, pagination));
+        }
+
+        [HttpGet("Management/List/Unaccepted")]
+        public ActionResult<IEnumerable<AdvertiesementManagementListDetailViewModel>>
+            GetAdvertiesementUnacceptedList([FromQuery] PaginationFilterDTO pagination)
+        {
+            return Ok(_advertiesementManagementService
+                .GetAdvertiesementListDetail(new AdvertiesementManagementFilterDTO
+                {
+                    IsAccepted = false,
+                }, pagination));
         }
     }
 }
