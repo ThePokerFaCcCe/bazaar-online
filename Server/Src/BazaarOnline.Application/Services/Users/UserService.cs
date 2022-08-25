@@ -16,14 +16,6 @@ namespace BazaarOnline.Application.Services.Users
 {
     public class UserService : IUserService
     {
-        private string[] _userOrderProperties = new string[]{
-            nameof(User.FirstName),
-            nameof(User.LastName),
-            nameof(User.CreateDate),
-            nameof(User.Email),
-            nameof(User.IsActive),
-        };
-
         private readonly IRepository _repository;
 
         public UserService(IRepository repository)
@@ -104,10 +96,6 @@ namespace BazaarOnline.Application.Services.Users
             users = users.Filter(filter);
             #endregion
 
-            #region Ordering
-            if (!string.IsNullOrEmpty(filter.OrderBy))
-                users = users.OrderBy(filter.OrderBy, _userOrderProperties);
-            #endregion
 
             #region Pagination
             var count = users.Count();

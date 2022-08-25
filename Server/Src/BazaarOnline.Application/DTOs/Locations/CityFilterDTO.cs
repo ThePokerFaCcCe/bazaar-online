@@ -1,4 +1,5 @@
 using BazaarOnline.Application.Filters.Generic.Attributes;
+using BazaarOnline.Domain.Entities.Locations;
 
 namespace BazaarOnline.Application.DTOs.Locations
 {
@@ -6,5 +7,8 @@ namespace BazaarOnline.Application.DTOs.Locations
     {
         [Filter(FilterTypeEnum.ModelContainsThis)]
         public string? Name { get; set; } = string.Empty;
+
+        [Order(nameof(City.Name))]
+        public string? OrderBy { get; set; }
     }
 }

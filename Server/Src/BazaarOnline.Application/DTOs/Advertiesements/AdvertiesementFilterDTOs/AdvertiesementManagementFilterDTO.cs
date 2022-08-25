@@ -3,10 +3,13 @@ using BazaarOnline.Domain.Entities.Advertiesements;
 
 namespace BazaarOnline.Application.DTOs.Advertiesements.AdvertiesementFilterDTOs
 {
-    public class AdvertiesementGlobalFilterDTO
+    public class AdvertiesementManagementFilterDTO
     {
-        [Filter(FilterTypeEnum.ModelContainsThis)]
-        public string? Title { get; set; }
+        [Filter(FilterTypeEnum.Equals)]
+        public bool? IsDeleted { get; set; }
+
+        [Filter(FilterTypeEnum.Equals)]
+        public bool? IsAccepted { get; set; }
 
         [Filter(FilterTypeEnum.Equals, ModelPropertyName = nameof(Advertiesement.CategoryId))]
         public int? Category { get; set; }
@@ -26,6 +29,10 @@ namespace BazaarOnline.Application.DTOs.Advertiesements.AdvertiesementFilterDTOs
         [Order(nameof(Advertiesement.Title))]
         [Order(nameof(Advertiesement.CreateDate))]
         [Order("Price", Property = $"{nameof(Advertiesement.AdvertiesementPrice)}.{nameof(Advertiesement.AdvertiesementPrice.Value)}")]
+        [Order(nameof(Advertiesement.IsAccepted))]
+        [Order(nameof(Advertiesement.IsDeniedByAdmin))]
+        [Order(nameof(Advertiesement.IsDeleted))]
+        [Order(nameof(Advertiesement.IsDeletedByAdmin))]
         public string? OrderBy { get; set; }
     }
 }

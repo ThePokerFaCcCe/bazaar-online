@@ -1,4 +1,5 @@
 using BazaarOnline.Application.Filters.Generic.Attributes;
+using BazaarOnline.Domain.Entities.Users;
 
 namespace BazaarOnline.Application.DTOs.Users.UserDTOs
 {
@@ -13,6 +14,12 @@ namespace BazaarOnline.Application.DTOs.Users.UserDTOs
         [Filter(FilterTypeEnum.Equals)]
         public bool IsDeleted { get; set; } = false;
 
+        [Order(nameof(User.CreateDate))]
+        [Order(nameof(User.FirstName))]
+        [Order(nameof(User.LastName))]
+        [Order(nameof(User.CreateDate))]
+        [Order(nameof(User.Email))]
+        [Order(nameof(User.IsActive))]
         public string? OrderBy { get; set; }
     }
 }
