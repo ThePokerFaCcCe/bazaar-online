@@ -62,7 +62,9 @@ namespace BazaarOnline.Application.Services.Advertiesements
 
 
         public PaginationResultDTO<AdvertiesementManagementListDetailViewModel>
-            GetAdvertiesementListDetail(AdvertiesementManagementFilterDTO filter, PaginationFilterDTO pagination)
+            GetAdvertiesementListDetail(AdvertiesementManagementFilterDTO filter,
+                                        PaginationFilterDTO pagination,
+                                        int? userId = null)
         {
             var ads = _repository.GetAll<Advertiesement>()
                 .IgnoreQueryFilters()
@@ -73,6 +75,9 @@ namespace BazaarOnline.Application.Services.Advertiesements
                 .AsQueryable();
 
             #region Filters
+            if (userId != null)
+                ads = ads.Where(a => a.UserId == userId);
+
             filter.TrimStrings();
 
             ads = ads.Filter(filter);

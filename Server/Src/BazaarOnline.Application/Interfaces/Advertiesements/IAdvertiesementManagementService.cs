@@ -14,7 +14,9 @@ namespace BazaarOnline.Application.Interfaces.Advertiesements
         void DeleteAdvertiesement(Advertiesement advertiesement, AdvertiesementDeleteDTO deleteDTO);
 
         PaginationResultDTO<AdvertiesementManagementListDetailViewModel>
-            GetAdvertiesementListDetail(AdvertiesementManagementFilterDTO filter, PaginationFilterDTO pagination);
+            GetAdvertiesementListDetail(AdvertiesementManagementFilterDTO filter,
+                                        PaginationFilterDTO pagination,
+                                        int? userId = null);
 
 
     }
