@@ -49,5 +49,21 @@ namespace BazaarOnline.API.Controllers.Advertisements
             var advertiesement = _advertiesementService.CreateAdvertiesement(createDTO, userId);
             return CreatedAtAction(nameof(GetAdvertiesement), new { Id = advertiesement.Id }, null);
         }
+
+        [HttpGet("{id}/contact")]
+        [Authorize]
+        public ActionResult GetAdvertiesementContact(int id)
+        {
+            var advertiesement = _advertiesementService.FindAdvertiesement(id);
+            if (advertiesement == null) return NotFound();
+
+            if (advertiesement.IsChatOnly)
+            {
+                ModelState.AddModelError(nameof(id), "این آگهی فقط قابلیت چت را دارد");
+                return ValidationProblem(ModelState);
+            }
+
+            return Ok(_advertiesementService.GetAdvertiesementContactDetail(advertiesement));
+        }
     }
 }

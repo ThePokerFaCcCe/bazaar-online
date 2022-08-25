@@ -10,6 +10,7 @@ using BazaarOnline.Application.ViewModels.Advertiesements;
 using BazaarOnline.Domain.Entities.Advertiesements;
 using BazaarOnline.Domain.Entities.Categories;
 using BazaarOnline.Domain.Entities.Locations;
+using BazaarOnline.Domain.Entities.Users;
 using BazaarOnline.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -152,6 +153,14 @@ namespace BazaarOnline.Application.Services.Advertiesements
             advertiesement.IsDeleted = true;
             _repository.Remove(advertiesement);
             _repository.Save();
+        }
+
+        public AdvertiesementContactDetailViewModel GetAdvertiesementContactDetail(Advertiesement advertiesement)
+        {
+            var user = advertiesement.User ?? _repository.Get<User>(advertiesement.UserId);
+
+            return ModelHelper.CreateAndFillFromObject
+                <AdvertiesementContactDetailViewModel, User>(user);
         }
     }
 }
