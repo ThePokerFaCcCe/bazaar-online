@@ -1,6 +1,9 @@
+using BazaarOnline.Application.DTOs.Advertiesements.AdvertiesementFilterDTOs;
 using BazaarOnline.Application.DTOs.Advertiesements.AdvertiesementManagement;
+using BazaarOnline.Application.DTOs.PaginationDTO;
 using BazaarOnline.Application.Interfaces.Advertiesements;
 using BazaarOnline.Application.Securities.Attributes;
+using BazaarOnline.Application.ViewModels.Advertiesements.Management;
 using BazaarOnline.Infra.Data.Seeds.DefaultDatas;
 using Microsoft.AspNetCore.Mvc;
 
@@ -63,6 +66,14 @@ namespace BazaarOnline.API.Controllers.Advertisements
 
             _advertiesementManagementService.DeleteAdvertiesement(advertiesement, deleteDTO);
             return NoContent();
+        }
+
+        [HttpGet("Management")]
+        public ActionResult<IEnumerable<AdvertiesementManagementListDetailViewModel>>
+            GetAdvertiesementList([FromQuery] AdvertiesementManagementFilterDTO filter,
+                                  [FromQuery] PaginationFilterDTO pagination)
+        {
+            return Ok(_advertiesementManagementService.GetAdvertiesementListDetail(filter, pagination));
         }
     }
 }
