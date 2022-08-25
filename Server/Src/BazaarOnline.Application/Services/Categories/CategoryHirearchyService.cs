@@ -1,6 +1,7 @@
 using BazaarOnline.Application.Interfaces.Categories;
 using BazaarOnline.Domain.Entities.Categories;
 using BazaarOnline.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BazaarOnline.Application.Services.Categories
 {
@@ -24,7 +25,7 @@ namespace BazaarOnline.Application.Services.Categories
             IEnumerable<Category>? allCategories = null,
             List<Category>? selectedCategories = null)
         {
-            if (allCategories == null) allCategories = _repository.GetAll<Category>().ToList();
+            if (allCategories == null) allCategories = _repository.GetAll<Category>().AsEnumerable();
             if (selectedCategories == null)
             {
                 selectedCategories = new List<Category>();
@@ -46,24 +47,25 @@ namespace BazaarOnline.Application.Services.Categories
         }
 
 
-        public IEnumerable<Category> GetCategoryAndParentFlatten(int? categoryId, bool includeSelf = false)
+        public IEnumerable<Category> GetCategoryAndParentFlatten(int categoryId, bool includeSelf = false)
         {
-            // TODO: Refactor this method!
-            var allCategories = _repository.GetAll<Category>();
+            var allCategories = _repository.GetAll<Category>().AsEnumerable();
 
-            var hierarchy = new List<Category>();
-            var ccategory = allCategories.SingleOrDefault(c => c.Id == categoryId);
+            var categories = new List<Category>();
+            var foundCategory = allCategories.SingleOrDefault(c => c.Id == categoryId);
 
-            if (ccategory == null) return hierarchy;
-            hierarchy.Add(ccategory);
+            if (foundCategory == null) return categories;
 
-            while (ccategory.ParentId != null)
+            if (includeSelf)
+                categories.Add(foundCategory);
+
+            while (foundCategory.ParentId != null)
             {
-                ccategory = allCategories.Single(c => c.Id == ccategory.ParentId);
-                hierarchy.Add(ccategory);
+                foundCategory = foundCategory.ParentCategory;
+                categories.Add(foundCategory);
             }
 
-            return hierarchy;
+            return categories;
         }
     }
 }

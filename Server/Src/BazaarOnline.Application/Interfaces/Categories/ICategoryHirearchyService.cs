@@ -19,7 +19,7 @@ namespace BazaarOnline.Application.Interfaces.Categories
         /// <param name="categoryId">category id</param>
         /// <param name="includeSelf">add category id to list</param>
         /// <returns>self category(if included) and it's parent</returns>
-        IEnumerable<Category> GetCategoryAndParentFlatten(int? categoryId, bool includeSelf = false);
+        IEnumerable<Category> GetCategoryAndParentFlatten(int categoryId, bool includeSelf = false);
 
     }
 }
