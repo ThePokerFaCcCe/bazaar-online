@@ -1,8 +1,9 @@
 using System.Linq.Expressions;
 using System.Reflection;
 using BazaarOnline.Application.Filters.Generic.Attributes;
+using BazaarOnline.Application.Utils.Extentions;
 
-#pragma warning disable 
+#pragma warning disable
 
 namespace BazaarOnline.Application.Filters
 {
@@ -18,7 +19,7 @@ namespace BazaarOnline.Application.Filters
                     p.CustomAttributes
                         .Any(ca => ca.AttributeType == typeof(FilterAttribute))
                 );
-            // Todo: filter nested. like Adv.Price.Value
+
             foreach (var property in properties)
             {
                 var filterValue = property.GetValue(filter);
@@ -72,8 +73,50 @@ namespace BazaarOnline.Application.Filters
                 var lambda = Expression.Lambda<Func<TEntity, bool>>(expression, modelParam);
                 query = query.Where(lambda);
             }
-            return query;
+
+            return _OrderQuery(query, filter);
         }
+
+        private static IQueryable<TEntity> _OrderQuery<TEntity, TFilter>(IQueryable<TEntity> query, TFilter filter)
+        {
+            var filterType = typeof(TFilter);
+            var orderAttributeProps = filterType.GetProperties()
+                .Where(p =>
+                    p.CustomAttributes
+                        .Any(ca => ca.AttributeType == typeof(OrderAttribute))
+                );
+
+            if (!orderAttributeProps.Any())
+                return query;
+
+            if (orderAttributeProps.DistinctBy(p => p.GetHashCode()).Count() > 1)
+                throw new AmbiguousMatchException("There's more than one Property that has OrderAttribute");
+
+            var orderAttributeProp = orderAttributeProps.First();
+            var allowedProps = orderAttributeProp
+                .GetCustomAttributes<OrderAttribute>()
+                .Select(attr => new OrderParam
+                {
+                    Title = attr.Title,
+                    Property = attr.PropertyName,
+                });
+            string orderPropertyName = orderAttributeProp.GetValue(filter)?.ToString();
+            if(string.IsNullOrEmpty(orderPropertyName))
+                return query;
+
+            string cleanedPropertyName = orderPropertyName.Replace("-", "").Trim().ToLower();
+            var orderProperty = allowedProps
+                .FirstOrDefault(p => p.Title.ToLower() == cleanedPropertyName)
+                ?.Property;
+
+            if (orderProperty == null)
+                return query;
+
+            return query.OrderBy(
+                orderPropertyName[0] == '-' ? $"-{orderProperty}" : orderProperty,
+                allowedProps.Select(p => p.Property).ToArray());
+        }
+
         private static MemberExpression GetProperty(ParameterExpression param, string propertyNameDotted)
         {
             var propNames = propertyNameDotted.Split('.');
