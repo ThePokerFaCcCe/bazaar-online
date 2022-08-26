@@ -27,7 +27,7 @@ namespace BazaarOnline.Infra.Data.FluentConfigs
                 .HasMaxLength(100);
 
             builder.Property(u => u.PhoneNumber)
-                .IsRequired(false)
+                .IsRequired()
                 .HasMaxLength(11);
 
             builder.Property(u => u.Password)
