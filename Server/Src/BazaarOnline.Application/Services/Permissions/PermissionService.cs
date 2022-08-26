@@ -3,6 +3,7 @@ using BazaarOnline.Application.ViewModels.PermissionViewModels;
 using BazaarOnline.Domain.Entities.Permissions;
 using BazaarOnline.Domain.Entities.Users;
 using BazaarOnline.Domain.Interfaces;
+using BazaarOnline.Infra.Data.Seeds.DefaultDatas;
 using Microsoft.EntityFrameworkCore;
 
 namespace BazaarOnline.Application.Services.Permissions
@@ -18,12 +19,12 @@ namespace BazaarOnline.Application.Services.Permissions
 
         public List<PermissionGroupDetailViewModel> GetPermissionGroups()
         {
-            return _repository.GetAll<PermissionGroup>()
-                .Include(pg => pg.Permissions)
+            return DefaultPermissionGroups.Groups
                 .Select(pg => new PermissionGroupDetailViewModel
                 {
                     GroupTitle = pg.Title,
-                    Permissions = pg.Permissions
+                    Permissions = DefaultPermissions.Permissions
+                        .Where(p => p.PermissionGroupId == pg.Id)
                         .Select(p => new PermissionDetailViewModel
                         {
                             Id = p.Id,
@@ -34,7 +35,7 @@ namespace BazaarOnline.Application.Services.Permissions
 
         public List<int> GetPermissionIds()
         {
-            return _repository.GetAll<Permission>()
+            return DefaultPermissions.Permissions
                 .Select(p => p.Id)
                 .ToList();
         }
