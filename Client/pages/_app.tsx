@@ -2,8 +2,8 @@ import type { AppProps } from "next/app";
 import { Container } from "@mui/material";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
-import { logout } from "../services/httpService";
-import { useEffect } from "react";
+import { checkUserAuthExpire } from "../services/httpService";
+import { useEffect, useState } from "react";
 import { setUserStatus } from "../store/state/user";
 import store from "../store/configureStore";
 import NavBar from "../components/navBar";
@@ -17,23 +17,9 @@ import "react-toastify/dist/ReactToastify.css";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
+  // CDM
   useEffect(() => {
-    console.log("Use Effect Called");
-    if (typeof window !== "undefined") {
-      const sessionExpire = localStorage?.getItem("sessionExpire");
-      if (sessionExpire !== null) {
-        const expireDate = new Date(sessionExpire).toDateString();
-        const today = new Date().toDateString();
-        //
-        if (today >= expireDate) {
-          logout();
-          return;
-        } else {
-          store.dispatch(setUserStatus(true));
-          return;
-        }
-      }
-    }
+    checkUserAuthExpire(store.dispatch(setUserStatus(true)));
   }, []);
 
   return (

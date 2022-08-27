@@ -1,6 +1,11 @@
 import { Box } from "@mui/material";
 import Card from "../Advertisement/card";
+import { handleGetData as handleGetAds } from "../../../services/httpService";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import dayjs from "dayjs";
+import { Ad } from "../../../types/type";
+import timeDiffrence from "../../../services/timeDiffrence";
 
 const ads = [
   { title: "iPhone 13 ProMax 256", href: "/dashboard/ad/1" },
@@ -8,12 +13,33 @@ const ads = [
 ];
 
 const ManageAds = (): JSX.Element => {
+  const [adList, setAdList] = useState<Ad[] | []>([]);
+
+  // CDM
+
+  useEffect(() => {
+    async function getAdsList() {
+      // I await for it because the data is nested.
+      const { content } = await handleGetAds("Advertiesements/Management/List");
+      setAdList(content);
+    }
+
+    getAdsList();
+  }, []);
+
+  //
+
+  console.log("ad", adList);
   return (
     <>
-      {ads.map((item) => (
-        <Link href={item.href}>
+      {adList.map((item) => (
+        <Link href={`dashboard/ad/${item.id}`}>
           <Box sx={{ cursor: "pointer" }}>
-            <Card title={item.title} />
+            <Card
+              title={item.title}
+              minuets={timeDiffrence(item.createDate)}
+              city={item.city.name}
+            />
           </Box>
         </Link>
       ))}

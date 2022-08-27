@@ -15,9 +15,6 @@ if (typeof window !== "undefined") {
   token = localStorage.getItem("token");
 }
 
-console.log(token);
-console.log(typeof token);
-
 const header = {
   headers: {
     "Content-Type": "application/json",
@@ -106,12 +103,32 @@ export const logout = () => {
   window.location.replace("/");
 };
 
+//
+
+export const checkUserAuthExpire = (reduxDispatch: any) => {
+  if (typeof window !== "undefined") {
+    const sessionExpire = localStorage?.getItem("sessionExpire");
+    if (sessionExpire !== null) {
+      const expireDate = new Date(sessionExpire).toDateString();
+      const today = new Date().toDateString();
+      //
+      if (today >= expireDate) {
+        return logout();
+      } else {
+        return reduxDispatch;
+      }
+    }
+  }
+};
+
 // Admin Dashboard
 
-export const handleGetData = async (path: string, setState: GetRolesProp) => {
+export const handleGetData = async (path: string, setState?: GetRolesProp) => {
   if (token) {
     const { data } = await axios.get(`${config.apiEndPoint}/${path}`);
-    setState(data);
+    if (setState) {
+      setState(data);
+    }
     return data;
   }
 };
@@ -144,6 +161,7 @@ export const getFeaturesList = async () => {
     console.log("data", data);
   }
 };
+
 export const getRolePermissions = async (
   selectedRole: number | null,
   setState: (object: any) => void

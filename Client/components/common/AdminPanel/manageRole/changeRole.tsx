@@ -39,10 +39,12 @@ const ChangeRole = ({
   };
 
   // CDM
+  // TODO List Dastrsi Hayi ke dare ro beriz to araye
   useEffect(() => {
     getRolePermissions(selectedRole, setSelectedRolePerm);
     getFeaturesList();
   }, [selectedRole]);
+
   // Render
   return (
     <>
@@ -52,7 +54,6 @@ const ChangeRole = ({
             <Select
               onChange={(value) => setSelectedRole(value)}
               allowClear
-              value
               style={{ width: "100%" }}
               placeholder="نقش زیر مجموعه را انتخاب کنید"
             >
@@ -60,7 +61,7 @@ const ChangeRole = ({
                 <Option key="loading">درحال بارگیری اطلاعات</Option>
               ) : (
                 roles.map?.((role) => (
-                  <Option key={role.id}>{role.title}</Option>
+                  <Option key={role.id.toString()}>{role.title}</Option>
                 ))
               )}
             </Select>
@@ -69,27 +70,12 @@ const ChangeRole = ({
               name="name"
               placeholder="تغییر نام نقش"
             />
-            {/* {selectedRolePerm && (
-              <Select
-                mode="multiple"
-                allowClear
-                style={{ width: "100%" }}
-                placeholder="تغییر دسترسی"
-              >
-                {selectedRolePerm?.length === null ? (
-                  <Option value="loading">درحال دریافت اطلاعات </Option>
-                ) : (
-                  allPermissions?.permissions?.map?.((item, index) => (
-                    <Option key={item.id}>{item.title}</Option>
-                  ))
-                )}
-              </Select>
-            )} */}
             {selectedRolePerm && (
               <Select
                 mode="multiple"
                 allowClear
-                style={{ width: "100%" }}
+                defaultValue={["1", "2", "3"]}
+                style={{ maxWidth: "100%" }}
                 placeholder="یک یا چند دسترسی انتخاب کنید"
               >
                 {allPermissions.length === 0 ? (
@@ -98,22 +84,14 @@ const ChangeRole = ({
                   allPermissions.map((item) => (
                     <OptGroup label={item.groupTitle}>
                       {item.permissions.map((subChild) => (
-                        <Option value={subChild.id}>{subChild.title}</Option>
+                        <Option value={subChild.id.toString()}>
+                          {subChild.title}
+                        </Option>
                       ))}
                     </OptGroup>
                   ))
                 )}
               </Select>
-            )}
-            {selectedRolePerm && (
-              <>
-                <p>لیست دسترسی هایی که این نقش دارد: </p>
-                <ul>
-                  {selectedRolePerm?.permissions?.map?.((item) => (
-                    <li>{item.title}</li>
-                  ))}
-                </ul>
-              </>
             )}
 
             <Button

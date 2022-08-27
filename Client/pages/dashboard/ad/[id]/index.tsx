@@ -1,21 +1,18 @@
 import AdPage from "../../../../components/common/Advertisement/adPage";
 import axios from "axios";
 
-interface UserPageProps {
-  ad: object;
-}
-
-function UserPage({ ad }: UserPageProps) {
-  console.log(ad);
+const AdPageExtra = (props) => {
+  console.log("props", props);
   return (
     <>
       <AdPage title="بای" />
-      <AdPage title="سلام" />
     </>
   );
-}
+};
 
-export async function getServerSideProps() {
+export default AdPageExtra;
+
+export const getServerSideProps = async () => {
   const { data } = await axios.get(
     "https://jsonplaceholder.typicode.com/posts"
   );
@@ -24,6 +21,4 @@ export async function getServerSideProps() {
       posts: data,
     },
   };
-}
-
-export default UserPage;
+};

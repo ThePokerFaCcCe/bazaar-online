@@ -60,6 +60,8 @@ export interface Store {
 
 export interface Card {
   title: string;
+  minuets: string;
+  city: string;
 }
 
 export interface AdvertisementListProps {
@@ -198,4 +200,26 @@ export interface NewRolePropos {
 export interface Cities {
   id: number;
   name: string;
+}
+
+export interface Ad {
+  id: number;
+  title: string;
+  nullable: boolean;
+  deniedByAdminReason: string;
+  isDeniedByAdmin: boolean;
+  deletedByAdminReason: string;
+  isDeletedByAdmin: boolean;
+  isDeleted: boolean;
+  isAccepted: boolean;
+  createDate: string;
+  category: { id: number; title: string };
+  city: { id: number; name: string };
+  price: {
+    value: null | number;
+    isAgreement: boolean;
+    priceType: number;
+    priceTypeName: string;
+  };
+  picture: { image: string; thumbnail: string };
 }

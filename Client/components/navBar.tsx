@@ -3,7 +3,6 @@ import { Modal, Tabs } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { Store } from "../types/type";
 import { signModalToggle } from "../store/state/ui";
-import RTL from "../services/rtl";
 import CityModal from "./cityModal";
 import MobileNavBar from "./common/NavBar/mobileNavBar";
 import DesktopNavBar from "./common/NavBar/desktopNavBar";

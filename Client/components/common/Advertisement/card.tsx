@@ -2,14 +2,15 @@ import { Box } from "@mui/material";
 import styles from "../../../styles/Advertisement.module.css";
 import { Card } from "../../../types/type";
 
-const Card = ({ title }: Card): JSX.Element => (
+const Card = ({ title, minuets, city }: Card): JSX.Element => (
   <div className="card mx-auto card__size">
     <div className="card-body overflow-hidden">
       <div className="d-flex justify-content-between">
         <div className="d-flex flex-column justify-content-between">
           <h5 className="card-title mb-2">{title}</h5>
           <p className="card-text" style={{ margin: 0 }}>
-            لحظاتی پیش در صادقیه
+            <span>{minuets}</span>
+            <span>{city}</span>
           </p>
         </div>
         <Box sx={{ width: "129px", height: "129px" }}>

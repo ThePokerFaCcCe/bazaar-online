@@ -6,7 +6,6 @@ import { Store } from "../types/type";
 import { cityModalToggle } from "../store/state/ui";
 import SelectState from "./common/CityModal/selectState";
 import SelectCity from "./common/CityModal/selectCity";
-import RTL from "../services/rtl";
 
 const CityModal = (): JSX.Element => {
   // Redux Setup
