@@ -23,7 +23,6 @@ namespace BazaarOnline.Infra.Data.FluentConfigs
         private void ConfigureProperties(EntityTypeBuilder<User> builder)
         {
             builder.Property(u => u.Email)
-                .IsRequired()
                 .HasMaxLength(100);
 
             builder.Property(u => u.PhoneNumber)
