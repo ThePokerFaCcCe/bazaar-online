@@ -8,6 +8,11 @@ namespace BazaarOnline.Application.Filters.Generic.Attributes
         Equals,
 
         /// <summary>
+        /// Both values should equal. it's like `==`. Regardless of case of words
+        /// </summary>
+        EqualsIgnoreCase,
+
+        /// <summary>
         /// This value should exists inside of model value.
         /// for example, used when model value is string, and this value is a substring
         /// and you want to filter where model value contains this string

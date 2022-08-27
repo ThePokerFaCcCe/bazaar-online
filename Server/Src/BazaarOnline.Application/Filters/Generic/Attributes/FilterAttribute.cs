@@ -23,5 +23,10 @@ namespace BazaarOnline.Application.Filters.Generic.Attributes
         /// Default value is the Filter Property name
         /// </summary>
         public string? ModelPropertyName { get; set; }
+
+        // /// <summary>
+        // /// Filter result Regardless of uppercase or lowercase
+        // /// </summary>
+        // public bool IgnoreCase { get; set; } = false;
     }
 }

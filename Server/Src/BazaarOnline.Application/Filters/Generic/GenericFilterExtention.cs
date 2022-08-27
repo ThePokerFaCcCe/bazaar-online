@@ -31,14 +31,26 @@ namespace BazaarOnline.Application.Filters
                 string propName = filterattr.ModelPropertyName ?? property.Name;
 
                 var modelParam = Expression.Parameter(modelType, "model");
-                var modelProp = GetProperty(modelParam, propName);
-                var value = Expression.Constant(filterValue);
+                Expression modelProp = GetProperty(modelParam, propName);
+                Expression value = Expression.Constant(filterValue);
 
                 Expression expression = null;
 
                 switch (filterattr.FilterType)
                 {
                     case FilterTypeEnum.Equals:
+                        expression = Expression.Equal(modelProp, value);
+                        break;
+
+                    case FilterTypeEnum.EqualsIgnoreCase:
+                        modelProp = Expression.Call(
+                            modelProp,
+                            modelProp.Type.GetMethod("ToLower", new Type[] { }));
+
+                        value = Expression.Call(
+                            value,
+                            value.Type.GetMethod("ToLower", new Type[] { }));
+
                         expression = Expression.Equal(modelProp, value);
                         break;
 
@@ -101,7 +113,7 @@ namespace BazaarOnline.Application.Filters
                     Property = attr.PropertyName,
                 });
             string orderPropertyName = orderAttributeProp.GetValue(filter)?.ToString();
-            if(string.IsNullOrEmpty(orderPropertyName))
+            if (string.IsNullOrEmpty(orderPropertyName))
                 return query;
 
             string cleanedPropertyName = orderPropertyName.Replace("-", "").Trim().ToLower();
