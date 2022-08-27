@@ -7,6 +7,7 @@ using BazaarOnline.Application.Securities;
 using BazaarOnline.Domain.Entities.Users;
 using BazaarOnline.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Configuration;
 
 namespace BazaarOnline.Application.Services.Auth
@@ -34,6 +35,20 @@ namespace BazaarOnline.Application.Services.Auth
             int expireMinutes = _configuration.GetValue<int>("JwtSettings:ExpireMinutes");
 
             return JWTAuthorization.GenerateToken(user, issuer, signKey, encKey, expireMinutes);
+        }
+
+        public void ActivateUser(User user)
+        {
+            user.IsActive = true;
+            _repository.Update<User>(user);
+            _repository.Save();
+        }
+
+        public void ActivateEmail(User user)
+        {
+            user.IsEmailActive = true;
+            _repository.Update<User>(user);
+            _repository.Save();
         }
 
         public CodeSentResultDTO SendRegisterUserSMS(User user)
@@ -77,6 +92,31 @@ namespace BazaarOnline.Application.Services.Auth
                 Message = $"کد تایید به ایمیل {user.Email} ارسال شد",
                 ExpireDate = activeCode.ExpireDate
             };
+        }
+
+        public User? GetUserByCredentials(UserLoginDTO loginDTO, ModelStateDictionary ModelState)
+        {
+            var user = _repository.GetAll<User>()
+                .SingleOrDefault(u => u.PhoneNumber == loginDTO.PhoneNumber);
+
+            if (user == null)
+            {
+                ModelState.AddModelError(nameof(loginDTO.PhoneNumber), "حساب کاربری با این شماره یافت نشد");
+                return null;
+            }
+
+            if (!user.IsActive)
+            {
+                ModelState.AddModelError(nameof(loginDTO.PhoneNumber), "حساب کاربری فعال نیست");
+                return null;
+            }
+
+            if (!PasswordHelper.VerifyPassword(loginDTO.Password, user.Password))
+            {
+                ModelState.AddModelError(nameof(loginDTO.Password), "رمز عبور معتبر نیست");
+                return null;
+            }
+            return user;
         }
     }
 }

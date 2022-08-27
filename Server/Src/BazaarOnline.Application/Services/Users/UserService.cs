@@ -23,35 +23,6 @@ namespace BazaarOnline.Application.Services.Users
             _repository = repository;
         }
 
-        public void ActivateUser(User user)
-        {
-            user.IsActive = true;
-            _repository.Update<User>(user);
-            _repository.Save();
-        }
-
-        public void ActivateEmail(User user)
-        {
-            user.IsEmailActive = true;
-            _repository.Update<User>(user);
-            _repository.Save();
-        }
-        public bool ComparePassword(User user, string password)
-        {
-            return PasswordHelper.VerifyPassword(password, user.Password);
-        }
-
-        public bool ComparePassword(string email, string password)
-        {
-            var foundPassword = _repository.GetAll<User>()
-                .Where(u => u.Email == email.ToLower())
-                .Select(u => u.Password).SingleOrDefault();
-
-            if (string.IsNullOrEmpty(foundPassword)) return false;
-
-            return PasswordHelper.VerifyPassword(password, foundPassword);
-        }
-
         public User CreateUser(UserCreateDTO createDTO)
         {
             createDTO.Password = PasswordHelper.HashPassword(createDTO.Password);
@@ -174,15 +145,14 @@ namespace BazaarOnline.Application.Services.Users
         public UserDetailViewModel? GetUserDetail(UserFindDTO findDTO)
         {
             findDTO.TrimStrings();
-            var user = _repository.GetAll<User>()
+            var users = _repository.GetAll<User>()
                 .Include(u => u.UserRoles)
                 .ThenInclude(ur => ur.Role)
                 .AsQueryable()
-                .Filter(findDTO)
-                .SingleOrDefault();
+                .Filter(findDTO);
 
-            if (user == null) return null;
-            return _GetUserDetailViewModel(user);
+            if (users.Count() != 1) return null;
+            return _GetUserDetailViewModel(users.First());
         }
 
         private UserDetailViewModel _GetUserDetailViewModel(User user)

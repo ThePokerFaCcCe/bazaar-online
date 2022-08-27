@@ -38,7 +38,8 @@ namespace BazaarOnline.API.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(loginDTO);
 
-            var user = _userService.FindUser(loginDTO.Email);
+            var user = _authService.GetUserByCredentials(loginDTO, ModelState);
+            if (user == null) return ValidationProblem(ModelState);
 
             return Ok(_authService.CreateToken(user));
         }
@@ -65,7 +66,7 @@ namespace BazaarOnline.API.Controllers
             if (!ModelState.IsValid) return BadRequest(activeDTO);
 
             var user = _userService.FindUserByPhone(activeDTO.PhoneNumber);
-            _userService.ActivateUser(user);
+            _authService.ActivateUser(user);
 
             return Ok(new OperationResultDTO
             {
@@ -92,7 +93,7 @@ namespace BazaarOnline.API.Controllers
             if (!ModelState.IsValid) return BadRequest(activeDTO);
 
             var user = _userService.FindUser(activeDTO.Email);
-            _userService.ActivateEmail(user);
+            _authService.ActivateEmail(user);
 
             return Ok(new OperationResultDTO
             {

@@ -25,11 +25,6 @@ namespace BazaarOnline.Application.Interfaces.Users
         /// </summary>
         /// <param name="user">User to soft delete</param>
         void SoftDeleteUser(User user);
-
-        bool ComparePassword(User user, string password);
-        bool ComparePassword(string email, string password);
-        void ActivateUser(User user);
-        void ActivateEmail(User user);
         bool IsEmailExists(string email);
         bool IsInactiveUserExists(string phone);
         bool IsInactiveEmailExists(string email);
