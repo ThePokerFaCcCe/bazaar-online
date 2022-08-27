@@ -30,6 +30,12 @@ namespace BazaarOnline.Application.Services.Users
             _repository.Save();
         }
 
+        public void ActivateEmail(User user)
+        {
+            user.IsEmailActive = true;
+            _repository.Update<User>(user);
+            _repository.Save();
+        }
         public bool ComparePassword(User user, string password)
         {
             return PasswordHelper.VerifyPassword(password, user.Password);
@@ -119,10 +125,10 @@ namespace BazaarOnline.Application.Services.Users
                 .Any(u => u.Email == email.ToLower());
         }
 
-        public bool IsInactiveUserExists(string email)
+        public bool IsInactiveUserExists(string phone)
         {
             return _repository.GetAll<User>()
-                .Any(u => (!u.IsActive && u.Email == email.ToLower()));
+                .Any(u => (!u.IsActive && u.PhoneNumber == phone));
         }
 
         public bool IsPhoneNumberExists(string phone)
@@ -165,12 +171,16 @@ namespace BazaarOnline.Application.Services.Users
             return _GetUserDetailViewModel(user);
         }
 
-        public UserDetailViewModel? GetUserDetail(string email)
+        public UserDetailViewModel? GetUserDetail(UserFindDTO findDTO)
         {
+            findDTO.TrimStrings();
             var user = _repository.GetAll<User>()
                 .Include(u => u.UserRoles)
                 .ThenInclude(ur => ur.Role)
-                .SingleOrDefault(u => u.Email == email.ToLower().Trim());
+                .AsQueryable()
+                .Filter(findDTO)
+                .SingleOrDefault();
+
             if (user == null) return null;
             return _GetUserDetailViewModel(user);
         }
@@ -210,5 +220,16 @@ namespace BazaarOnline.Application.Services.Users
             _repository.Save();
         }
 
+        public User? FindUserByPhone(string phoneNumber)
+        {
+            return _repository.GetAll<User>()
+                .SingleOrDefault(u => u.PhoneNumber == phoneNumber);
+        }
+
+        public bool IsInactiveEmailExists(string email)
+        {
+            return _repository.GetAll<User>()
+                .Any(u => !u.IsEmailActive && u.Email == email.ToLower().Trim());
+        }
     }
 }

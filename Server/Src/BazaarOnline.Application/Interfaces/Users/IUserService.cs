@@ -12,11 +12,12 @@ namespace BazaarOnline.Application.Interfaces.Users
             UserFilterDTO filter, PaginationFilterDTO pagination);
 
         UserDetailViewModel? GetUserDetail(int id);
-        UserDetailViewModel? GetUserDetail(string email);
+        UserDetailViewModel? GetUserDetail(UserFindDTO findDTO);
 
         User CreateUser(UserCreateDTO createDTO);
-        public User CreateUser(UserRegisterDTO registerDTO);
+        User CreateUser(UserRegisterDTO registerDTO);
         User? FindUser(string email);
+        User? FindUserByPhone(string phoneNumber);
         User? FindUser(int id);
         void UpdateUser(User user, UserUpdateDTO updateDTO);
         /// <summary>
@@ -28,8 +29,10 @@ namespace BazaarOnline.Application.Interfaces.Users
         bool ComparePassword(User user, string password);
         bool ComparePassword(string email, string password);
         void ActivateUser(User user);
+        void ActivateEmail(User user);
         bool IsEmailExists(string email);
-        bool IsInactiveUserExists(string email);
+        bool IsInactiveUserExists(string phone);
+        bool IsInactiveEmailExists(string email);
         bool IsPhoneNumberExists(string phone);
 
         #region UserRoles

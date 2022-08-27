@@ -9,12 +9,12 @@ namespace BazaarOnline.Application.FluentValidations
         public EmailActiveCodeFluentValidation(IActiveCodeService activeCodeService, IUserService userService)
         {
             RuleFor(v => v.Email)
-                .Must(email => userService.IsInactiveUserExists(email))
-                .WithMessage("کاربر غیرفعال با این ایمیل یافت نشد")
+                .Must(email => userService.IsInactiveEmailExists(email))
+                .WithMessage("ایمیل غیرفعال یافت نشد")
                 .DependentRules(() =>
                 {
                     RuleFor(v => v.Email)
-                        .Must(email => !activeCodeService.IsActiveCodeExists(email))
+                        .Must(email => !activeCodeService.IsEmailActiveCodeExists(email))
                         .WithMessage("کد فعالسازی برای شما ارسال شده است");
                 });
         }

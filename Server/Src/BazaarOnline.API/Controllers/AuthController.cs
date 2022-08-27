@@ -47,30 +47,57 @@ namespace BazaarOnline.API.Controllers
 
         #region Activation
 
-        [HttpPost(nameof(EmailActiveCode))]
-        public ActionResult<CodeSentResultDTO> EmailActiveCode(EmailActiveCodeDTO emailDTO)
+        [HttpPost(nameof(RegisterActiveCode))]
+        public ActionResult<CodeSentResultDTO> RegisterActiveCode(SMSActiveCodeDTO smsDTO)
         {
-            if (!ModelState.IsValid) return BadRequest(emailDTO);
+            if (!ModelState.IsValid) return BadRequest(smsDTO);
 
-            var user = _userService.FindUser(emailDTO.Email);
-            var activationResult = _authService.RegisterUserByEmail(user);
+            var user = _userService.FindUserByPhone(smsDTO.PhoneNumber);
+            var activationResult = _authService.SendRegisterUserSMS(user);
 
             return Ok(activationResult);
         }
 
 
-        [HttpPost(nameof(Activate))]
-        public ActionResult<OperationResultDTO> Activate(ActivateUserEmailDTO activeDTO)
+        [HttpPost(nameof(ActivateUser))]
+        public ActionResult<OperationResultDTO> ActivateUser(ActivateUserDTO activeDTO)
         {
             if (!ModelState.IsValid) return BadRequest(activeDTO);
 
-            var user = _userService.FindUser(activeDTO.Email);
+            var user = _userService.FindUserByPhone(activeDTO.PhoneNumber);
             _userService.ActivateUser(user);
 
             return Ok(new OperationResultDTO
             {
                 IsSuccess = true,
                 Message = "حساب شما فعال شد. هم اکنون می توانید وارد حساب خود شوید"
+            });
+        }
+
+        [HttpPost(nameof(EmailActiveCode))]
+        public ActionResult<CodeSentResultDTO> EmailActiveCode(EmailActiveCodeDTO emailDTO)
+        {
+            if (!ModelState.IsValid) return BadRequest(emailDTO);
+
+            var user = _userService.FindUser(emailDTO.Email);
+            var activationResult = _authService.SendActiveUserEmail(user);
+
+            return Ok(activationResult);
+        }
+
+
+        [HttpPost(nameof(ActivateEmail))]
+        public ActionResult<OperationResultDTO> ActivateEmail(ActivateUserEmailDTO activeDTO)
+        {
+            if (!ModelState.IsValid) return BadRequest(activeDTO);
+
+            var user = _userService.FindUser(activeDTO.Email);
+            _userService.ActivateEmail(user);
+
+            return Ok(new OperationResultDTO
+            {
+                IsSuccess = true,
+                Message = "ایمیل شما فعال شد"
             });
         }
 

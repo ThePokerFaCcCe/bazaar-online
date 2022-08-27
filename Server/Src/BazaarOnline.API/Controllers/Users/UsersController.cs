@@ -41,12 +41,12 @@ namespace BazaarOnline.API.Controllers.Users
             return Ok(userDetail);
         }
 
-        [HttpGet("Find/{email}")]
+        [HttpGet("Find")]
         [HasPermission(DefaultPermissions.GetUserDetailId)]
-        public ActionResult<UserDetailViewModel> FindUserDetail(string email)
+        public ActionResult<UserDetailViewModel> FindUserDetail([FromQuery] UserFindDTO findDTO)
         {
-            if (!StringValidator.IsValidEmail(email)) return NotFound();
-            var userDetail = _userService.GetUserDetail(email);
+            if (!ModelState.IsValid) return NotFound();
+            var userDetail = _userService.GetUserDetail(findDTO);
             if (userDetail == null) return NotFound();
 
             return Ok(userDetail);

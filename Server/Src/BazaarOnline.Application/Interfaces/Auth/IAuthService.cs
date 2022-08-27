@@ -7,7 +7,8 @@ namespace BazaarOnline.Application.Interfaces.Auth
 {
     public interface IAuthService
     {
-        CodeSentResultDTO RegisterUserByEmail(User user);
+        CodeSentResultDTO SendRegisterUserSMS(User user);
+        CodeSentResultDTO SendActiveUserEmail(User user);
 
         #region JWT
         GeneratedTokenDTO CreateToken(User user);
