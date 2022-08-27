@@ -2,6 +2,7 @@ using BazaarOnline.Application.DTOs.Advertiesements;
 using BazaarOnline.Application.DTOs.Advertiesements.AdvertiesementFilterDTOs;
 using BazaarOnline.Application.DTOs.PaginationDTO;
 using BazaarOnline.Application.Filters;
+using BazaarOnline.Application.Filters.Advertiesements;
 using BazaarOnline.Application.Interfaces.Advertiesements;
 using BazaarOnline.Application.Interfaces.Categories;
 using BazaarOnline.Application.Utils;
@@ -106,7 +107,9 @@ namespace BazaarOnline.Application.Services.Advertiesements
         }
 
         public PaginationResultDTO<AdvertiesementListDetailViewModel>
-            GetAdvertiesementListDetail(AdvertiesementGlobalFilterDTO filter, PaginationFilterDTO pagination)
+            GetAdvertiesementListDetail(AdvertiesementGlobalFilterDTO filter,
+                                        List<AdvertiesementFeatureFilterDTO> featureFilter,
+                                        PaginationFilterDTO pagination)
         {
             var ads = _repository.GetAll<Advertiesement>()
                 .Include(a => a.City)
@@ -117,8 +120,11 @@ namespace BazaarOnline.Application.Services.Advertiesements
 
             #region Filters
             filter.TrimStrings();
+            featureFilter.ForEach(ff => ff.TrimStrings());
 
-            ads = ads.Filter(filter);
+            ads = ads
+                .Filter(filter)
+                .FilterByFeatures(featureFilter);
             #endregion
 
             #region Pagination

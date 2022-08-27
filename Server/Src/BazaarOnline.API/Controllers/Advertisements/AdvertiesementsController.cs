@@ -1,3 +1,4 @@
+using BazaarOnline.Application.Converters;
 using BazaarOnline.Application.DTOs.Advertiesements;
 using BazaarOnline.Application.DTOs.Advertiesements.AdvertiesementFilterDTOs;
 using BazaarOnline.Application.DTOs.PaginationDTO;
@@ -35,7 +36,8 @@ namespace BazaarOnline.API.Controllers.Advertisements
             GetAdvertiesementList([FromQuery] AdvertiesementGlobalFilterDTO filter,
                                   [FromQuery] PaginationFilterDTO pagination)
         {
-            return Ok(_advertiesementService.GetAdvertiesementListDetail(filter, pagination));
+            var featuresFilter = QueryConvertor.ConvertToAdvertiesementFeatureFilter(HttpContext.Request.Query);
+            return Ok(_advertiesementService.GetAdvertiesementListDetail(filter, featuresFilter, pagination));
         }
 
         [HttpPost]

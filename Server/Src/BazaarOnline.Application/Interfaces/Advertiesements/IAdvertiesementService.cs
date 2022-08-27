@@ -9,7 +9,9 @@ namespace BazaarOnline.Application.Interfaces.Advertiesements
     public interface IAdvertiesementService
     {
         PaginationResultDTO<AdvertiesementListDetailViewModel>
-            GetAdvertiesementListDetail(AdvertiesementGlobalFilterDTO filter, PaginationFilterDTO pagination);
+            GetAdvertiesementListDetail(AdvertiesementGlobalFilterDTO filter,
+                                        List<AdvertiesementFeatureFilterDTO> featureFilter,
+                                        PaginationFilterDTO pagination);
 
         AdvertiesementDetailViewModel? GetAdvertiesementDetail(int id);
         Advertiesement CreateAdvertiesement(AdvertiesementCreateDTO createDTO, int userId);
