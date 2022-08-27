@@ -19,6 +19,7 @@ public class GenericFilterExtentionTests
             new FakeModel{
                 Id=1,
                 Title=new TitleC{Value="a"},
+                AuthorName="MaTiN",
                 Description="abc",
                 OwnerId = 1,
                 Price = 100,
@@ -26,28 +27,40 @@ public class GenericFilterExtentionTests
             new FakeModel{
                 Id=2,
                 Title=new TitleC{Value="x"},
+                AuthorName="Matin",
                 Description="xyz",
                 OwnerId = 2,
                 Price = 200,
             },
         }.AsQueryable();
-        // _query = new List<FakeModel>
-        // {
-        //     new FakeModel{
-        //         Id=1,
-        //         Title="a",
-        //         Description="abc",
-        //         OwnerId = 1,
-        //         Price = 100,
-        //     },
-        //     new FakeModel{
-        //         Id=2,
-        //         Title="x",
-        //         Description="xyz",
-        //         OwnerId = 2,
-        //         Price = 200,
-        //     },
-        // }.AsQueryable();
+    }
+
+    [Test]
+    public void FilterEqualsIgnoreCase_FilterIsCorrect_ReturnItem()
+    {
+        var model = _query.First();
+        var filter = new FakeModelFilterDTO
+        {
+            AuthorName = "Matin"
+        };
+
+        var result = _query.Filter(filter);
+
+        Assert.That(result.Count(), Is.EqualTo(2));
+    }
+
+    [Test]
+    public void FilterEqualsIgnoreCase_FilterIsNotCorrect_ReturnEmpty()
+    {
+        var model = _query.First();
+        var filter = new FakeModelFilterDTO
+        {
+            AuthorName = "Mamad"
+        };
+
+        var result = _query.Filter(filter);
+
+        Assert.That(result.Any(), Is.False);
     }
 
     [Test]
@@ -200,6 +213,7 @@ public class FakeModel
     public int Id { get; set; }
 
     public TitleC Title { get; set; }
+    public string AuthorName { get; set; }
 
     public string Description { get; set; }
 
@@ -215,6 +229,9 @@ public class FakeModelFilterDTO
 
     [Filter(FilterTypeEnum.Equals, ModelPropertyName = "Title.Value")]
     public string? Title { get; set; }
+
+    [Filter(FilterTypeEnum.EqualsIgnoreCase)]
+    public string? AuthorName { get; set; }
 
     [Filter(FilterTypeEnum.ModelContainsThis)]
     public string? Description { get; set; }
