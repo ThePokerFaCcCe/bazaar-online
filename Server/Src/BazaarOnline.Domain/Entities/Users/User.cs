@@ -24,6 +24,8 @@ namespace BazaarOnline.Domain.Entities.Users
 
         public bool IsActive { get; set; }
 
+        public bool IsEmailActive { get; set; }
+
         [NotMapped]
         public string FullName => $"{FirstName} {LastName}".Trim();
 
@@ -31,6 +33,7 @@ namespace BazaarOnline.Domain.Entities.Users
         public List<UserRole> UserRoles { get; set; }
 
         public List<Advertiesement> Advertiesements { get; set; }
+        public List<ActiveCode> ActiveCodes { get; set; }
 
         #endregion
     }
