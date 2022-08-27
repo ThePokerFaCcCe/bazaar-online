@@ -2,6 +2,7 @@ using BazaarOnline.Application.Generators;
 using BazaarOnline.Application.Interfaces.Users;
 using BazaarOnline.Domain.Entities.Users;
 using BazaarOnline.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BazaarOnline.Application.Services.Users
 {
@@ -14,34 +15,38 @@ namespace BazaarOnline.Application.Services.Users
             _repository = repository;
         }
 
-        public ActiveCode CreateActiveCode(string email)
-        {
-            var activeCode = _repository.Add<ActiveCode>(new ActiveCode
-            {
-                Email = email.ToLower(),
-                Code = StringGenerator.GenerateActiveCode(),
-                ExpireDate = DateTime.Now.AddMinutes(1)
-            });
-
-            _repository.Save();
-            return activeCode;
-        }
-
         public ActiveCode? GetActiveCode(string email, string code)
         {
             return _repository.GetAll<ActiveCode>()
-                .SingleOrDefault(c => c.Email == email.ToLower() && c.Code == code);
+                .Include(c => c.User)
+                .SingleOrDefault(c => c.User.Email == email.ToLower() && c.Code == code);
         }
 
-        public bool IsActiveCodeExists(string email)
+        public bool IsEmailActiveCodeExists(string email)
         {
             return _repository.GetAll<ActiveCode>()
-                .Any(c => c.Email == email.ToLower());
+                .Include(c => c.User)
+                .Any(c => c.User.Email == email.ToLower());
         }
-        public bool IsActiveCodeExists(string email, string code)
+        public bool IsEmailActiveCodeExists(string email, string code)
         {
             return _repository.GetAll<ActiveCode>()
-                .Any(c => c.Email == email.ToLower() && c.Code == code);
+                .Include(c => c.User)
+                .Any(c => c.User.Email == email.ToLower() && c.Code == code);
+        }
+
+        public bool IsPhoneActiveCodeExists(string phone)
+        {
+            return _repository.GetAll<ActiveCode>()
+                .Include(c => c.User)
+                .Any(c => c.User.PhoneNumber == phone);
+        }
+
+        public bool IsPhoneActiveCodeExists(string phone, string code)
+        {
+            return _repository.GetAll<ActiveCode>()
+                .Include(c => c.User)
+                .Any(c => c.User.PhoneNumber == phone && c.Code == code);
         }
     }
 }
