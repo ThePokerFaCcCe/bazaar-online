@@ -174,15 +174,14 @@ namespace BazaarOnline.Application.Services.Users
         public UserDetailViewModel? GetUserDetail(UserFindDTO findDTO)
         {
             findDTO.TrimStrings();
-            var user = _repository.GetAll<User>()
+            var users = _repository.GetAll<User>()
                 .Include(u => u.UserRoles)
                 .ThenInclude(ur => ur.Role)
                 .AsQueryable()
-                .Filter(findDTO)
-                .SingleOrDefault();
+                .Filter(findDTO);
 
-            if (user == null) return null;
-            return _GetUserDetailViewModel(user);
+            if (users.Count() != 1) return null;
+            return _GetUserDetailViewModel(users.First());
         }
 
         private UserDetailViewModel _GetUserDetailViewModel(User user)
