@@ -41,6 +41,7 @@ namespace BazaarOnline.Infra.IoC
 
             #region Categories
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICategoryHirearchyService, CategoryHirearchyService>();
             #endregion
 
             #region Locations
@@ -49,6 +50,7 @@ namespace BazaarOnline.Infra.IoC
 
             #region Senders
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<ISMSService, SMSService>();
             #endregion
 
             #region ReverseGeocoding

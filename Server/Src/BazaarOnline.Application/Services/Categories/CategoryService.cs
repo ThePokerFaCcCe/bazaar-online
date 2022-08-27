@@ -13,10 +13,12 @@ namespace BazaarOnline.Application.Services.Categories
     public class CategoryService : ICategoryService
     {
         private readonly IRepository _repository;
+        private readonly ICategoryHirearchyService _categoryHirearchyService;
 
-        public CategoryService(IRepository repository)
+        public CategoryService(IRepository repository, ICategoryHirearchyService categoryHirearchyService)
         {
             _repository = repository;
+            _categoryHirearchyService = categoryHirearchyService;
         }
 
         public Category CreateCategory(CategoryCreateDTO createDTO)
@@ -41,7 +43,8 @@ namespace BazaarOnline.Application.Services.Categories
         public void DeleteCategory(Category category)
         {
             _repository.RemoveRange<Category>(
-                GetCategoryAndChildrenFlatten(category.Id, true)
+                _categoryHirearchyService
+                .GetCategoryAndChildrenFlatten(category.Id, true)
             );
             _repository.Save();
         }
@@ -59,7 +62,8 @@ namespace BazaarOnline.Application.Services.Categories
         public List<CategoryListDetailViewModel> GetCategoryChildrenDetail(
             int? parentId = null, bool includeParent = false)
         {
-            return GetCategoryAndChildrenFlatten(parentId, includeParent)
+            return _categoryHirearchyService
+                .GetCategoryAndChildrenFlatten(parentId, includeParent)
                 .Select(c =>
                     ModelHelper.CreateAndFillFromObject
                         <CategoryListDetailViewModel, Category>(c)
@@ -92,7 +96,8 @@ namespace BazaarOnline.Application.Services.Categories
 
         public List<CategoryListDetailViewModel> GetCategoryListDetails()
         {
-            return GetCategoryAndChildrenFlatten(null, true)
+            return _categoryHirearchyService
+                .GetCategoryAndChildrenFlatten(null, true)
                 .Select(c =>
                     ModelHelper.CreateAndFillFromObject
                         <CategoryListDetailViewModel, Category>(c)
@@ -111,39 +116,6 @@ namespace BazaarOnline.Application.Services.Categories
 
             _repository.Update<Category>(category);
             _repository.Save();
-        }
-
-
-        public IEnumerable<Category> GetCategoryAndChildrenFlatten(
-            int? parentId = null, bool includeParent = false)
-        {
-            return _GetCategoryAndChildrenFlatten(parentId: parentId, includeParent: includeParent);
-        }
-
-        private IEnumerable<Category> _GetCategoryAndChildrenFlatten(
-            int? parentId = null, bool includeParent = false,
-            IEnumerable<Category>? allCategories = null,
-            List<Category>? selectedCategories = null)
-        {
-            if (allCategories == null) allCategories = _repository.GetAll<Category>().ToList();
-            if (selectedCategories == null)
-            {
-                selectedCategories = new List<Category>();
-                if (includeParent)
-                {
-                    selectedCategories.AddRange(
-                        allCategories.Where(c => c.Id == parentId)
-                    );
-                }
-            }
-            allCategories.Where(c => c.ParentId == parentId).ToList()
-            .ForEach(c =>
-            {
-                selectedCategories.Add(c);
-                _GetCategoryAndChildrenFlatten(c.Id, includeParent, allCategories, selectedCategories);
-            });
-
-            return selectedCategories;
         }
 
         public void UpdateCategoryFeatures(Category category, CategoryFeatureAddDTO addDTO)
@@ -214,7 +186,8 @@ namespace BazaarOnline.Application.Services.Categories
 
         public List<FeatureDetailViewModel> GetCategoryFeatureDetailsHierarchy(Category category)
         {
-            var hierarchy = GetCategoryAndParentFlatten(category.Id, includeSelf: true)
+            var hierarchy = _categoryHirearchyService
+                .GetCategoryAndParentFlatten(category.Id, includeSelf: true)
                 .Select(c => c.Id);
 
             return _GetFeatureDetails(
@@ -223,29 +196,10 @@ namespace BazaarOnline.Application.Services.Categories
 
         }
 
-        public IEnumerable<Category> GetCategoryAndParentFlatten(int? categoryId, bool includeSelf = false)
-        {
-            // TODO: Refactor this method!
-            var allCategories = _repository.GetAll<Category>();
-
-            var hierarchy = new List<Category>();
-            var ccategory = allCategories.SingleOrDefault(c => c.Id == categoryId);
-
-            if (ccategory == null) return hierarchy;
-            hierarchy.Add(ccategory);
-
-            while (ccategory.ParentId != null)
-            {
-                ccategory = allCategories.Single(c => c.Id == ccategory.ParentId);
-                hierarchy.Add(ccategory);
-            }
-
-            return hierarchy;
-        }
-
         public IEnumerable<Feature> GetCategoryFeaturesHierarchy(Category category)
         {
-            var hierarchy = GetCategoryAndParentFlatten(category.Id, includeSelf: true)
+            var hierarchy = _categoryHirearchyService
+                .GetCategoryAndParentFlatten(category.Id, includeSelf: true)
                 .Select(c => c.Id);
 
             return _repository.GetAll<CategoryFeature>()

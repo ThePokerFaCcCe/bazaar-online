@@ -1,6 +1,7 @@
 using BazaarOnline.Application.DTOs.AuthDTOs;
 using BazaarOnline.Application.DTOs.PaginationDTO;
 using BazaarOnline.Application.DTOs.Users.UserDTOs;
+using BazaarOnline.Application.Filters;
 using BazaarOnline.Application.Interfaces.Users;
 using BazaarOnline.Application.Securities;
 using BazaarOnline.Application.Utils.Extentions;
@@ -15,14 +16,6 @@ namespace BazaarOnline.Application.Services.Users
 {
     public class UserService : IUserService
     {
-        private string[] _userOrderProperties = new string[]{
-            nameof(User.FirstName),
-            nameof(User.LastName),
-            nameof(User.CreateDate),
-            nameof(User.Email),
-            nameof(User.IsActive),
-        };
-
         private readonly IRepository _repository;
 
         public UserService(IRepository repository)
@@ -37,6 +30,12 @@ namespace BazaarOnline.Application.Services.Users
             _repository.Save();
         }
 
+        public void ActivateEmail(User user)
+        {
+            user.IsEmailActive = true;
+            _repository.Update<User>(user);
+            _repository.Save();
+        }
         public bool ComparePassword(User user, string password)
         {
             return PasswordHelper.VerifyPassword(password, user.Password);
@@ -97,34 +96,15 @@ namespace BazaarOnline.Application.Services.Users
             UserFilterDTO filter, PaginationFilterDTO pagination)
         {
             var users = _repository.GetAll<User>().IgnoreQueryFilters();
-            var count = users.Count();
 
             #region Filters
             filter.TrimStrings();
-
-            // IsDeleted
-            users = users.Where(u => u.IsDeleted == filter.IsDeleted);
-
-            if (filter.IsActive != null)
-                users = users.Where(u => u.IsActive == filter.IsActive);
-
-            if (!string.IsNullOrEmpty(filter.Email))
-                users = users.Where(u => u.Email.Contains(filter.Email.ToLower()));
-
-            if (!string.IsNullOrEmpty(filter.Name))
-                users = users.Where(
-                    u => u.FirstName.Contains(filter.Name.ToLower())
-                      || u.LastName.Contains(filter.Name.ToLower()));
-
-
+            users = users.Filter(filter);
             #endregion
 
-            #region Ordering
-            if (!string.IsNullOrEmpty(filter.OrderBy))
-                users = users.OrderBy(filter.OrderBy, _userOrderProperties);
-            #endregion
 
             #region Pagination
+            var count = users.Count();
             users = users.Paginate(pagination);
             #endregion
 
@@ -145,10 +125,10 @@ namespace BazaarOnline.Application.Services.Users
                 .Any(u => u.Email == email.ToLower());
         }
 
-        public bool IsInactiveUserExists(string email)
+        public bool IsInactiveUserExists(string phone)
         {
             return _repository.GetAll<User>()
-                .Any(u => (!u.IsActive && u.Email == email.ToLower()));
+                .Any(u => (!u.IsActive && u.PhoneNumber == phone));
         }
 
         public bool IsPhoneNumberExists(string phone)
@@ -191,12 +171,16 @@ namespace BazaarOnline.Application.Services.Users
             return _GetUserDetailViewModel(user);
         }
 
-        public UserDetailViewModel? GetUserDetail(string email)
+        public UserDetailViewModel? GetUserDetail(UserFindDTO findDTO)
         {
+            findDTO.TrimStrings();
             var user = _repository.GetAll<User>()
                 .Include(u => u.UserRoles)
                 .ThenInclude(ur => ur.Role)
-                .SingleOrDefault(u => u.Email == email.ToLower().Trim());
+                .AsQueryable()
+                .Filter(findDTO)
+                .SingleOrDefault();
+
             if (user == null) return null;
             return _GetUserDetailViewModel(user);
         }
@@ -236,5 +220,16 @@ namespace BazaarOnline.Application.Services.Users
             _repository.Save();
         }
 
+        public User? FindUserByPhone(string phoneNumber)
+        {
+            return _repository.GetAll<User>()
+                .SingleOrDefault(u => u.PhoneNumber == phoneNumber);
+        }
+
+        public bool IsInactiveEmailExists(string email)
+        {
+            return _repository.GetAll<User>()
+                .Any(u => !u.IsEmailActive && u.Email == email.ToLower().Trim());
+        }
     }
 }

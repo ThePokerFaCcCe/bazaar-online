@@ -45,6 +45,10 @@ namespace BazaarOnline.Infra.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("getdate()");
 
+                    b.Property<string>("DeletedByAdminReason")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
                     b.Property<string>("DeniedByAdminReason")
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
@@ -65,6 +69,11 @@ namespace BazaarOnline.Infra.Data.Migrations
                         .HasDefaultValue(false);
 
                     b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("IsDeletedByAdmin")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
@@ -153,8 +162,8 @@ namespace BazaarOnline.Infra.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Value")
-                        .HasColumnType("int");
+                    b.Property<long?>("Value")
+                        .HasColumnType("bigint");
 
                     b.HasKey("AdvertiesementId");
 
@@ -927,17 +936,15 @@ namespace BazaarOnline.Infra.Data.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<DateTime>("ExpireDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("Email", "Code");
+                    b.HasIndex("UserId");
 
                     b.ToTable("ActiveCodes");
                 });
@@ -975,6 +982,11 @@ namespace BazaarOnline.Infra.Data.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
+                    b.Property<bool>("IsEmailActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(32)
@@ -985,6 +997,7 @@ namespace BazaarOnline.Infra.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasMaxLength(11)
                         .HasColumnType("nvarchar(11)");
 
@@ -1171,6 +1184,17 @@ namespace BazaarOnline.Infra.Data.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("BazaarOnline.Domain.Entities.Users.ActiveCode", b =>
+                {
+                    b.HasOne("BazaarOnline.Domain.Entities.Users.User", "User")
+                        .WithMany("ActiveCodes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("BazaarOnline.Domain.Entities.Users.UserRole", b =>
                 {
                     b.HasOne("BazaarOnline.Domain.Entities.Permissions.Role", "Role")
@@ -1249,6 +1273,8 @@ namespace BazaarOnline.Infra.Data.Migrations
 
             modelBuilder.Entity("BazaarOnline.Domain.Entities.Users.User", b =>
                 {
+                    b.Navigation("ActiveCodes");
+
                     b.Navigation("Advertiesements");
 
                     b.Navigation("UserRoles");

@@ -19,10 +19,6 @@ namespace BazaarOnline.Infra.Data.FluentConfigs
 
         private void ConfigureProperties(EntityTypeBuilder<ActiveCode> builder)
         {
-            builder.Property(m => m.Email)
-                .IsRequired()
-                .HasMaxLength(100);
-
             builder.Property(m => m.Code)
                 .IsRequired()
                 .HasMaxLength(64);
@@ -33,12 +29,14 @@ namespace BazaarOnline.Infra.Data.FluentConfigs
 
         private void ConfigureRelations(EntityTypeBuilder<ActiveCode> builder)
         {
-
+            builder.HasOne(a => a.User)
+                .WithMany(u => u.ActiveCodes)
+                .HasForeignKey(u => u.UserId);
         }
 
         private void ConfigureIndexes(EntityTypeBuilder<ActiveCode> builder)
         {
-            builder.HasIndex(m => new { m.Email, m.Code });
+
         }
         private void ConfigureQueryFilters(EntityTypeBuilder<ActiveCode> builder)
         {

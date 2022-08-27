@@ -31,6 +31,9 @@ namespace BazaarOnline.Application.Interfaces.ReverseGeocoding
             var resultString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             var result = JsonConvert.DeserializeObject<ReverseGeocodingResponseDTO>(resultString);
 
+            if (result?.Error != null)
+                return false;
+
             if (result?.Address?.ISO3166 == null)
                 throw new JsonException("Can't get ISO3166 from response body");
 

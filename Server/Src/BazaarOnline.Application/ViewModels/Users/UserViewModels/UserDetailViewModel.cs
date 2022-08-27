@@ -10,13 +10,15 @@ namespace BazaarOnline.Application.ViewModels.Users.UserViewModels
 
         public string Email { get; set; }
 
-        public string? PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
 
         public DateTime CreateDate { get; set; }
 
         public bool IsDeleted { get; set; }
 
         public bool IsActive { get; set; }
+
+        public bool IsEmailActive { get; set; }
 
         public List<UserRoleDetailListViewModel> Roles { get; set; }
     }

@@ -27,7 +27,7 @@ namespace BazaarOnline.Infra.Data.FluentConfigs
                 .HasMaxLength(100);
 
             builder.Property(u => u.PhoneNumber)
-                .IsRequired(false)
+                .IsRequired()
                 .HasMaxLength(11);
 
             builder.Property(u => u.Password)
@@ -49,6 +49,10 @@ namespace BazaarOnline.Infra.Data.FluentConfigs
                 .IsRequired()
                 .HasDefaultValue<bool>(false);
 
+            builder.Property(u => u.IsEmailActive)
+                .IsRequired()
+                .HasDefaultValue<bool>(false);
+
             builder.Property(u => u.IsDeleted)
                 .IsRequired()
                 .HasDefaultValue<bool>(false);
@@ -67,6 +71,12 @@ namespace BazaarOnline.Infra.Data.FluentConfigs
             builder.HasMany(c => c.Advertiesements)
                 .WithOne(a => a.User)
                 .HasForeignKey(a => a.UserId);
+
+            builder.HasMany(u => u.ActiveCodes)
+                .WithOne(a => a.User)
+                .HasForeignKey(a => a.UserId);
+
+
         }
 
         private void ConfigureIndexes(EntityTypeBuilder<User> builder)

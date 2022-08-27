@@ -1,9 +1,11 @@
 using BazaarOnline.Application.DTOs.Locations;
+using BazaarOnline.Application.Filters;
 using BazaarOnline.Application.Interfaces.Locations;
 using BazaarOnline.Application.Utils.Extentions;
 using BazaarOnline.Application.ViewModels.Locations;
 using BazaarOnline.Domain.Entities.Locations;
 using BazaarOnline.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BazaarOnline.Application.Services.Locations
 {
@@ -18,31 +20,33 @@ namespace BazaarOnline.Application.Services.Locations
 
         public List<CityListDetailViewModel> GetCitiesListDetail(CityFilterDTO filterDTO)
         {
-            var cities = _repository.GetAll<City>();
+            var cities = _repository.GetAll<City>()
+                .Include(c => c.Advertiesements)
+                .AsQueryable();
 
             #region Filters
             filterDTO.TrimStrings();
 
-            if (!string.IsNullOrEmpty(filterDTO.Name))
-                cities = cities.Where(c => c.Name.Contains(filterDTO.Name.ToLower()));
-
+            cities = cities.Filter(filterDTO);
             #endregion
 
-            return cities.Select(c =>
-                    ModelHelper.CreateAndFillFromObject
-                        <CityListDetailViewModel, City>(c, false)
-                ).ToList();
+            return cities.Select(c => new CityListDetailViewModel
+            {
+                AdvertiesementsCount = c.Advertiesements.Count
+            }.FillFromObject(c, false))
+            .ToList();
         }
 
         public CityDetailViewModel? GetCityDetail(int id)
         {
             return _repository.GetAll<City>()
                 .Where(c => c.Id == id)
+                .Include(c => c.Advertiesements)
                 .Select(c => new CityDetailViewModel
                 {
-                    Id = c.Id,
-                    Name = c.Name,
-                }).SingleOrDefault();
+                    AdvertiesementsCount = c.Advertiesements.Count
+                }.FillFromObject(c, false))
+                .SingleOrDefault();
 
         }
 

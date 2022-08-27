@@ -4,7 +4,7 @@ namespace BazaarOnline.Domain.Entities.Advertiesements
 {
     public class AdvertiesementPrice
     {
-        public int? Value { get; set; }
+        public long? Value { get; set; }
 
         public bool IsAgreement { get; set; }
 

@@ -1,15 +1,25 @@
+using BazaarOnline.Application.Filters.Generic.Attributes;
+using BazaarOnline.Domain.Entities.Users;
+
 namespace BazaarOnline.Application.DTOs.Users.UserDTOs
 {
     public class UserFilterDTO
     {
-        public string? Email { get; set; } = string.Empty;
+        [Filter(FilterTypeEnum.ModelContainsThis)]
+        public string? Email { get; set; }
 
-        public string? Name { get; set; } = string.Empty;
+        [Filter(FilterTypeEnum.Equals)]
+        public bool? IsActive { get; set; }
 
-        public bool? IsActive { get; set; } = null;
-
+        [Filter(FilterTypeEnum.Equals)]
         public bool IsDeleted { get; set; } = false;
 
-        public string? OrderBy { get; set; } = string.Empty;
+        [Order(nameof(User.CreateDate))]
+        [Order(nameof(User.FirstName))]
+        [Order(nameof(User.LastName))]
+        [Order(nameof(User.CreateDate))]
+        [Order(nameof(User.Email))]
+        [Order(nameof(User.IsActive))]
+        public string? OrderBy { get; set; } = $"-{nameof(User.CreateDate)}";
     }
 }
