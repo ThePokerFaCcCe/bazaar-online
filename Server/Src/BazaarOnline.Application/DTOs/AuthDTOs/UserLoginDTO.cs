@@ -6,10 +6,10 @@ namespace BazaarOnline.Application.DTOs.AuthDTOs
     public class UserLoginDTO
     {
         [Required(ErrorMessage = "این فیلد اجباری است")]
-        [DisplayName("ایمیل")]
-        [MaxLength(100, ErrorMessage = "{0} باید حداکثر {1} کاراکتر باشد")]
-        [EmailAddress(ErrorMessage = "لطفا یک ایمیل معتبر وارد کنید")]
-        public string Email { get; set; }
+        [DisplayName("تلفن همراه")]
+        [StringLength(11, MinimumLength = 11, ErrorMessage = "{0} باید {1} کاراکتر باشد")]
+        [RegularExpression(@"^09\d*$", ErrorMessage = "{0} معتبر نیست")]
+        public string PhoneNumber { get; set; }
 
         [Required(ErrorMessage = "این فیلد اجباری است")]
         [DisplayName("رمز")]

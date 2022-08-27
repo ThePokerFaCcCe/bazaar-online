@@ -23,35 +23,6 @@ namespace BazaarOnline.Application.Services.Users
             _repository = repository;
         }
 
-        public void ActivateUser(User user)
-        {
-            user.IsActive = true;
-            _repository.Update<User>(user);
-            _repository.Save();
-        }
-
-        public void ActivateEmail(User user)
-        {
-            user.IsEmailActive = true;
-            _repository.Update<User>(user);
-            _repository.Save();
-        }
-        public bool ComparePassword(User user, string password)
-        {
-            return PasswordHelper.VerifyPassword(password, user.Password);
-        }
-
-        public bool ComparePassword(string email, string password)
-        {
-            var foundPassword = _repository.GetAll<User>()
-                .Where(u => u.Email == email.ToLower())
-                .Select(u => u.Password).SingleOrDefault();
-
-            if (string.IsNullOrEmpty(foundPassword)) return false;
-
-            return PasswordHelper.VerifyPassword(password, foundPassword);
-        }
-
         public User CreateUser(UserCreateDTO createDTO)
         {
             createDTO.Password = PasswordHelper.HashPassword(createDTO.Password);

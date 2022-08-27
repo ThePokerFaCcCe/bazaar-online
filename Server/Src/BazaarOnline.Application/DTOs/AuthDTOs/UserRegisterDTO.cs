@@ -14,11 +14,10 @@ namespace BazaarOnline.Application.DTOs.AuthDTOs
         [StringLength(32, MinimumLength = 2, ErrorMessage = "{0} باید بین {2} تا {1} کاراکتر باشد")]
         public string? LastName { get; set; }
 
-        [Required(ErrorMessage = "این فیلد اجباری است")]
         [DisplayName("ایمیل")]
         [MaxLength(100, ErrorMessage = "{0} باید حداکثر {1} کاراکتر باشد")]
         [EmailAddress(ErrorMessage = "لطفا یک ایمیل معتبر وارد کنید")]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         [Required(ErrorMessage = "این فیلد اجباری است")]
         [DisplayName("تلفن همراه")]
