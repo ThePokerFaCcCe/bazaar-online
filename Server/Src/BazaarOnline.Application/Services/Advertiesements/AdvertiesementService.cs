@@ -146,10 +146,12 @@ namespace BazaarOnline.Application.Services.Advertiesements
                     Price = new AdvertiesementPriceDetailViewModel()
                         .FillFromObject(a.AdvertiesementPrice, false),
 
-                    Picture = a.AdvertiesementPictures.Any() ?
-                        new AdvertiesementPictureDetailViewModel()
-                            .FillFromObject(a.AdvertiesementPictures.First(), false)
-                        : null,
+                    Picture = a.AdvertiesementPictures.Take(1)
+                        .Select(p => new AdvertiesementPictureDetailViewModel
+                        {
+                            Image = $"/{Path.Combine(PathHelper.PAdvertiesementImage, p.PictureName)}",
+                            Thumbnail = $"/{Path.Combine(PathHelper.PAdvertiesementThumb, p.PictureName)}",
+                        }).FirstOrDefault(),
                 }.FillFromObject(a, false)).ToList()
             };
         }
