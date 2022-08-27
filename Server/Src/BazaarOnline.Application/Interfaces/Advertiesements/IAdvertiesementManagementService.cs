@@ -12,7 +12,7 @@ namespace BazaarOnline.Application.Interfaces.Advertiesements
         void AcceptAdvertiesement(Advertiesement advertiesement);
         void DenyAdvertiesement(Advertiesement advertiesement, AdvertiesementDenyDTO denyDTO);
         void DeleteAdvertiesement(Advertiesement advertiesement, AdvertiesementDeleteDTO deleteDTO);
-
+        AdvertiesementManagementDetailViewModel? GetAdvertiesementDetail(int id);
         PaginationResultDTO<AdvertiesementManagementListDetailViewModel>
             GetAdvertiesementListDetail(AdvertiesementManagementFilterDTO filter,
                                         PaginationFilterDTO pagination,

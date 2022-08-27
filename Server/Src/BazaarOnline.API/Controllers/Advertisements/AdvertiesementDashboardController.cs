@@ -4,6 +4,7 @@ using BazaarOnline.Application.DTOs.PaginationDTO;
 using BazaarOnline.Application.Interfaces.Advertiesements;
 using BazaarOnline.Application.Securities.Attributes;
 using BazaarOnline.Application.ViewModels.Advertiesements;
+using BazaarOnline.Application.ViewModels.Advertiesements.Management;
 using BazaarOnline.Infra.Data.Seeds.DefaultDatas;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +33,16 @@ namespace BazaarOnline.API.Controllers.Advertisements
             var userId = int.Parse(User.Identity.Name);
             return Ok(_advertiesementManagementService
                 .GetAdvertiesementListDetail(filter, pagination, userId));
+        }
+
+        [HttpGet("{id}")]
+        [HasPermission(DefaultPermissions.UpdateAdvertisementId)]
+        public ActionResult<AdvertiesementManagementDetailViewModel> GetAdvertiesementDetail(int id)
+        {
+            var advertiesement = _advertiesementManagementService.GetAdvertiesementDetail(id);
+            if (advertiesement == null) return NotFound();
+
+            return Ok(advertiesement);
         }
 
         [HttpDelete("{id}")]

@@ -68,6 +68,16 @@ namespace BazaarOnline.API.Controllers.Advertisements
             return NoContent();
         }
 
+        [HttpGet("Management/{id}")]
+        [HasPermission(DefaultPermissions.UpdateAdvertisementId)]
+        public ActionResult<AdvertiesementManagementDetailViewModel> GetAdvertiesementDetail(int id)
+        {
+            var advertiesement = _advertiesementManagementService.GetAdvertiesementDetail(id);
+            if (advertiesement == null) return NotFound();
+
+            return Ok(advertiesement);
+        }
+
         [HttpGet("Management/List")]
         public ActionResult<IEnumerable<AdvertiesementManagementListDetailViewModel>>
             GetAdvertiesementList([FromQuery] AdvertiesementManagementFilterDTO filter,

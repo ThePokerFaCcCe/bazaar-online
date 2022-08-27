@@ -1,8 +1,6 @@
-using BazaarOnline.Application.ViewModels.Features;
-
-namespace BazaarOnline.Application.ViewModels.Advertiesements
+namespace BazaarOnline.Application.ViewModels.Advertiesements.Management
 {
-    public class AdvertiesementDetailViewModel
+    public class AdvertiesementManagementDetailViewModel
     {
         public int Id { get; set; }
 
@@ -16,7 +14,21 @@ namespace BazaarOnline.Application.ViewModels.Advertiesements
 
         public double Latitude { get; set; }
 
+        public string? DeniedByAdminReason { get; set; }
+
+        public bool IsDeniedByAdmin { get; set; }
+
+        public string? DeletedByAdminReason { get; set; }
+
+        public bool IsDeletedByAdmin { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        public bool IsAccepted { get; set; }
+
         public bool IsChatOnly { get; set; }
+
+        public AdvertiesementContactDetailViewModel Contact { get; set; }
 
         public DateTime CreateDate { get; set; }
 
@@ -30,4 +42,5 @@ namespace BazaarOnline.Application.ViewModels.Advertiesements
 
         public IEnumerable<AdvertiesementPictureDetailViewModel> Pictures { get; set; }
     }
+
 }
