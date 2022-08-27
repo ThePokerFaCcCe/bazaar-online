@@ -8,25 +8,24 @@ const ManageUsers = (): JSX.Element => {
   const [users, setUsers] = useState<UserDashboard | []>([]);
 
   useEffect(() => {
-    if (users.length === 0) {
-      // I await for it because the data is nested.
-      async function getUserList() {
-        const { content } = await getUsers("users", setUsers);
-        setUsers(content);
-      }
-      getUserList();
+    // I await for it because the data is nested.
+    async function getUserList() {
+      const { content } = await getUsers("users", setUsers);
+      setUsers(content);
     }
+    getUserList();
   }, []);
-
+  console.log("user", users);
   return (
     <>
       {users.map?.((user) => (
         <UserCard
           name={user.fullName}
           key={user.id}
-          email={user.email}
+          phoneNumber={user.phoneNumber}
           createDate={isoToPersianDate(user.createDate)}
           status={user.isActive}
+          routeHref={user.id}
         />
       ))}
     </>

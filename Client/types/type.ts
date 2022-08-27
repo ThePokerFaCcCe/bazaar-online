@@ -146,9 +146,10 @@ export type CityObj = { id: number; name: string };
 
 export interface UserCardProps {
   name: string;
-  email: string;
+  phoneNumber: string;
   createDate: string;
   status: boolean;
+  routeHref: number;
 }
 
 export interface UserActive {
@@ -163,10 +164,10 @@ export interface LoginUser {
 
 export type UserDashboard = {
   createDate: string;
-  email: string;
+  phoneNumber: string;
   fullName: string;
   id: number;
-  isActive: true;
+  isActive: boolean;
 }[];
 
 export type Roles = {
@@ -222,4 +223,20 @@ export interface Ad {
     priceTypeName: string;
   };
   picture: { image: string; thumbnail: string };
+}
+
+export interface AdPageExtraProps {
+  ad: object;
+}
+
+export interface DashboardUserPage {
+  createDate: string;
+  phoneNumber: string;
+  fullName: string;
+  id: number;
+  email: string;
+  isActive: boolean;
+  isDeleted: boolean;
+  isEmailActive: boolean;
+  roles: { id: number; title: string }[];
 }

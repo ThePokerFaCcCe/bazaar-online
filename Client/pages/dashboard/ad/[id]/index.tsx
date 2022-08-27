@@ -1,8 +1,8 @@
 import AdPage from "../../../../components/common/Advertisement/adPage";
 import axios from "axios";
+import { AdPageExtraProps } from "../../../../types/type";
 
-const AdPageExtra = (props) => {
-  console.log("props", props);
+const AdPageExtra = ({ ad }: AdPageExtraProps) => {
   return (
     <>
       <AdPage title="بای" />
@@ -18,7 +18,7 @@ export const getServerSideProps = async () => {
   );
   return {
     props: {
-      posts: data,
+      ad: data,
     },
   };
 };
