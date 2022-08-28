@@ -11,22 +11,16 @@ import { Breadcrumb, Input } from "antd";
 import styles from "../../../styles/Advertisement.module.css";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
-import axios from "axios";
-import { GetServerSideProps } from "next/types";
 import { Ad } from "../../../types/type";
 import Link from "next/link";
 import timeDiffrence from "../../../services/timeDiffrence";
-
+import { AdPageProps } from "../../../types/type";
 const items = [
   { title: "ودیعه", value: 900000000 },
   { title: "اجاره ماهانه", value: 7500000 },
   { title: "ودیعه و اجازه", value: "غیر قابل تبدیل" },
   { title: "مناسب برای", value: "خانواده و مجرد" },
 ];
-
-interface AdPageProps {
-  ad: Ad;
-}
 
 const AdPage = ({ ad }: AdPageProps): JSX.Element => {
   return (

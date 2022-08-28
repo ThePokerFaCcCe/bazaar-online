@@ -228,7 +228,7 @@ export interface Ad {
 }
 
 export interface AdPageExtraProps {
-  ad: object;
+  ad: Ad;
   error: string;
 }
 
@@ -236,6 +236,7 @@ export interface DashboardUserPage {
   createDate: string;
   phoneNumber: string;
   fullName: string;
+  password: string;
   id: number;
   email: string;
   isActive: boolean;
@@ -244,12 +245,13 @@ export interface DashboardUserPage {
   roles: { id: number; title: string }[];
 }
 
-export interface ForbiddenProps {
-  error: string;
-}
-
 export interface DashboardUserProps {
   user: DashboardUserPage;
+  error: "error";
+}
+
+export interface AdPageProps {
+  ad: Ad;
 }
 
 export interface DashboardInputProps {

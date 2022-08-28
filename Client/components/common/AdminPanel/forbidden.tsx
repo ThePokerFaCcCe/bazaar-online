@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
 import { Typography } from "@mui/material";
 import { handleForbidden } from "../../../services/httpService";
-import { ForbiddenProps } from "../../../types/type";
 
-const Forbidden = ({ error }: ForbiddenProps) => {
+const Forbidden = () => {
   // CDM
   useEffect(() => {
-    handleForbidden(error);
+    handleForbidden();
   }, []);
   // Render
   return (

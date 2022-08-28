@@ -12,7 +12,6 @@ const Login = (): JSX.Element => {
       password: "",
     },
     onSubmit: (value) => {
-      console.log("value", value);
       handleLogin(value);
     },
     validationSchema: loginSchema,
@@ -46,7 +45,7 @@ const Login = (): JSX.Element => {
             onBlur={formik.handleBlur}
             status={handleStatus("phoneNumber")}
             className="my-2 ltr"
-            placeholder="ایمیل"
+            placeholder="شماره موبایل"
           />
           {handleErrorMsg("phoneNumber")}
           <Input.Password

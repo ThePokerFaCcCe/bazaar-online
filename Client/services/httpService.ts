@@ -90,8 +90,6 @@ export const handleLogin = async (user: LoginUser) => {
     );
     nookies.set(null, "sessionExpire", data.expireDate);
     nookies.set(null, "token", data.token);
-    localStorage.setItem("sessionExpire", data.expireDate);
-    localStorage.setItem("token", data.token);
     window.location.replace("/");
   } catch ({ response }) {
     handleExpectedError(response);
@@ -195,10 +193,8 @@ export const getCities = async (
 
 // Forbidden
 
-export const handleForbidden = (error: string): void => {
-  if (error) {
-    setTimeout(() => {
-      window.location.replace("/");
-    }, 2000);
-  }
+export const handleForbidden = (): void => {
+  setTimeout(() => {
+    window.location.replace("/");
+  }, 2000);
 };
