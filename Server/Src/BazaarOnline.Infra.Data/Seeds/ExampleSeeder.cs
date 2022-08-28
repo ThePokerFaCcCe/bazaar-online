@@ -63,8 +63,8 @@ namespace BazaarOnline.Infra.Data.Seeds
                 FirstName = "string",
                 LastName = "string",
                 Email = "user@example.com",
-                PhoneNumber = "09191587842",
-                Password = "string",
+                PhoneNumber = "09123456789",
+                Password = BCrypt.Net.BCrypt.EnhancedHashPassword("string"),
                 IsActive = true,
                 UserRoles = new List<UserRole>{
                         new UserRole{
