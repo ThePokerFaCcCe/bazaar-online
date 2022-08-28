@@ -1,24 +1,23 @@
 import axios from "axios";
+import nookies from "nookies";
 import { toast } from "react-toastify";
 import config from "../config.json";
+import dayjs from "dayjs";
 import {
   StepTwoProps,
   User,
   UserActive,
   LoginUser,
   GetRolesProp,
+  DashboardUserPage,
 } from "../types/type";
 
-let token: string | null = null;
-
-if (typeof window !== "undefined") {
-  token = localStorage.getItem("token");
-}
+const { token, sessionExpire } = nookies.get();
 
 const header = {
   headers: {
     "Content-Type": "application/json",
-    Authorization: `${token}`,
+    Authorization: `bearer ${token}`,
   },
 };
 
@@ -89,6 +88,8 @@ export const handleLogin = async (user: LoginUser) => {
       user,
       header
     );
+    nookies.set(null, "sessionExpire", data.expireDate);
+    nookies.set(null, "token", data.token);
     localStorage.setItem("sessionExpire", data.expireDate);
     localStorage.setItem("token", data.token);
     window.location.replace("/");
@@ -98,26 +99,24 @@ export const handleLogin = async (user: LoginUser) => {
 };
 // Logout
 export const logout = () => {
-  localStorage?.removeItem("sessionExpire");
-  localStorage?.removeItem("token");
+  nookies.destroy(null, "token");
+  nookies.destroy(null, "sessionExpire");
   window.location.replace("/");
 };
 
 //
 
-export const checkUserAuthExpire = (reduxDispatch: any) => {
-  if (typeof window !== "undefined") {
-    const sessionExpire = localStorage?.getItem("sessionExpire");
-    if (sessionExpire !== null) {
-      const expireDate = new Date(sessionExpire).toDateString();
-      const today = new Date().toDateString();
-      //
-      if (today >= expireDate) {
-        return logout();
-      } else {
-        return reduxDispatch;
-      }
-    }
+export const checkUserAuthExpire = (
+  reduxDispatch: (actionCreator: any) => void,
+  actionCreator: any
+) => {
+  if (token && sessionExpire !== null) {
+    const expireDate = new Date(sessionExpire).toDateString();
+    const today = new Date().toDateString();
+    const diffrence = dayjs(expireDate).diff(today, "day");
+    setTimeout(() => {
+      return diffrence === 0 ? logout() : reduxDispatch(actionCreator(true));
+    }, 5000);
   }
 };
 
@@ -125,7 +124,7 @@ export const checkUserAuthExpire = (reduxDispatch: any) => {
 
 export const handleGetData = async (path: string, setState?: GetRolesProp) => {
   if (token) {
-    const { data } = await axios.get(`${config.apiEndPoint}/${path}`);
+    const { data } = await axios.get(`${config.apiEndPoint}/${path}`, header);
     if (setState) {
       setState(data);
     }
@@ -158,7 +157,6 @@ export const getFeaturesList = async () => {
         Authorization: `bearer ${token}`,
       },
     });
-    console.log("data", data);
   }
 };
 
@@ -174,6 +172,15 @@ export const getRolePermissions = async (
   }
 };
 
+// Dashboard User
+
+export const changeUserInfo = async (id: number, data: DashboardUserPage) => {
+  await axios.put(`${config.apiEndPoint}/Users/${id}`, data, header);
+};
+export const deleteUser = async (id: number) => {
+  await axios.delete(`${config.apiEndPoint}/Users/${id}`, header);
+};
+
 // City Modal
 
 export const getCities = async (
@@ -184,4 +191,14 @@ export const getCities = async (
     `${config.apiEndPoint}/Locations/Cities/${stateId}`
   );
   return setState(data);
+};
+
+// Forbidden
+
+export const handleForbidden = (error: string): void => {
+  if (error) {
+    setTimeout(() => {
+      window.location.replace("/");
+    }, 2000);
+  }
 };

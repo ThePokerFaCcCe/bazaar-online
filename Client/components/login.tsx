@@ -8,23 +8,26 @@ const Login = (): JSX.Element => {
   // Formik Validation
   const formik = useFormik({
     initialValues: {
-      email: "",
+      phoneNumber: "",
       password: "",
     },
     onSubmit: (value) => {
+      console.log("value", value);
       handleLogin(value);
     },
     validationSchema: loginSchema,
   });
   // Event Handler
-  const handleStatus = (propertyName: "email" | "password"): "error" | any => {
+  const handleStatus = (
+    propertyName: "phoneNumber" | "password"
+  ): "error" | any => {
     return (
       formik.touched?.[propertyName] && formik.errors?.[propertyName] && "error"
     );
   };
 
   const handleErrorMsg = (
-    propertyName: "email" | "password"
+    propertyName: "phoneNumber" | "password"
   ): JSX.Element | any => {
     return (
       formik.touched?.[propertyName] &&
@@ -38,14 +41,14 @@ const Login = (): JSX.Element => {
       <form onSubmit={formik.handleSubmit}>
         <>
           <Input
-            name="email"
+            name="phoneNumber"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            status={handleStatus("email")}
+            status={handleStatus("phoneNumber")}
             className="my-2 ltr"
             placeholder="ایمیل"
           />
-          {handleErrorMsg("email")}
+          {handleErrorMsg("phoneNumber")}
           <Input.Password
             name="password"
             onChange={formik.handleChange}

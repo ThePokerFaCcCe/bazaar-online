@@ -13,8 +13,9 @@ import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlin
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import axios from "axios";
 import { GetServerSideProps } from "next/types";
-import { AdvertisementListProps } from "../../../types/type";
+import { Ad } from "../../../types/type";
 import Link from "next/link";
+import timeDiffrence from "../../../services/timeDiffrence";
 
 const items = [
   { title: "ودیعه", value: 900000000 },
@@ -23,7 +24,11 @@ const items = [
   { title: "مناسب برای", value: "خانواده و مجرد" },
 ];
 
-const AdPage = ({ title }: AdvertisementListProps): JSX.Element => {
+interface AdPageProps {
+  ad: Ad;
+}
+
+const AdPage = ({ ad }: AdPageProps): JSX.Element => {
   return (
     <>
       <Box sx={{ margin: "2rem 3rem" }}>
@@ -32,9 +37,9 @@ const AdPage = ({ title }: AdvertisementListProps): JSX.Element => {
             <Link href="/">خانه</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
-            <Link href="/ad">آگهی ها</Link>
+            <Link href="/dashboard">آگهی ها</Link>
           </Breadcrumb.Item>
-          <Breadcrumb.Item>{title}</Breadcrumb.Item>
+          <Breadcrumb.Item>{ad.title}</Breadcrumb.Item>
         </Breadcrumb>
         <div className="row gx-5">
           <div className="col-sm-4 mt-4">
@@ -45,10 +50,12 @@ const AdPage = ({ title }: AdvertisementListProps): JSX.Element => {
                 marginBottom: "1rem",
               }}
             >
-              {title}
+              {ad.title}
             </Typography>
             <Typography sx={{ width: "383px" }}>
-              لحظاتی پیش در تهران، تهران‌سر | قطعات یدکی و لوازم جانبی خودرو
+              <span>{timeDiffrence(ad.createDate)}</span>
+              <span> {ad.city.name} |</span>
+              <span> {ad.category.title} </span>
             </Typography>
             <Grid
               container
@@ -93,8 +100,8 @@ const AdPage = ({ title }: AdvertisementListProps): JSX.Element => {
                     <Divider sx={{ borderColor: "#000" }} />
                   ) : null}
                   <div className="d-flex justify-content-between align-items-center p-2">
-                    <div>{item.title}</div>
-                    <div>{item.value}</div>
+                    <div> {ad.title}</div>
+                    <div>قیمت</div>
                   </div>
                   <Divider sx={{ borderColor: "#000" }} />
                 </Box>
@@ -111,21 +118,7 @@ const AdPage = ({ title }: AdvertisementListProps): JSX.Element => {
                 توضیحات
               </Typography>
               <Box>
-                <p>
-                  از فروشگاه معتبر،مطمئن خرید کنیم
-                  <br />
-                  فروش ویژه ایفون 13
-                  <br />
-                  6.1"
-                  <br />
-                  1170x2532 pixels
-                  <br />
-                  12MP2160p
-                  <br />
-                  4GB RAMApple A15 Bionic
-                  <br />
-                  3240mAhLi-Ion
-                </p>
+                <p>{ad.description}</p>
                 <br />
               </Box>
             </Box>
@@ -166,15 +159,3 @@ const AdPage = ({ title }: AdvertisementListProps): JSX.Element => {
 };
 
 export default AdPage;
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  console.log("context", context);
-  const { data: post } = await axios.get(
-    `https://jsonplaceholder.typicode.com/posts/${context?.params?.id}`
-  );
-  return {
-    props: {
-      post,
-    },
-  };
-};

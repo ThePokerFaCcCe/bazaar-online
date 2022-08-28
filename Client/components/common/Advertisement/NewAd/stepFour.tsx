@@ -3,7 +3,6 @@ import { Select } from "antd";
 import { StepsProp, Store } from "../../../../types/type";
 import UploadImg from "./upload";
 import dynamic from "next/dynamic";
-import RTL from "../../../../services/rtl";
 import styles from "../../../../styles/NewAd.module.css";
 import { useSelector } from "react-redux";
 import Map from "./map";

@@ -1,3 +1,4 @@
+import { CheckboxChangeEvent } from "antd/lib/checkbox";
 import { Dispatch, SetStateAction } from "react";
 
 export type Menus = { title: string; icon: JSX.Element }[];
@@ -158,7 +159,7 @@ export interface UserActive {
 }
 
 export interface LoginUser {
-  email: string;
+  phoneNumber: string;
   password: string;
 }
 
@@ -206,6 +207,7 @@ export interface Cities {
 export interface Ad {
   id: number;
   title: string;
+  description: string;
   nullable: boolean;
   deniedByAdminReason: string;
   isDeniedByAdmin: boolean;
@@ -227,6 +229,7 @@ export interface Ad {
 
 export interface AdPageExtraProps {
   ad: object;
+  error: string;
 }
 
 export interface DashboardUserPage {
@@ -239,4 +242,27 @@ export interface DashboardUserPage {
   isDeleted: boolean;
   isEmailActive: boolean;
   roles: { id: number; title: string }[];
+}
+
+export interface ForbiddenProps {
+  error: string;
+}
+
+export interface DashboardUserProps {
+  user: DashboardUserPage;
+}
+
+export interface DashboardInputProps {
+  placeholder: string;
+  name: string;
+  value: string;
+  onChange: ({ target }: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+export interface DashboardCheckboxProps {
+  title: string;
+  name: string;
+  defaultChecked: boolean;
+  onChange: ({ target }: CheckboxChangeEvent) => void;
+  conditionAndTxt: string;
 }

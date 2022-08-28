@@ -1,27 +1,70 @@
-import { Box } from "@mui/material";
-import { Input, Button } from "antd";
+import { Box, Grid } from "@mui/material";
+import { Input, Button, Popconfirm, Checkbox } from "antd";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
-import { DashboardUserPage } from "../../../../types/type";
+import { DashboardUserPage, DashboardUserProps } from "../../../../types/type";
+import produce from "immer";
+import { GetServerSideProps } from "next";
+import nookies from "nookies";
+import {
+  changeUserInfo,
+  deleteUser,
+  handleExpectedError,
+} from "../../../../services/httpService";
+import { CheckboxChangeEvent } from "antd/lib/checkbox";
+import DashboardCheckbox from "../../../../components/common/AdminPanel/manageUsers/dashboardCheckbox";
+import DashboardInput from "../../../../components/common/AdminPanel/manageUsers/DashboardInput";
 
-const User = (): JSX.Element => {
+const User = ({ user: userObj }: DashboardUserProps): JSX.Element => {
   // Local State
-  const [user, setUser] = useState<DashboardUserPage | null>(null);
+  const [user, setUser] = useState<DashboardUserPage>(userObj);
   //
-  const { asPath, back } = useRouter();
-  const index = asPath.lastIndexOf("/");
-  const userId = asPath.slice(index + 1);
-
-  useEffect(() => {
-    async function getUser() {
-      const { data } = await axios.get(
-        `http://localhost:5066/api/Users/${userId}`
-      );
-      setUser(data);
+  const { back } = useRouter();
+  console.log("USER", user);
+  // EventHander
+  const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+    const { name: n, value } = target;
+    if (n === "email" || n === "fullName" || n === "phoneNumber") {
+      user &&
+        setUser(
+          produce(user, (draftState) => {
+            draftState[n] = value;
+          })
+        );
     }
-    getUser();
-  }, []);
+  };
+
+  const handleCheckbox = ({ target }: CheckboxChangeEvent) => {
+    const { name: n, checked } = target;
+    if (n === "isActive" || n === "isDeleted" || n === "isEmailActive") {
+      user &&
+        setUser(
+          produce(user, (draftState) => {
+            draftState[n] = checked;
+          })
+        );
+    }
+  };
+
+  const handleModify = async () => {
+    try {
+      await changeUserInfo(user.id, user);
+    } catch ({ response }) {
+      console.log(response);
+      handleExpectedError(response);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await deleteUser(user.id);
+    } catch ({ response }) {
+      handleExpectedError(response);
+    }
+  };
+
+  // Render
 
   return user ? (
     <Box>
@@ -53,38 +96,90 @@ const User = (): JSX.Element => {
           gap: "1rem",
         }}
       >
-        <div style={{ width: "100%" }}>
-          <label style={{ marginBottom: "5px" }} htmlFor="">
-            نام
-          </label>
-          <Input defaultValue={user.fullName} placeholder="نام" />
-        </div>
-        <div style={{ width: "100%" }}>
-          <label style={{ marginBottom: "5px" }} htmlFor="">
-            ایمیل
-          </label>
-          <Input defaultValue={user.email} placeholder="ایمیل" />
-        </div>
-        <div style={{ width: "100%" }}>
-          <label style={{ marginBottom: "5px" }} htmlFor="">
-            شماره موبایل
-          </label>
-          <Input defaultValue={user.phoneNumber} placeholder="شماره موبایل" />
-        </div>
-        <div style={{ width: "100%" }}>
-          <label style={{ marginBottom: "5px" }} htmlFor="">
-            کلمه عبور جدید
-          </label>
-          <Input placeholder="کلمه عبور جدید" />
-        </div>
-        <Button style={{ width: "20%" }} type="primary">
-          ثبت تغییرات
-        </Button>
+        <DashboardInput
+          value={user.fullName}
+          name="fullName"
+          onChange={handleChange}
+          placeholder="نام"
+        />
+        <DashboardInput
+          name="email"
+          value={user.email}
+          onChange={handleChange}
+          placeholder="ایمیل"
+        />
+        <DashboardInput
+          name="phoneNumber"
+          value={user.phoneNumber}
+          onChange={handleChange}
+          placeholder="شماره موبایل"
+        />
+        <DashboardInput
+          name="phoneNumber"
+          value={user.phoneNumber}
+          onChange={handleChange}
+          placeholder="کلمه عبور جدید"
+        />
+        <DashboardCheckbox
+          title="وضعیت کاربر؟"
+          name="isActive"
+          defaultChecked={user.isActive}
+          conditionAndTxt={user.isActive ? "فعال" : "غیرفعال"}
+          onChange={handleCheckbox}
+        />
+        <DashboardCheckbox
+          title="ایمیل کاربر تایید شده است؟"
+          name="isEmailActive"
+          defaultChecked={user.isEmailActive}
+          conditionAndTxt={user.isEmailActive ? "تایید شده" : "تایید نشده"}
+          onChange={handleCheckbox}
+        />
+        <DashboardCheckbox
+          title="کاربر حذف شده است؟"
+          name="isDeleted"
+          defaultChecked={user.isDeleted}
+          conditionAndTxt={user.isDeleted ? "حذف شده" : "حذف نشده"}
+          onChange={handleCheckbox}
+        />
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          spacing={[10]}
+        >
+          <Grid item>
+            <Popconfirm
+              title="از ذخیره تغییرات مطمئن هستید؟"
+              onConfirm={handleModify}
+              okText="بله"
+              cancelText="خیر"
+            >
+              <Button type="primary">ثبت تغییرات</Button>
+            </Popconfirm>
+          </Grid>
+          <Grid item>
+            <Popconfirm
+              title="از حذف این کاربر مطمئن هستید؟"
+              onConfirm={handleDelete}
+              okText="بله"
+              cancelText="خیر"
+            >
+              <Button danger type="primary">
+                حذف کاربر
+              </Button>
+            </Popconfirm>
+          </Grid>
+        </Grid>
       </Box>
     </Box>
   ) : (
     <Box
-      sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        mt: 5,
+      }}
     >
       <h3>در حال دریافت اطلاعات</h3>
     </Box>
@@ -92,3 +187,24 @@ const User = (): JSX.Element => {
 };
 
 export default User;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { token } = nookies.get(context);
+  const header = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `bearer ${token}`,
+    },
+  };
+  // api call
+  const { data: user } = await axios.get(
+    `http://localhost:5066/api/Users/${context?.params?.id}`,
+    header
+  );
+
+  return {
+    props: {
+      user,
+    },
+  };
+};
