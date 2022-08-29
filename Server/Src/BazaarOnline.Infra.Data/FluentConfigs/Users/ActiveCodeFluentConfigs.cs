@@ -23,6 +23,10 @@ namespace BazaarOnline.Infra.Data.FluentConfigs
                 .IsRequired()
                 .HasMaxLength(64);
 
+            builder.Property(m => m.Type)
+                .IsRequired()
+                .HasConversion<string>();
+
             builder.Property(m => m.ExpireDate)
                 .IsRequired();
         }
