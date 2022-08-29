@@ -26,27 +26,33 @@ namespace BazaarOnline.Application.Services.Users
         {
             return _repository.GetAll<ActiveCode>()
                 .Include(c => c.User)
-                .Any(c => c.User.Email == email.ToLower());
+                .Any(c => c.Type == ActiveCodeType.EmailActivation
+                    && c.User.Email == email.ToLower());
         }
         public bool IsEmailActiveCodeExists(string email, string code)
         {
             return _repository.GetAll<ActiveCode>()
                 .Include(c => c.User)
-                .Any(c => c.User.Email == email.ToLower() && c.Code == code);
+                .Any(c => c.Type == ActiveCodeType.EmailActivation
+                    && c.User.Email == email.ToLower()
+                    && c.Code == code);
         }
 
         public bool IsPhoneActiveCodeExists(string phone)
         {
             return _repository.GetAll<ActiveCode>()
                 .Include(c => c.User)
-                .Any(c => c.User.PhoneNumber == phone);
+                .Any(c => c.Type == ActiveCodeType.UserActivation
+                    && c.User.PhoneNumber == phone);
         }
 
         public bool IsPhoneActiveCodeExists(string phone, string code)
         {
             return _repository.GetAll<ActiveCode>()
                 .Include(c => c.User)
-                .Any(c => c.User.PhoneNumber == phone && c.Code == code);
+                .Any(c => c.Type == ActiveCodeType.UserActivation
+                    && c.User.PhoneNumber == phone
+                    && c.Code == code);
         }
     }
 }

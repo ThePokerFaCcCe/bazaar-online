@@ -53,11 +53,13 @@ namespace BazaarOnline.Application.Services.Auth
 
         public CodeSentResultDTO SendRegisterUserSMS(User user)
         {
+            int expireMinutes = _configuration.GetValue<int>("Settings:ActiveCodeExpireMinutes:SMS", 1);
             var activeCode = _repository.Add<ActiveCode>(new ActiveCode
             {
                 UserId = user.Id,
                 Code = StringGenerator.GenerateActiveCode(),
-                ExpireDate = DateTime.Now.AddMinutes(1)
+                Type = ActiveCodeType.UserActivation,
+                ExpireDate = DateTime.Now.AddMinutes(expireMinutes),
             });
             _repository.Save();
 
@@ -77,11 +79,13 @@ namespace BazaarOnline.Application.Services.Auth
 
         public CodeSentResultDTO SendActiveUserEmail(User user)
         {
+            int expireMinutes = _configuration.GetValue<int>("Settings:ActiveCodeExpireMinutes:Email", 1);
             var activeCode = _repository.Add<ActiveCode>(new ActiveCode
             {
                 UserId = user.Id,
                 Code = StringGenerator.GenerateActiveCode(),
-                ExpireDate = DateTime.Now.AddMinutes(1)
+                Type = ActiveCodeType.EmailActivation,
+                ExpireDate = DateTime.Now.AddMinutes(expireMinutes),
             });
             _repository.Save();
 
