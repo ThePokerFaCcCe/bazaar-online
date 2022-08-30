@@ -152,3 +152,27 @@ a {
 .userCard:hover {
   transform: scale(1.1);
 }
+
+@keyframes MoveIt {
+  0% {
+    transform: translateY(-400px);
+  }
+  50% {
+    transform: translateY(0px);
+  }
+}
+
+.contactSection {
+  animation: slide-top 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both;
+}
+
+@keyframes slide-top {
+  0% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+  100% {
+    -webkit-transform: translateY(-50px);
+    transform: translateY(-50px);
+  }
+}

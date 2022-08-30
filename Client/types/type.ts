@@ -225,6 +225,11 @@ export interface Ad {
   createDate: string;
   category: { id: number; title: string };
   city: { id: number; name: string };
+  contact: {
+    email: string;
+    phoneNumber: string;
+    fullName: string;
+  };
   price: {
     value: null | number;
     isAgreement: boolean;
