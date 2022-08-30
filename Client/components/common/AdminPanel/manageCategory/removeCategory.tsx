@@ -1,9 +1,11 @@
-import { Box, Button } from "@mui/material";
-import { Select } from "antd";
+import { Box } from "@mui/material";
+import { Select, Popconfirm, Button } from "antd";
 import { useState } from "react";
-import styles from "../../../../styles/Dashboard.module.css";
 import { handleRemove as removeCategory } from "../../../../services/httpService"; // Renaming Import Function
 import { ManageCategoriesProps } from "../../../../types/type";
+import { toast } from "react-toastify";
+import styles from "../../../../styles/Dashboard.module.css";
+
 const { Option } = Select;
 
 const RemoveCategory = ({ categories }: ManageCategoriesProps): JSX.Element => {
@@ -15,44 +17,43 @@ const RemoveCategory = ({ categories }: ManageCategoriesProps): JSX.Element => {
     setSelectedCategory(value);
   };
 
-  const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     if (selectedCategory) {
-      removeCategory("category", selectedCategory);
+      return removeCategory("category", selectedCategory);
     }
+    return toast.error("هیچ دسته بندی انتخاب نکردید");
   };
 
   // Render
   return (
     <>
       <Box sx={{ mt: 2 }}>
-        <form onSubmit={handleSubmit}>
-          <Box className={styles.role__holder}>
-            <Select
-              onChange={handleChange}
-              allowClear
-              style={{ width: "100%" }}
-              placeholder="دسته بندی خود را انتخاب کنید"
-            >
-              {categories.length === 0 ? (
-                <Option key="loading">درحال بارگیری اطلاعات</Option>
-              ) : (
-                categories.map?.((ctg) => (
-                  <Option key={ctg.id}>{ctg.title}</Option>
-                ))
-              )}
-            </Select>
-            <Button
-              sx={{ width: "25%", marginTop: "1rem" }}
-              type="submit"
-              color="error"
-              variant="contained"
-              size="medium"
-            >
+        <Box className={styles.role__holder}>
+          <Select
+            onChange={handleChange}
+            allowClear
+            style={{ width: "100%" }}
+            placeholder="دسته بندی خود را انتخاب کنید"
+          >
+            {categories.length === 0 ? (
+              <Option key="loading">درحال بارگیری اطلاعات</Option>
+            ) : (
+              categories.map?.((ctg) => (
+                <Option key={ctg.id}>{ctg.title}</Option>
+              ))
+            )}
+          </Select>
+          <Popconfirm
+            title="از حذف این دسته بندی مطمئن هستید؟"
+            onConfirm={handleSubmit}
+            okText="بله"
+            cancelText="خیر"
+          >
+            <Button danger type="primary" className={styles.deleteButton}>
               حذف
             </Button>
-          </Box>
-        </form>
+          </Popconfirm>
+        </Box>
       </Box>
     </>
   );

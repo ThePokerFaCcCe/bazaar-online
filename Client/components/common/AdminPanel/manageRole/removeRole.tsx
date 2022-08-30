@@ -1,54 +1,57 @@
-import { Box, Button } from "@mui/material";
-import { Select } from "antd";
+import { Box } from "@mui/material";
+import { Select, Popconfirm, Button } from "antd";
 import { useState } from "react";
 import { handleRemove as removeRole } from "../../../../services/httpService"; // Renaming Import Function
-import styles from "../../../../styles/Dashboard.module.css";
+import { toast } from "react-toastify";
 import { RolePagesProps } from "../../../../types/type";
+import styles from "../../../../styles/Dashboard.module.css";
+
 const { Option } = Select;
 
 const RemoveRole = ({ roles }: RolePagesProps): JSX.Element => {
   // Local State
   const [selectedRole, setSelectedRole] = useState<number | null>(null);
   // Event Handlers
-  const handleChange = (value: number) => {
+  const handleRoleChange = (value: number) => {
     setSelectedRole(value);
   };
 
-  const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     if (selectedRole) {
       removeRole("roles", selectedRole);
+    } else {
+      toast.error("نقشی انتخاب نکردید");
     }
   };
+
   // Render
   return (
     <>
       <Box sx={{ mt: 2 }}>
-        <form onSubmit={handleSubmit}>
-          <Box className={styles.role__holder}>
-            <Select
-              onChange={handleChange}
-              allowClear
-              style={{ width: "100%" }}
-              placeholder="نقش خود را انتخاب کنید"
-            >
-              {roles.length === 0 ? (
-                <Option key="loading">درحال بارگیری اطلاعات</Option>
-              ) : (
-                roles.map((role) => <Option key={role.id}>{role.title}</Option>)
-              )}
-            </Select>
-            <Button
-              sx={{ width: "25%", marginTop: "1rem" }}
-              type="submit"
-              color="error"
-              variant="contained"
-              size="medium"
-            >
+        <Box className={styles.role__holder}>
+          <Select
+            onChange={handleRoleChange}
+            allowClear
+            style={{ width: "100%" }}
+            placeholder="نقش خود را انتخاب کنید"
+          >
+            {roles.length === 0 ? (
+              <Option key="loading">درحال بارگیری اطلاعات</Option>
+            ) : (
+              roles.map((role) => <Option key={role.id}>{role.title}</Option>)
+            )}
+          </Select>
+          <Popconfirm
+            title="از حذف این نقش مطمئن هستید؟"
+            onConfirm={handleSubmit}
+            okText="بله"
+            cancelText="خیر"
+          >
+            <Button danger type="primary" className={styles.deleteButton}>
               حذف
             </Button>
-          </Box>
-        </form>
+          </Popconfirm>
+        </Box>
       </Box>
     </>
   );

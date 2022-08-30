@@ -195,8 +195,13 @@ export interface Permissions {
   groupTitle: string;
   permissions: { id: number; title: string }[];
 }
-export interface NewRolePropos {
+export interface NewRoleProps {
   permissions: Permissions[];
+}
+
+export interface NewRoleData {
+  title: string;
+  permissions: number[];
 }
 
 export interface Cities {
@@ -213,6 +218,8 @@ export interface Ad {
   isDeniedByAdmin: boolean;
   deletedByAdminReason: string;
   isDeletedByAdmin: boolean;
+  latitude: number;
+  longitude: number;
   isDeleted: boolean;
   isAccepted: boolean;
   createDate: string;
@@ -236,6 +243,8 @@ export interface DashboardUserPage {
   createDate: string;
   phoneNumber: string;
   fullName: string;
+  firstName: string;
+  lastName: string;
   password: string;
   id: number;
   email: string;
@@ -258,7 +267,7 @@ export interface DashboardInputProps {
   placeholder: string;
   name: string;
   value: string;
-  onChange: ({ target }: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: ({ target }: InputOnChange) => void;
 }
 
 export interface DashboardCheckboxProps {
@@ -267,4 +276,17 @@ export interface DashboardCheckboxProps {
   defaultChecked: boolean;
   onChange: ({ target }: CheckboxChangeEvent) => void;
   conditionAndTxt: string;
+}
+
+export interface DashboardUserFormProps {
+  user: DashboardUserPage;
+  onHandleChange: ({ target }: InputOnChange) => void;
+  onCheckboxChange: ({ target }: CheckboxChangeEvent) => void;
+  onModify: () => void;
+  onDelete: () => void;
+}
+
+export interface Map {
+  center?: [number, number];
+  marker?: [number, number];
 }

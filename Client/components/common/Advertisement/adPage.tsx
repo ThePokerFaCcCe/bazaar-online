@@ -7,14 +7,16 @@ import {
   Divider,
   CssBaseline,
 } from "@mui/material";
+import { useState, useEffect } from "react";
 import { Breadcrumb, Input } from "antd";
-import styles from "../../../styles/Advertisement.module.css";
-import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
-import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
-import { Ad } from "../../../types/type";
-import Link from "next/link";
-import timeDiffrence from "../../../services/timeDiffrence";
+import { BookmarkBorderOutlined, ShareOutlined } from "@mui/icons-material";
 import { AdPageProps } from "../../../types/type";
+import timeDiffrence from "../../../services/timeDiffrence";
+import Link from "next/link";
+import styles from "../../../styles/Advertisement.module.css";
+import dynamic from "next/dynamic";
+import MapWithNoSSR from "../AdminPanel/manageAd/MapWithNoSSR";
+
 const items = [
   { title: "ودیعه", value: 900000000 },
   { title: "اجاره ماهانه", value: 7500000 },
@@ -23,15 +25,16 @@ const items = [
 ];
 
 const AdPage = ({ ad }: AdPageProps): JSX.Element => {
+  console.log("ad", ad);
   return (
     <>
-      <Box sx={{ margin: "2rem 3rem" }}>
+      <Box sx={{ m: "2rem 3rem" }}>
         <Breadcrumb>
           <Breadcrumb.Item>
             <Link href="/">خانه</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
-            <Link href="/dashboard">آگهی ها</Link>
+            <Link href="/dashboard">پنل مدیریت</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>{ad.title}</Breadcrumb.Item>
         </Breadcrumb>
@@ -75,12 +78,12 @@ const AdPage = ({ ad }: AdPageProps): JSX.Element => {
                 >
                   <Grid item>
                     <IconButton>
-                      <BookmarkBorderOutlinedIcon />
+                      <BookmarkBorderOutlined />
                     </IconButton>
                   </Grid>
                   <Grid item>
                     <IconButton>
-                      <ShareOutlinedIcon />
+                      <ShareOutlined />
                     </IconButton>
                   </Grid>
                 </Grid>
@@ -145,6 +148,9 @@ const AdPage = ({ ad }: AdPageProps): JSX.Element => {
                 شد.
               </Typography>
             </Box>
+            {ad.latitude && ad.longitude && (
+              <MapWithNoSSR marker={[ad.latitude, ad.longitude]} />
+            )}
           </div>
         </div>
       </Box>

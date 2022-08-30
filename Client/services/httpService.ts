@@ -150,11 +150,7 @@ export const getPermissionList = async (setState: GetRolesProp) => {
 
 export const getFeaturesList = async () => {
   if (token) {
-    const { data } = await axios.get(`${config.apiEndPoint}/Features`, {
-      headers: {
-        Authorization: `bearer ${token}`,
-      },
-    });
+    const { data } = await axios.get(`${config.apiEndPoint}/Features`, header);
   }
 };
 
@@ -164,7 +160,8 @@ export const getRolePermissions = async (
 ) => {
   if (selectedRole) {
     const { data } = await axios.get(
-      `${config.apiEndPoint}/Roles/${selectedRole}`
+      `${config.apiEndPoint}/Roles/${selectedRole}`,
+      header
     );
     setState(data);
   }

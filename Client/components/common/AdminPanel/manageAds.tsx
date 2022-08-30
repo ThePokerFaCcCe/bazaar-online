@@ -33,7 +33,7 @@ const ManageAds = (): JSX.Element => {
   return (
     <>
       {adList.map((item) => (
-        <Link href={`dashboard/ad/${item.id}`}>
+        <Link key={item.id} href={`dashboard/ad/${item.id}`}>
           <Box sx={{ cursor: "pointer" }}>
             <Card
               title={item.title}

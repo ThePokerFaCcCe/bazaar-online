@@ -2,23 +2,23 @@ import { Box } from "@mui/material";
 import { Input, Select, Button } from "antd";
 import React, { useState } from "react";
 import styles from "../../../../styles/Dashboard.module.css";
-import { ManageCategoriesProps } from "../../../../types/type";
+import { InputOnChange, ManageCategoriesProps } from "../../../../types/type";
 
 const { Option } = Select;
 
 const NewCategory = ({ categories }: ManageCategoriesProps): JSX.Element => {
-  const [data, setData] = useState({
+  const [category, setCategory] = useState({
     name: "",
     role: [""],
   });
 
-  const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-    return setData((data) => ({
+  const handleChange = ({ target }: InputOnChange) => {
+    return setCategory((data) => ({
       ...data,
       name: target.value,
     }));
   };
-
+  console.log("Category", category);
   return (
     <>
       <Box sx={{ mt: 2 }}>

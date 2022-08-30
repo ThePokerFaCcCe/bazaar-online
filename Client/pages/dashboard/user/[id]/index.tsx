@@ -1,7 +1,4 @@
-import { Box, Grid } from "@mui/material";
-import { Button, Popconfirm } from "antd";
 import { useState } from "react";
-import { useRouter } from "next/router";
 import { DashboardUserPage, DashboardUserProps } from "../../../../types/type";
 import { GetServerSideProps } from "next";
 import {
@@ -9,25 +6,27 @@ import {
   deleteUser,
   handleExpectedError,
 } from "../../../../services/httpService";
+import { InputOnChange } from "../../../../types/type";
 import { CheckboxChangeEvent } from "antd/lib/checkbox";
-import DashboardCheckbox from "../../../../components/common/AdminPanel/manageUsers/dashboardCheckbox";
-import DashboardInput from "../../../../components/common/AdminPanel/manageUsers/DashboardInput";
 import Forbidden from "../../../../components/common/AdminPanel/forbidden";
+import DashboardUserForm from "../../../../components/common/AdminPanel/manageUsers/dashboardUserForm";
 import produce from "immer";
 import axios from "axios";
 import nookies from "nookies";
+import config from "../../../../config.json";
 
 const User = ({ user: userObj, error }: DashboardUserProps): JSX.Element => {
+  //
   // Local State
   const [user, setUser] = useState<DashboardUserPage>(userObj);
-  const { back } = useRouter();
 
   // EventHander
-  const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = ({ target }: InputOnChange) => {
     const { name: n, value } = target;
     if (
       n === "email" ||
-      n === "fullName" ||
+      n === "firstName" ||
+      n === "lastName" ||
       n === "phoneNumber" ||
       n === "password"
     ) {
@@ -74,103 +73,13 @@ const User = ({ user: userObj, error }: DashboardUserProps): JSX.Element => {
       {error ? (
         <Forbidden />
       ) : (
-        <Box>
-          <div style={{ position: "relative", marginTop: "2rem" }}>
-            <div className="d-flex justify-content-center align-items-center">
-              <h3>اطلاعات کاربر</h3>
-              <button
-                onClick={() => back()}
-                style={{
-                  position: "absolute",
-                  left: 0,
-                  top: 0,
-                  marginLeft: "3rem",
-                }}
-                className="btn-sm btn btn-primary"
-              >
-                بازگشت
-              </button>
-            </div>
-          </div>
-          <Box
-            sx={{
-              mt: "2rem",
-              padding: "0 20%",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "1rem",
-            }}
-          >
-            <DashboardInput
-              value={user.fullName}
-              name="fullName"
-              onChange={handleChange}
-              placeholder="نام"
-            />
-            <DashboardInput
-              name="email"
-              value={user.email}
-              onChange={handleChange}
-              placeholder="ایمیل"
-            />
-            <DashboardInput
-              name="phoneNumber"
-              value={user.phoneNumber}
-              onChange={handleChange}
-              placeholder="شماره موبایل"
-            />
-            <DashboardInput
-              name="password"
-              value={user.password}
-              onChange={handleChange}
-              placeholder="کلمه عبور جدید"
-            />
-            <DashboardCheckbox
-              title="وضعیت کاربر؟"
-              name="isActive"
-              defaultChecked={user.isActive}
-              conditionAndTxt={user.isActive ? "فعال" : "غیرفعال"}
-              onChange={handleCheckbox}
-            />
-            <div style={{ width: "100%" }}>
-              <span>تاریخ ثبت نام: </span>
-              <span>
-                {new Date(user.createDate).toLocaleDateString("fa-IR")}
-              </span>
-            </div>
-            <Grid
-              container
-              justifyContent="center"
-              alignItems="center"
-              spacing={[10]}
-            >
-              <Grid item>
-                <Popconfirm
-                  title="از ذخیره تغییرات مطمئن هستید؟"
-                  onConfirm={handleModify}
-                  okText="بله"
-                  cancelText="خیر"
-                >
-                  <Button type="primary">ثبت تغییرات</Button>
-                </Popconfirm>
-              </Grid>
-              <Grid item>
-                <Popconfirm
-                  title="از حذف این کاربر مطمئن هستید؟"
-                  onConfirm={handleDelete}
-                  okText="بله"
-                  cancelText="خیر"
-                >
-                  <Button danger type="primary">
-                    حذف کاربر
-                  </Button>
-                </Popconfirm>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
+        <DashboardUserForm
+          user={user}
+          onDelete={handleDelete}
+          onModify={handleModify}
+          onHandleChange={handleChange}
+          onCheckboxChange={handleCheckbox}
+        />
       )}
     </>
   );
@@ -189,7 +98,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   // api call
   try {
     const { data: user } = await axios.get(
-      `http://localhost:5066/api/Users/${context?.params?.id}`,
+      `${config.apiEndPoint}/Users/${context?.params?.id}`,
       header
     );
 

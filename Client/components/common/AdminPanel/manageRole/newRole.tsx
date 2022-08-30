@@ -1,48 +1,58 @@
+import { useState } from "react";
 import { Box } from "@mui/material";
 import { Input, Select, Button } from "antd";
-import React, { useState } from "react";
+import {
+  NewRoleProps,
+  NewRoleData,
+  InputOnChange,
+} from "../../../../types/type";
+import produce from "immer";
 import styles from "../../../../styles/Dashboard.module.css";
-import { NewRolePropos } from "../../../../types/type";
 
 const { Option, OptGroup } = Select;
 
-const NewRole = ({ permissions }: NewRolePropos): JSX.Element => {
-  const [data, setData] = useState({
-    name: "",
-    role: [""],
+const NewRole = ({ permissions }: NewRoleProps): JSX.Element => {
+  // Local State
+  const [role, setRole] = useState<NewRoleData>({
+    title: "",
+    permissions: [],
   });
-  const [selectedPermissions, setSelectedPermissions] = useState<string[] | []>(
-    []
-  );
-
-  const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-    return setData((data) => ({
-      ...data,
-      name: target.value,
-    }));
+  // Event Handlers
+  const handleName = ({ target }: InputOnChange) => {
+    setRole(
+      produce(role, (draftState) => {
+        draftState.title = target.value;
+      })
+    );
   };
 
+  const handleRoleChange = (roleId: number[]) => {
+    setRole(
+      produce(role, (draftState) => {
+        draftState.permissions = roleId;
+      })
+    );
+  };
+  // Render
   return (
     <>
       <Box sx={{ mt: 2 }}>
         <form>
           <Box className={styles.role__holder}>
-            <Input
-              onChange={handleChange}
-              name="name"
-              placeholder="نام نقش جدید"
-            />
+            <Input onChange={handleName} placeholder="نام نقش جدید" />
             <Select
               mode="multiple"
               allowClear
               style={{ width: "100%" }}
+              dropdownMatchSelectWidth={false}
               placeholder="یک یا چند دسترسی انتخاب کنید"
+              onChange={handleRoleChange}
             >
               {permissions.length === 0 ? (
                 <Option value="loading">درحال دریافت اطلاعات </Option>
               ) : (
-                permissions.map((item) => (
-                  <OptGroup label={item.groupTitle}>
+                permissions.map((item, index) => (
+                  <OptGroup key={index} label={item.groupTitle}>
                     {item.permissions.map((subChild) => (
                       <Option value={subChild.id}>{subChild.title}</Option>
                     ))}
