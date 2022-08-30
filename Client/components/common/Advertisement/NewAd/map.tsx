@@ -6,11 +6,9 @@ import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import "leaflet-defaulticon-compatibility";
 
 const Map = ({ center, marker }: Map): JSX.Element => {
-  console.log("Map", center, marker);
   const [position, setPosition] = useState<[number, number]>(
     marker || [51.505, 51.505]
   );
-  console.log("Position State", position);
   // Add Marker on Map onClick
   function Mark() {
     const map = useMapEvents({
@@ -21,10 +19,9 @@ const Map = ({ center, marker }: Map): JSX.Element => {
     return <Marker position={position} />;
   }
 
-  console.log("Marker", marker);
   return (
     <MapContainer
-      center={marker || [35.7219, 51.3347]}
+      center={center || marker || [35.7219, 51.3347]}
       zoom={marker ? 15 : 6}
       scrollWheelZoom={false}
       style={{ height: "50vh" }}

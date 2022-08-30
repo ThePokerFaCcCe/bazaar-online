@@ -18,7 +18,8 @@ const NewCategory = ({ categories }: ManageCategoriesProps): JSX.Element => {
       name: target.value,
     }));
   };
-  console.log("Category", category);
+
+  // Render
   return (
     <>
       <Box sx={{ mt: 2 }}>

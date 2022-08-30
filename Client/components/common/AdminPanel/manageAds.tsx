@@ -27,9 +27,7 @@ const ManageAds = (): JSX.Element => {
     getAdsList();
   }, []);
 
-  //
-
-  console.log("ad", adList);
+  //Render
   return (
     <>
       {adList.map((item) => (

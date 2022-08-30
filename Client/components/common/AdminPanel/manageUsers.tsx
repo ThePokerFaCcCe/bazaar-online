@@ -15,7 +15,8 @@ const ManageUsers = (): JSX.Element => {
     }
     getUserList();
   }, []);
-  console.log("user", users);
+
+  // Render
   return (
     <>
       {users.map?.((user) => (

@@ -290,3 +290,25 @@ export interface Map {
   center?: [number, number];
   marker?: [number, number];
 }
+
+export interface AdButtonProps {
+  title: string;
+  color:
+    | "inherit"
+    | "primary"
+    | "secondary"
+    | "success"
+    | "error"
+    | "info"
+    | "warning";
+  onClick: (value: any) => void;
+}
+
+export interface ReasonModalProps {
+  title: string;
+  modalVisibility: boolean;
+  reason: string;
+  onHandleOk: () => void;
+  onCloseModal: (toggle: boolean) => void;
+  onSetReason: Dispatch<SetStateAction<string>>;
+}

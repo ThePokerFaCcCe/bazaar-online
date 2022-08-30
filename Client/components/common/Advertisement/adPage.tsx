@@ -14,7 +14,6 @@ import { AdPageProps } from "../../../types/type";
 import timeDiffrence from "../../../services/timeDiffrence";
 import Link from "next/link";
 import styles from "../../../styles/Advertisement.module.css";
-import dynamic from "next/dynamic";
 import MapWithNoSSR from "../AdminPanel/manageAd/MapWithNoSSR";
 
 const items = [
@@ -25,7 +24,7 @@ const items = [
 ];
 
 const AdPage = ({ ad }: AdPageProps): JSX.Element => {
-  console.log("ad", ad);
+  const [showContactInfo, setShowContactInfo] = useState(false);
   return (
     <>
       <Box sx={{ m: "2rem 3rem" }}>
@@ -120,7 +119,7 @@ const AdPage = ({ ad }: AdPageProps): JSX.Element => {
               </Box>
             </Box>
           </div>
-          <div className="col-sm-6">
+          <div className="col-sm-8">
             <Box sx={{ width: "100%" }}>
               <img
                 src="https://s101.divarcdn.com/static/pictures/1658662999/QYwXhPtd.jpg"

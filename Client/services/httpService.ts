@@ -25,8 +25,8 @@ const header = {
 export const handleExpectedError = (response: any) => {
   if (response?.status >= 400 && response?.status < 500) {
     const errors = response?.data?.errors;
-    const errPropertyName: string[] = Object.keys(errors);
-    toast.error(errors?.[errPropertyName?.[0]]?.[0]);
+    const errPropertyName: string[] = Object?.keys?.(errors);
+    toast.error?.(errors?.[errPropertyName?.[0]]?.[0]);
   }
 };
 
@@ -174,6 +174,31 @@ export const changeUserInfo = async (id: number, data: DashboardUserPage) => {
 };
 export const deleteUser = async (id: number) => {
   await axios.delete(`${config.apiEndPoint}/Users/${id}`, header);
+};
+
+// Dashboard Ad
+
+export const confirmAd = async (id: number) => {
+  await axios.post(
+    `${config.apiEndPoint}/Advertiesements/${id}/Management/Accept`,
+    header
+  );
+};
+
+export const rejectAd = async (id: number, reason: string) => {
+  await axios.post(
+    `${config.apiEndPoint}/Advertiesements/${id}/Management/Deny`,
+    { reason },
+    header
+  );
+};
+
+export const deleteAd = async (id: number, reason: string) => {
+  await axios.post(
+    `${config.apiEndPoint}/Advertiesements/${id}/Management/Delete`,
+    { reason },
+    header
+  );
 };
 
 // City Modal
