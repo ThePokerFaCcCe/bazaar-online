@@ -15,7 +15,7 @@ import {
 } from "@mui/icons-material";
 import styles from "../../../styles/NavBar.module.css";
 import { CategoryObject, Category, Store } from "../../../types/type";
-import { megaMenuToggle } from "../../../store/state/ui";
+import { MEGA_MENU_TOGGLE } from "../../../store/state/ui";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 
@@ -37,7 +37,7 @@ const MegaMenu = () => {
           <Grid item xs={2.3} sx={{ borderLeft: "1px solid #ccc" }}>
             <Grid
               container
-              onClick={() => dispatch(megaMenuToggle())}
+              onClick={() => dispatch(MEGA_MENU_TOGGLE())}
               direction="row"
               alignItems="center"
             >

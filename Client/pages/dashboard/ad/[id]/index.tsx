@@ -1,4 +1,4 @@
-import { AdPageExtraProps } from "../../../../types/type";
+import { AdPageExtraProps, Store } from "../../../../types/type";
 import { GetServerSideProps } from "next";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -15,15 +15,24 @@ import {
 } from "../../../../services/httpService";
 import axios from "axios";
 import nookies from "nookies";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  DELETE_REASON_MODAL_OPEN,
+  DELETE_REASON_MODAL_CLOSED,
+  REJECT_REASON_MODAL_CLOSED,
+  REJECT_REASON_MODAL_OPEN,
+} from "../../../../store/state/ui";
 
 const AdPageExtra = ({ ad, error }: AdPageExtraProps) => {
   // Local State
-  const { push } = useRouter();
-  const [showRejectModal, setShowRejectModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [rejectReason, setRejectReason] = useState("");
   const [deleteReason, setDeleteReason] = useState("");
-
+  const { push } = useRouter();
+  const dispatch = useDispatch();
+  // Redux Store
+  const { deleteReasonModalVisible, rejectReasonModalVisible } = useSelector(
+    (store: Store) => store.entities.ui.modals
+  );
   // Handle 404 ERROR
   const handle404Error = (response: any) => {
     if (response.status === 404) toast.error("آگهی با این شناسه یافت نشد");
@@ -81,12 +90,12 @@ const AdPageExtra = ({ ad, error }: AdPageExtraProps) => {
             <AdButton
               title="رد آگهی"
               color="warning"
-              onClick={() => setShowRejectModal(true)}
+              onClick={() => dispatch(REJECT_REASON_MODAL_OPEN())}
             />
             <AdButton
               title="حذف آگهی"
               color="error"
-              onClick={() => setShowDeleteModal(true)}
+              onClick={() => dispatch(DELETE_REASON_MODAL_OPEN())}
             />
           </div>
           <AdPage ad={ad} />
@@ -94,17 +103,17 @@ const AdPageExtra = ({ ad, error }: AdPageExtraProps) => {
       )}
       <ReasonModal
         title="رد آگهی"
-        modalVisibility={showRejectModal}
+        modalVisibility={rejectReasonModalVisible}
         onHandleOk={handleReject}
-        onCloseModal={setShowRejectModal}
+        onCloseModal={REJECT_REASON_MODAL_CLOSED}
         reason={rejectReason}
         onSetReason={setRejectReason}
       />
       <ReasonModal
         title="حذف آگهی"
-        modalVisibility={showDeleteModal}
+        modalVisibility={deleteReasonModalVisible}
         onHandleOk={handleDelete}
-        onCloseModal={setShowDeleteModal}
+        onCloseModal={DELETE_REASON_MODAL_CLOSED}
         reason={deleteReason}
         onSetReason={setDeleteReason}
       />

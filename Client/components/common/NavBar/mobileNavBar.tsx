@@ -14,7 +14,7 @@ import { Input } from "antd";
 import { Sidebar } from "primereact/sidebar";
 import { NavItems, Store } from "../../../types/type";
 import { useSelector, useDispatch } from "react-redux";
-import { mobileMenuToggle, signModalToggle } from "../../../store/state/ui";
+import { mobileMenuToggle, SIGN_MODAL_TOGGLE } from "../../../store/state/ui";
 import styles from "../../../styles/NavBar.module.css";
 import Logo from "./logo";
 import { logout } from "../../../services/httpService";
@@ -65,7 +65,7 @@ const MobileNavBar = (): JSX.Element => {
     switch (title) {
       case "ورود | ثبت نام":
         dispatch(mobileMenuToggle());
-        dispatch(signModalToggle());
+        dispatch(SIGN_MODAL_TOGGLE());
         return;
       case "خروج":
         logout();
@@ -95,7 +95,7 @@ const MobileNavBar = (): JSX.Element => {
         ) : (
           <Button
             className={styles.navbar__btn}
-            onClick={() => dispatch(signModalToggle())}
+            onClick={() => dispatch(SIGN_MODAL_TOGGLE())}
             variant="contained"
           >
             ثبت آگهی

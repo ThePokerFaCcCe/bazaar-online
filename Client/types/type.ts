@@ -1,3 +1,4 @@
+import { ActionCreatorWithoutPayload } from "@reduxjs/toolkit";
 import { CheckboxChangeEvent } from "antd/lib/checkbox";
 import { Dispatch, SetStateAction } from "react";
 
@@ -41,6 +42,8 @@ export interface Store {
       modals: {
         signModalVisible: boolean;
         cityModalVisible: boolean;
+        deleteReasonModalVisible: false;
+        rejectReasonModalVisible: false;
       };
       navbar: {
         desktopMenuVisible: boolean;
@@ -314,6 +317,6 @@ export interface ReasonModalProps {
   modalVisibility: boolean;
   reason: string;
   onHandleOk: () => void;
-  onCloseModal: (toggle: boolean) => void;
+  onCloseModal: ActionCreatorWithoutPayload<string>;
   onSetReason: Dispatch<SetStateAction<string>>;
 }

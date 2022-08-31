@@ -1,6 +1,6 @@
 import { createAction } from "@reduxjs/toolkit";
 import { organaizeCategories } from "../../services/orgCategories";
-import { categoryReceived } from "../state/category";
+import { CATEGORY_RECEIVED } from "../state/category";
 import { State, Next, Action } from "../../types/type";
 import axios from "axios";
 import config from "../../config.json";
@@ -17,7 +17,7 @@ const categoryApi =
     if (getState().entities.category === null) {
       try {
         const { data } = await axios.get(`${config.apiEndPoint}/Categories`);
-        dispatch(categoryReceived(organaizeCategories(data)));
+        dispatch(CATEGORY_RECEIVED(organaizeCategories(data)));
       } catch (ex) {
         console.log(ex);
       }

@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import { checkUserAuthExpire } from "../services/httpService";
 import { useEffect } from "react";
-import { setUserStatus } from "../store/state/user";
+import { SET_USER_STATUS } from "../store/state/user";
 import nookies from "nookies";
 import RTL from "../services/rtl";
 import store from "../store/configureStore";
@@ -20,7 +20,7 @@ import "../styles/globals.css";
 function MyApp({ Component, pageProps }: AppProps) {
   // CDM
   useEffect(() => {
-    checkUserAuthExpire(store.dispatch, setUserStatus);
+    checkUserAuthExpire(store.dispatch, SET_USER_STATUS);
   }, []);
 
   return (

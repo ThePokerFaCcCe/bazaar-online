@@ -3,7 +3,7 @@ import { CssBaseline } from "@mui/material";
 import { Modal } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { Store } from "../types/type";
-import { cityModalToggle } from "../store/state/ui";
+import { CITY_MODAL_CLOSED } from "../store/state/ui";
 import SelectState from "./common/CityModal/selectState";
 import SelectCity from "./common/CityModal/selectCity";
 
@@ -24,7 +24,7 @@ const CityModal = (): JSX.Element => {
         visible={cityModalVisible}
         closable={false}
         onOk={() => console.log("Done")}
-        onCancel={() => dispatch(cityModalToggle())}
+        onCancel={() => dispatch(CITY_MODAL_CLOSED())}
         okText="انتخاب"
         cancelText="انصراف"
         centered

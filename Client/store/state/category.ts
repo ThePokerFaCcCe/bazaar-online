@@ -5,7 +5,7 @@ const { actions, reducer } = createSlice({
   name: "UI",
   initialState: null,
   reducers: {
-    categoryReceived: (state, { payload }) => {
+    CATEGORY_RECEIVED: (state, { payload }) => {
       if (state === null) {
         return (state = payload);
       }
@@ -14,5 +14,5 @@ const { actions, reducer } = createSlice({
   },
 });
 
-export const { categoryReceived } = actions;
+export const { CATEGORY_RECEIVED } = actions;
 export default reducer;

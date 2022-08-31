@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Modal, Tabs } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { Store } from "../types/type";
-import { signModalToggle } from "../store/state/ui";
+import { SIGN_MODAL_CLOSED } from "../store/state/ui";
 import CityModal from "./cityModal";
 import MobileNavBar from "./common/NavBar/mobileNavBar";
 import DesktopNavBar from "./common/NavBar/desktopNavBar";
@@ -26,7 +26,7 @@ const NavBar = (): JSX.Element => {
       <CityModal />
       <Modal
         visible={signModalVisible}
-        onCancel={() => dispatch(signModalToggle())}
+        onCancel={() => dispatch(SIGN_MODAL_CLOSED())}
         footer={null}
       >
         <Tabs defaultActiveKey="1">

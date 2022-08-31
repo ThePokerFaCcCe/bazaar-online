@@ -6,6 +6,8 @@ const { actions, reducer } = createSlice({
     modals: {
       signModalVisible: false,
       cityModalVisible: false,
+      deleteReasonModalVisible: false,
+      rejectReasonModalVisible: false,
     },
     navbar: {
       desktopMenuVisible: false,
@@ -14,29 +16,65 @@ const { actions, reducer } = createSlice({
     },
   },
   reducers: {
-    signModalToggle: ({ modals }) => {
-      modals.signModalVisible = !modals.signModalVisible;
+    SIGN_MODAL_OPEN: ({ modals }) => {
+      modals.signModalVisible = true;
     },
-    cityModalToggle: ({ modals }) => {
-      modals.cityModalVisible = !modals.cityModalVisible;
+    SIGN_MODAL_CLOSED: ({ modals }) => {
+      modals.signModalVisible = false;
     },
-    desktopMenuToggle: ({ navbar }) => {
-      navbar.desktopMenuVisible = !navbar.desktopMenuVisible;
+    CITY_MODAL_OPEN: ({ modals }) => {
+      modals.cityModalVisible = true;
     },
-    mobileMenuToggle: ({ navbar }) => {
-      navbar.mobileMenuVisible = !navbar.mobileMenuVisible;
+    CITY_MODAL_CLOSED: ({ modals }) => {
+      modals.cityModalVisible = false;
     },
-    megaMenuToggle: ({ navbar }) => {
-      navbar.megaMenuVisible = !navbar.megaMenuVisible;
+    DESKTOP_MENU_OPEN: ({ navbar }) => {
+      navbar.desktopMenuVisible = true;
+    },
+    DESKTOP_MENU_CLOSED: ({ navbar }) => {
+      navbar.desktopMenuVisible = false;
+    },
+    MOBILE_MENU_OPEN: ({ navbar }) => {
+      navbar.mobileMenuVisible = true;
+    },
+    MOBILE_MENU_CLOSED: ({ navbar }) => {
+      navbar.mobileMenuVisible = false;
+    },
+    MEGA_MENU_OPEN: ({ navbar }) => {
+      navbar.megaMenuVisible = true;
+    },
+    MEGA_MENU_CLOSED: ({ navbar }) => {
+      navbar.megaMenuVisible = false;
+    },
+    DELETE_REASON_MODAL_OPEN: ({ modals }) => {
+      modals.deleteReasonModalVisible = true;
+    },
+    DELETE_REASON_MODAL_CLOSED: ({ modals }) => {
+      modals.deleteReasonModalVisible = false;
+    },
+    REJECT_REASON_MODAL_OPEN: ({ modals }) => {
+      modals.rejectReasonModalVisible = true;
+    },
+    REJECT_REASON_MODAL_CLOSED: ({ modals }) => {
+      modals.rejectReasonModalVisible = false;
     },
   },
 });
 
 export const {
-  signModalToggle,
-  cityModalToggle,
-  desktopMenuToggle,
-  mobileMenuToggle,
-  megaMenuToggle,
+  SIGN_MODAL_OPEN,
+  SIGN_MODAL_CLOSED,
+  CITY_MODAL_OPEN,
+  CITY_MODAL_CLOSED,
+  DESKTOP_MENU_OPEN,
+  DESKTOP_MENU_CLOSED,
+  MOBILE_MENU_OPEN,
+  MOBILE_MENU_CLOSED,
+  MEGA_MENU_OPEN,
+  MEGA_MENU_CLOSED,
+  REJECT_REASON_MODAL_OPEN,
+  REJECT_REASON_MODAL_CLOSED,
+  DELETE_REASON_MODAL_OPEN,
+  DELETE_REASON_MODAL_CLOSED,
 } = actions;
 export default reducer;

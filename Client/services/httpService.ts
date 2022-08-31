@@ -2,7 +2,6 @@ import axios from "axios";
 import nookies from "nookies";
 import { toast } from "react-toastify";
 import config from "../config.json";
-import dayjs from "dayjs";
 import {
   StepTwoProps,
   User,
@@ -12,7 +11,7 @@ import {
   DashboardUserPage,
 } from "../types/type";
 
-const { token, sessionExpire } = nookies.get();
+const { token } = nookies.get();
 
 const header = {
   headers: {
@@ -88,8 +87,9 @@ export const handleLogin = async (user: LoginUser) => {
       user,
       header
     );
-    nookies.set(null, "sessionExpire", data.expireDate);
-    nookies.set(null, "token", data.token);
+    nookies.set(null, "token", data.token, {
+      expires: new Date(data.expireDate),
+    });
     window.location.replace("/");
   } catch ({ response }) {
     handleExpectedError(response);
@@ -98,24 +98,16 @@ export const handleLogin = async (user: LoginUser) => {
 // Logout
 export const logout = () => {
   nookies.destroy(null, "token");
-  nookies.destroy(null, "sessionExpire");
   window.location.replace("/");
 };
 
-//
+// Set Store, User isLoggedIn to True
 
 export const checkUserAuthExpire = (
   reduxDispatch: (actionCreator: any) => void,
   actionCreator: any
 ) => {
-  if (token && sessionExpire !== null) {
-    const expireDate = new Date(sessionExpire).toDateString();
-    const today = new Date().toDateString();
-    const diffrence = dayjs(expireDate).diff(today, "day");
-    setTimeout(() => {
-      return diffrence === 0 ? logout() : reduxDispatch(actionCreator(true));
-    }, 5000);
-  }
+  token && reduxDispatch(actionCreator(true));
 };
 
 // Admin Dashboard

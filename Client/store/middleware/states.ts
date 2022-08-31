@@ -1,5 +1,5 @@
 import { createAction } from "@reduxjs/toolkit";
-import { statesReceived } from "../state/states";
+import { STATES_RECEIVED } from "../state/states";
 import { State, Next, Action } from "../../types/type";
 import axios from "axios";
 import config from "../../config.json";
@@ -18,7 +18,7 @@ const statesApi =
         const { data } = await axios.get(
           `${config.apiEndPoint}/Locations/Cities`
         );
-        dispatch(statesReceived(data));
+        dispatch(STATES_RECEIVED(data));
       } catch (ex) {
         console.log(ex);
       }

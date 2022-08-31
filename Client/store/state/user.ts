@@ -4,7 +4,7 @@ const { actions, reducer } = createSlice({
   name: "userStatus",
   initialState: false,
   reducers: {
-    setUserStatus: (status, { payload }) => {
+    SET_USER_STATUS: (status, { payload }) => {
       if (payload !== status) {
         return (status = payload);
       }
@@ -13,5 +13,5 @@ const { actions, reducer } = createSlice({
   },
 });
 
-export const { setUserStatus } = actions;
+export const { SET_USER_STATUS } = actions;
 export default reducer;

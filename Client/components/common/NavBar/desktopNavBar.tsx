@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { useState } from "react";
 import { Box, Grid, Button } from "@mui/material";
 import {
   LocationOnOutlined,
@@ -12,10 +11,12 @@ import {
 import { Input } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  cityModalToggle,
-  desktopMenuToggle,
-  megaMenuToggle,
-  signModalToggle,
+  CITY_MODAL_OPEN,
+  DESKTOP_MENU_CLOSED,
+  DESKTOP_MENU_OPEN,
+  MEGA_MENU_CLOSED,
+  MEGA_MENU_OPEN,
+  SIGN_MODAL_OPEN,
 } from "../../../store/state/ui";
 import { Store } from "../../../types/type";
 import MegaMenu from "./megaMenu";
@@ -68,7 +69,7 @@ const DesktopNavBar = (): JSX.Element => {
               <Grid item sx={{ marginRight: "5px" }}>
                 <Button
                   className={styles.nav__items}
-                  onClick={() => dispatch(cityModalToggle())}
+                  onClick={() => dispatch(CITY_MODAL_OPEN())}
                   variant="text"
                 >
                   <LocationOnOutlined />
@@ -79,7 +80,9 @@ const DesktopNavBar = (): JSX.Element => {
                 <Button
                   className={styles.nav__items}
                   onClick={() => {
-                    dispatch(megaMenuToggle());
+                    megaMenuVisible
+                      ? dispatch(MEGA_MENU_CLOSED())
+                      : dispatch(MEGA_MENU_OPEN());
                   }}
                 >
                   <Box>
@@ -117,7 +120,11 @@ const DesktopNavBar = (): JSX.Element => {
               <Grid item className={styles.dropdown}>
                 <Button
                   className={styles.nav__items}
-                  onClick={() => dispatch(desktopMenuToggle())}
+                  onClick={() =>
+                    desktopMenuVisible
+                      ? dispatch(DESKTOP_MENU_CLOSED())
+                      : dispatch(DESKTOP_MENU_OPEN())
+                  }
                   variant="text"
                 >
                   <div>
@@ -158,7 +165,7 @@ const DesktopNavBar = (): JSX.Element => {
                 ) : (
                   <Button
                     className={styles.navbar__btn}
-                    onClick={() => dispatch(signModalToggle())}
+                    onClick={() => dispatch(SIGN_MODAL_OPEN())}
                     variant="contained"
                   >
                     ثبت آگهی
