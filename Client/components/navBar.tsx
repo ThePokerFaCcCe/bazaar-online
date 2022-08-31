@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Modal, Tabs } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { Store } from "../types/type";

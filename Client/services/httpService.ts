@@ -103,7 +103,7 @@ export const logout = () => {
 
 // Set Store, User isLoggedIn to True
 
-export const checkUserAuthExpire = (
+export const isUserLoggedIn = (
   reduxDispatch: (actionCreator: any) => void,
   actionCreator: any
 ) => {

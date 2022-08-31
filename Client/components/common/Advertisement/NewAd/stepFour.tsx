@@ -1,16 +1,19 @@
+import { useState } from "react";
 import { Box, Grid, Typography, Button } from "@mui/material";
-import { Select } from "antd";
+import { Input, Select } from "antd";
 import { StepsProp, Store } from "../../../../types/type";
 import UploadImg from "./upload";
-import dynamic from "next/dynamic";
 import styles from "../../../../styles/NewAd.module.css";
 import { useSelector } from "react-redux";
-import Map from "./map";
+import MapWithNoSSR from "../../AdminPanel/manageAd/MapWithNoSSR";
+import { newAdCtgHolder } from "../../../../styles/AdvertisementSx";
+import { useForm } from "react-hook-form";
+import ControlledInput from "../../controlledInput";
+import ControlledTextArea from "./controlledTextArea";
+import ControlledSelect from "./controlledSelect";
+
 const { Option } = Select;
 
-const NoSSR = dynamic(() => import("./map"), {
-  ssr: false,
-});
 const StepFour = ({
   onBackToCategories,
   selectedCtg,
@@ -18,16 +21,36 @@ const StepFour = ({
   selectedSubChildCtg,
 }: StepsProp): JSX.Element => {
   // Redux Setup
-
   const city = useSelector((state: Store) => state.entities.states);
-  // CDM
-  const onChange = (value: string) => {
-    console.log(`selected ${value}`);
-  };
 
-  const onSearch = (value: string) => {
-    console.log("search:", value);
-  };
+  // CityList For Select OPTIONS
+  const cityList: { value: number; label: string }[] = [];
+
+  city.forEach(({ id: value, name: label }) => {
+    cityList.push({ value, label });
+  });
+  // React Hook Form
+  const { control, handleSubmit } = useForm({
+    defaultValues: {
+      select: {},
+      title: "",
+      description: "",
+      address: "",
+      latLng: [],
+      cityId: null,
+      advertiesementPrice: {
+        value: "",
+        isAgreement: false,
+        type: null,
+      },
+      categoryId:
+        selectedSubChildCtg?.id || selectedSubCtg?.id || selectedCtg?.id,
+    },
+  });
+
+  const onSubmit = (data: any) => console.log(data);
+
+  // Render
   return (
     <Box className="NewAd">
       <Grid
@@ -38,16 +61,7 @@ const StepFour = ({
       >
         <Typography className={styles.create__new_ad}>ثبت آگهی</Typography>
       </Grid>
-      <Box
-        sx={{
-          display: "flex",
-          direction: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          p: "2rem",
-        }}
-        className="border"
-      >
+      <Box sx={newAdCtgHolder} className="border">
         <Typography className={styles.category__name}>
           {selectedSubChildCtg?.title ||
             selectedSubCtg?.title ||
@@ -59,47 +73,71 @@ const StepFour = ({
           </Typography>
         </Button>
       </Box>
-      <Box className="my-5">
-        <Typography className={styles.section__title}>شهر</Typography>
-        <Select
-          style={{ width: "100%" }}
-          showSearch
-          placeholder="شهر خود را انتخاب کنید"
-          optionFilterProp="children"
-          onChange={onChange}
-          onSearch={onSearch}
-          filterOption={(input, option) =>
-            (option!.children as unknown as string)
-              .toLowerCase()
-              .includes(input.toLowerCase())
-          }
-        >
-          {city?.map((ct: any) => (
-            <Option key={ct.id} value={ct.id}>
-              {ct.name}
-            </Option>
-          ))}
-        </Select>
-      </Box>
-      <Box className="my-5">
-        <Typography className={styles.section__title}>نقشه</Typography>
-        <Typography className={styles.section__text}>
-          پس از تعیین محدوده روی نقشه، می‌توانید انتخاب کنید که موقعیت دقیق
-          مکانی در آگهی نمایش داده نشود.
-        </Typography>
-        <Map />
-      </Box>
-      <Box className="my-5">
-        <Typography className={styles.section__title}>عکس آگهی</Typography>
-        <Typography className={styles.section__text}>
-          عکس‌هایی از فضای داخل و بیرون ملک اضافه کنید. آگهی‌های دارای عکس تا «۳
-          برابر» بیشتر توسط کاربران دیده می‌شوند.
-        </Typography>
-        <UploadImg />
-        <Typography className={styles.section__text}>
-          تعداد عکس‌های انتخاب شده نباید بیشتر از 5 تا باشد.
-        </Typography>
-      </Box>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Box className="my-5">
+          <Typography className={styles.section__title}>شهر</Typography>
+          <ControlledSelect
+            name="cityId"
+            control={control}
+            options={cityList}
+            placeholder="لطفا شهر خود را انتخاب کنید"
+          />
+        </Box>
+        <Box className="my-5">
+          <Typography className={styles.section__title}>نقشه</Typography>
+          <Typography className={styles.section__text}>
+            پس از تعیین محدوده روی نقشه، می‌توانید انتخاب کنید که موقعیت دقیق
+            مکانی در آگهی نمایش داده نشود.
+          </Typography>
+          <MapWithNoSSR />
+        </Box>
+        <Box className="my-5">
+          <Typography className={styles.section__title}>عکس آگهی</Typography>
+          <Typography className={styles.section__text}>
+            عکس‌هایی از فضای داخل و بیرون ملک اضافه کنید. آگهی‌های دارای عکس تا
+            «۳ برابر» بیشتر توسط کاربران دیده می‌شوند.
+          </Typography>
+          <UploadImg />
+          <Typography className={styles.section__text}>
+            تعداد عکس‌های انتخاب شده نباید بیشتر از 5 تا باشد.
+          </Typography>
+        </Box>
+        <Box className="my-5">
+          <Typography className={styles.section__title}>عنوان آگهی</Typography>
+          <ControlledInput
+            name="title"
+            control={control}
+            placeholder="عنوان را وارد کنید"
+          />
+        </Box>
+        <Box className="my-5">
+          <Typography className={styles.section__title}>توضیحات</Typography>
+          <ControlledTextArea
+            name="description"
+            control={control}
+            placeholder="توضیحات مربوط به آگهی را وارد کنید"
+          />
+        </Box>
+        <Box className="my-5">
+          <Typography className={styles.section__title}>آدرس</Typography>
+          <ControlledInput
+            name="address"
+            control={control}
+            placeholder="آدرس خود را وارد کنید"
+          />
+        </Box>
+        <Box className="my-5">
+          <Typography className={styles.section__title}>نوع آگهی</Typography>
+          <Select style={{ width: "100%" }} placeholder="نوع آگهی را مشخص کنید">
+            <Option value="0">فروشی</Option>
+            <Option value="1">اجاره ای</Option>
+            <Option value="2">درخواستی</Option>
+          </Select>
+        </Box>
+        <button type="submit" className="btn btn-sm btn-primary">
+          Click
+        </button>
+      </form>
     </Box>
   );
 };

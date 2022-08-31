@@ -2,7 +2,7 @@ import type { AppProps } from "next/app";
 import { Container } from "@mui/material";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
-import { checkUserAuthExpire } from "../services/httpService";
+import { isUserLoggedIn } from "../services/httpService";
 import { useEffect } from "react";
 import { SET_USER_STATUS } from "../store/state/user";
 import nookies from "nookies";
@@ -20,7 +20,7 @@ import "../styles/globals.css";
 function MyApp({ Component, pageProps }: AppProps) {
   // CDM
   useEffect(() => {
-    checkUserAuthExpire(store.dispatch, SET_USER_STATUS);
+    isUserLoggedIn(store.dispatch, SET_USER_STATUS);
   }, []);
 
   return (

@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { CssBaseline } from "@mui/material";
-import { Modal } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-import { Store } from "../types/type";
 import { CITY_MODAL_CLOSED } from "../store/state/ui";
+import { CssBaseline } from "@mui/material";
+import { useState } from "react";
+import { Modal } from "antd";
+import { Store } from "../types/type";
 import SelectState from "./common/CityModal/selectState";
 import SelectCity from "./common/CityModal/selectCity";
 

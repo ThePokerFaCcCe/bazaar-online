@@ -1,61 +1,60 @@
-import { Input, Checkbox, Divider } from "antd";
+import { Checkbox, Divider } from "antd";
 import { Button, Box } from "@mui/material";
-import { useFormik } from "formik";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { LoginUser } from "../types/type";
 import { handleLogin } from "../services/httpService";
 import loginSchema from "../services/loginSchema";
+import ControlledInput from "./common/controlledInput";
 
 const Login = (): JSX.Element => {
-  // Formik Validation
-  const formik = useFormik({
-    initialValues: {
+  // React-Hook-Form
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: "onBlur",
+    defaultValues: {
       phoneNumber: "",
       password: "",
     },
-    onSubmit: (value) => {
-      handleLogin(value);
-    },
-    validationSchema: loginSchema,
+    resolver: yupResolver(loginSchema),
   });
-  // Event Handler
+
+  // onSubmit
+  const onSubmit = (data: LoginUser) => handleLogin(data);
+
   const handleStatus = (
     propertyName: "phoneNumber" | "password"
-  ): "error" | any => {
-    return (
-      formik.touched?.[propertyName] && formik.errors?.[propertyName] && "error"
-    );
-  };
+  ): "error" | "" => (errors?.[propertyName]?.message ? "error" : "");
 
   const handleErrorMsg = (
     propertyName: "phoneNumber" | "password"
-  ): JSX.Element | any => {
-    return (
-      formik.touched?.[propertyName] &&
-      formik.errors?.[propertyName] && <p>{formik.errors?.[propertyName]}</p>
-    );
-  };
+  ): JSX.Element | void =>
+    errors?.[propertyName] && <p>{errors?.[propertyName]?.message}</p>;
 
   // Render
   return (
     <>
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <>
-          <Input
+          <ControlledInput
             name="phoneNumber"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            status={handleStatus("phoneNumber")}
+            control={control}
             className="my-2 ltr"
             placeholder="شماره موبایل"
+            status={handleStatus("phoneNumber")}
           />
           {handleErrorMsg("phoneNumber")}
-          <Input.Password
+          <ControlledInput
             name="password"
-            onChange={formik.handleChange}
-            status={handleStatus("password")}
-            onBlur={formik.handleBlur}
+            mode="password"
+            control={control}
             className="my-2 ltr"
             placeholder="کلمه عبور"
             autoComplete="on"
+            status={handleStatus("password")}
           />
           {handleErrorMsg("password")}
           <Checkbox className="my-2">مرا به خاطر بسپار</Checkbox>

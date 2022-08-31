@@ -1,6 +1,7 @@
 import { ActionCreatorWithoutPayload } from "@reduxjs/toolkit";
 import { CheckboxChangeEvent } from "antd/lib/checkbox";
 import { Dispatch, SetStateAction } from "react";
+import { Control, Controller, FieldValues } from "react-hook-form";
 
 export type Menus = { title: string; icon: JSX.Element }[];
 
@@ -103,7 +104,8 @@ export type InputOnChange = React.KeyboardEvent<HTMLInputElement>;
 export interface StepOneProps {
   onShowTerms: boolean;
   onSetTerms: Dispatch<SetStateAction<boolean>>;
-  onFormik: any;
+  control: any;
+  errors: any;
 }
 
 export interface CategoryStepOneProps {
@@ -319,4 +321,27 @@ export interface ReasonModalProps {
   onHandleOk: () => void;
   onCloseModal: ActionCreatorWithoutPayload<string>;
   onSetReason: Dispatch<SetStateAction<string>>;
+}
+
+export interface ControlledTextAreaProps {
+  name: string;
+  control: Control<FieldValues, any>;
+  placeholder: string;
+}
+
+export interface ControlledInputProps {
+  name: string;
+  control: Control<any>;
+  placeholder?: string;
+  status?: "error" | "";
+  className?: string;
+  autoComplete?: "on" | "off";
+  mode?: "password" | undefined;
+}
+
+export interface ControlledSelectProps {
+  name: string;
+  control: Control<FieldValues, any>;
+  placeholder: string;
+  options: { value: number; label: string }[];
 }

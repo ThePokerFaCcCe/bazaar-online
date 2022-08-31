@@ -14,7 +14,11 @@ import { Input } from "antd";
 import { Sidebar } from "primereact/sidebar";
 import { NavItems, Store } from "../../../types/type";
 import { useSelector, useDispatch } from "react-redux";
-import { mobileMenuToggle, SIGN_MODAL_TOGGLE } from "../../../store/state/ui";
+import {
+  MOBILE_MENU_CLOSED,
+  MOBILE_MENU_OPEN,
+  SIGN_MODAL_OPEN,
+} from "../../../store/state/ui";
 import styles from "../../../styles/NavBar.module.css";
 import Logo from "./logo";
 import { logout } from "../../../services/httpService";
@@ -64,8 +68,8 @@ const MobileNavBar = (): JSX.Element => {
   const modalToOpen = (title: string) => {
     switch (title) {
       case "ورود | ثبت نام":
-        dispatch(mobileMenuToggle());
-        dispatch(SIGN_MODAL_TOGGLE());
+        dispatch(MOBILE_MENU_CLOSED());
+        dispatch(SIGN_MODAL_OPEN());
         return;
       case "خروج":
         logout();
@@ -78,7 +82,7 @@ const MobileNavBar = (): JSX.Element => {
   return (
     <>
       <Box className={styles.mobile__nav}>
-        <IconButton onClick={() => dispatch(mobileMenuToggle())}>
+        <IconButton onClick={() => dispatch(MOBILE_MENU_OPEN())}>
           <Menu />
         </IconButton>
         <Link href="/">
@@ -95,7 +99,7 @@ const MobileNavBar = (): JSX.Element => {
         ) : (
           <Button
             className={styles.navbar__btn}
-            onClick={() => dispatch(SIGN_MODAL_TOGGLE())}
+            onClick={() => dispatch(SIGN_MODAL_OPEN())}
             variant="contained"
           >
             ثبت آگهی
@@ -106,13 +110,13 @@ const MobileNavBar = (): JSX.Element => {
         icons={() => (
           <Close
             sx={{ cursor: "pointer" }}
-            onClick={() => dispatch(mobileMenuToggle())}
+            onClick={() => dispatch(MOBILE_MENU_CLOSED())}
           />
         )}
         showCloseIcon={false}
         position="right"
         visible={mobileMenuVisible}
-        onHide={() => dispatch(mobileMenuToggle())}
+        onHide={() => dispatch(MOBILE_MENU_CLOSED())}
       >
         <Box className={styles.navbar__drawer}>
           {navItemToShow.map((item, index) => {

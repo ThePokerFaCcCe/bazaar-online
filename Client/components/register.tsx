@@ -8,27 +8,33 @@ import StepOne from "./common/Register/stepOne";
 import StepTwo from "./common/Register/stepTwo";
 import StepThree from "./common/Register/stepThree";
 import registerSchema from "../services/registerSchema";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const Register = (): JSX.Element => {
   // State
   const [step, setStep] = useState(1);
   const [code, setCode] = useState("000000");
   const [terms, setTerms] = useState(false);
-  const formik = useFormik({
-    validationSchema: registerSchema,
-    initialValues: {
+  // React-Hook-Form
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: "onBlur",
+    defaultValues: {
       firstName: "",
       lastName: "",
       email: "",
       phoneNumber: "",
       password: "",
     },
-    onSubmit: (value) => {
-      if (terms) {
-        handleNextStep(value);
-      }
-    },
+    resolver: yupResolver(registerSchema),
   });
+
+  // onSubmit
+  const onSubmit = (data: any) => terms && handleNextStep(data);
 
   // Event Handlers
   const stepToShow = (): JSX.Element => {
@@ -42,7 +48,8 @@ const Register = (): JSX.Element => {
           <StepOne
             onShowTerms={terms}
             onSetTerms={setTerms}
-            onFormik={formik}
+            control={control}
+            errors={errors}
           />
         );
     }
@@ -65,7 +72,7 @@ const Register = (): JSX.Element => {
 
   // Render
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       {stepToShow()}
       <Divider />
       <Box sx={{ display: "flex", justifyContent: "end" }}>

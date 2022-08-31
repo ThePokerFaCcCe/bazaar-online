@@ -16,10 +16,7 @@ import {
   PeopleOutline,
 } from "@mui/icons-material";
 import { Menus } from "../../../types/type";
-import {
-  SIGN_MODAL_TOGGLE,
-  DESKTOP_MENU_TOGGLE,
-} from "../../../store/state/ui";
+import { SIGN_MODAL_OPEN, DESKTOP_MENU_CLOSED } from "../../../store/state/ui";
 import { useDispatch } from "react-redux";
 
 const menus: Menus = [
@@ -35,8 +32,8 @@ const MyBazzarMenu = (): JSX.Element => {
   // Event Handlers
   const modalToOpen = (title: string) => {
     if (title === "ثبت نام | ورود") {
-      dispatch(SIGN_MODAL_TOGGLE());
-      dispatch(DESKTOP_MENU_TOGGLE());
+      dispatch(SIGN_MODAL_OPEN());
+      dispatch(DESKTOP_MENU_CLOSED());
       return;
     }
     return null;

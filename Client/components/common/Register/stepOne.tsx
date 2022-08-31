@@ -2,26 +2,22 @@ import { Input, Checkbox } from "antd";
 import { CheckboxChangeEvent } from "antd/lib/checkbox";
 import { ToastContainer } from "react-toastify";
 import { StepOneProps } from "../../../types/type";
+import ControlledInput from "../controlledInput";
 
-const StepOne = ({ onFormik, onShowTerms, onSetTerms }: StepOneProps) => {
+const StepOne = ({
+  control,
+  errors,
+  onShowTerms,
+  onSetTerms,
+}: StepOneProps) => {
   // Event Handlers
 
-  const handleStatus = (propertyName: string): "error" | undefined => {
-    return (
-      onFormik.touched?.[propertyName] &&
-      onFormik.errors?.[propertyName] &&
-      "error"
-    );
-  };
+  const handleStatus = (propertyName: string): "error" | "" =>
+    errors?.[propertyName]?.message ? "error" : "";
 
-  const handleErrorMsg = (propertyName: string): JSX.Element | any => {
-    return (
-      onFormik.touched?.[propertyName] &&
-      onFormik.errors?.[propertyName] && (
-        <p>{onFormik.errors?.[propertyName]}</p>
-      )
-    );
-  };
+  const handleErrorMsg = (propertyName: string): JSX.Element | void =>
+    errors?.[propertyName] && <p>{errors?.[propertyName]?.message}</p>;
+
   // Render
   return (
     <>
@@ -30,23 +26,21 @@ const StepOne = ({ onFormik, onShowTerms, onSetTerms }: StepOneProps) => {
         <div className="col">
           <>
             {/* First Name */}
-            <Input
+            <ControlledInput
               name="firstName"
+              control={control}
+              className="my-2 ltr"
               placeholder="نام *"
-              className="my-2"
               status={handleStatus("firstName")}
-              onBlur={onFormik.handleBlur}
-              onChange={onFormik.handleChange}
             />
             {handleErrorMsg("firstName")}
             {/* Email */}
-            <Input
+            <ControlledInput
               name="email"
+              control={control}
+              className="my-2 ltr"
               placeholder="ایمیل *"
-              className="my-2"
               status={handleStatus("email")}
-              onChange={onFormik.handleChange}
-              onBlur={onFormik.handleBlur}
             />
             {handleErrorMsg("email")}
           </>
@@ -54,37 +48,37 @@ const StepOne = ({ onFormik, onShowTerms, onSetTerms }: StepOneProps) => {
         <div className="col">
           <>
             {/* Last Name */}
-            <Input
+            <ControlledInput
               name="lastName"
+              control={control}
+              className="my-2 ltr"
               placeholder="نام خانوادگی *"
-              className="my-2"
               status={handleStatus("lastName")}
-              onBlur={onFormik.handleBlur}
-              onChange={onFormik.handleChange}
             />
             {handleErrorMsg("lastName")}
             {/* Phone Number */}
-            <Input
+            <ControlledInput
               name="phoneNumber"
+              mode="password"
+              control={control}
+              className="my-2 ltr"
               placeholder="شماره موبایل *"
-              className="my-2"
+              autoComplete="on"
               status={handleStatus("phoneNumber")}
-              onChange={onFormik.handleChange}
-              onBlur={onFormik.handleBlur}
             />
             {handleErrorMsg("phoneNumber")}
           </>
         </div>
       </div>
       {/* Password */}
-      <Input.Password
+      <ControlledInput
         name="password"
+        mode="password"
+        control={control}
+        className="my-2 ltr"
         placeholder="کلمه عبور *"
-        className="my-2"
-        status={handleStatus("password")}
-        onChange={onFormik.handleChange}
-        onBlur={onFormik.handleBlur}
         autoComplete="on"
+        status={handleStatus("password")}
       />
       {handleErrorMsg("password")}
       <Checkbox

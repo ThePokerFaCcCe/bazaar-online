@@ -6,7 +6,6 @@ const MapNoSSR = dynamic(() => import("../../Advertisement/NewAd/map"), {
 });
 
 function MapWithNoSSR({ center, marker }: Map) {
-  console.log("MapWithNoSSR", center, marker);
   return <MapNoSSR center={center} marker={marker} />;
 }
 

@@ -27,3 +27,11 @@ export const noteHint = {
 };
 
 export const dividerColor = { borderColor: "#000" };
+
+export const newAdCtgHolder = {
+  display: "flex",
+  direction: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+  p: "2rem",
+};
