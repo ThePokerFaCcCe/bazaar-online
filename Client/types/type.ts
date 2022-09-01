@@ -147,8 +147,12 @@ export interface CategoryStepThreeProps {
   selectedCategory: CategoryObjectWithChildren;
 }
 
-export type City = { id: number; name: string }[];
-export type CityObj = { id: number; name: string };
+export type City = { id: number; name: string; advertiesementsCount: number }[];
+export type CityObj = {
+  id: number;
+  name: string;
+  advertiesementsCount: number;
+};
 
 export interface UserCardProps {
   name: string;

@@ -1,13 +1,12 @@
 import type { AppProps } from "next/app";
 import { Container } from "@mui/material";
-import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import { isUserLoggedIn } from "../services/httpService";
 import { useEffect } from "react";
 import { SET_USER_STATUS } from "../store/state/user";
-import nookies from "nookies";
+import { wrapper } from "../store/configureStore";
+import { useDispatch } from "react-redux";
 import RTL from "../services/rtl";
-import store from "../store/configureStore";
 import NavBar from "../components/navBar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "antd/dist/antd.css";
@@ -16,26 +15,27 @@ import "primereact/resources/primereact.min.css"; //core css
 import "primeicons/primeicons.css";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/globals.css";
-
 function MyApp({ Component, pageProps }: AppProps) {
   // CDM
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    isUserLoggedIn(store.dispatch, SET_USER_STATUS);
+    isUserLoggedIn(dispatch, SET_USER_STATUS);
   }, []);
 
   return (
     <>
-      <Provider store={store}>
-        <RTL>
+      <RTL>
+        <>
           <Container className="mui__container" maxWidth="xl">
             <ToastContainer rtl />
             <NavBar />
             <Component {...pageProps} />
           </Container>
-        </RTL>
-      </Provider>
+        </>
+      </RTL>
     </>
   );
 }
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);

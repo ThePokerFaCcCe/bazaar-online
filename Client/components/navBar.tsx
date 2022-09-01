@@ -7,6 +7,9 @@ import MobileNavBar from "./common/NavBar/mobileNavBar";
 import DesktopNavBar from "./common/NavBar/desktopNavBar";
 import Register from "./register";
 import Login from "./login";
+import { useEffect } from "react";
+import { getNavBarInfo } from "../services/httpService";
+
 const { TabPane } = Tabs;
 
 const NavBar = (): JSX.Element => {
@@ -16,7 +19,10 @@ const NavBar = (): JSX.Element => {
     (state: Store) => state.entities.ui.modals
   );
 
-  // Render
+  useEffect(() => {
+    getNavBarInfo(dispatch);
+  }, []);
+
   return (
     <>
       <DesktopNavBar />

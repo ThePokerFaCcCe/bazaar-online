@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Category } from "../../types/type";
+import { HYDRATE } from "next-redux-wrapper";
 
 const { actions, reducer } = createSlice({
   name: "UI",
@@ -12,6 +12,14 @@ const { actions, reducer } = createSlice({
       return state;
     },
   },
+  // extraReducers: {
+  //   [HYDRATE]: (state, action) => {
+  //     return {
+  //       ...state,
+  //       ...action.payload,
+  //     };
+  //   },
+  // },
 });
 
 export const { CATEGORY_RECEIVED } = actions;

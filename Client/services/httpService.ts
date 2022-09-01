@@ -1,7 +1,10 @@
+import { AnyAction, Dispatch } from "@reduxjs/toolkit";
 import axios from "axios";
 import nookies from "nookies";
 import { toast } from "react-toastify";
 import config from "../config.json";
+import { CATEGORY_RECEIVED } from "../store/state/category";
+import { STATES_RECEIVED } from "../store/state/states";
 import {
   StepTwoProps,
   User,
@@ -10,6 +13,7 @@ import {
   GetRolesProp,
   DashboardUserPage,
 } from "../types/type";
+import { organaizeCategories } from "./orgCategories";
 
 const { token } = nookies.get();
 
@@ -149,7 +153,7 @@ export const getFeaturesList = async () => {
 export const getRolePermissions = async (
   selectedRole: number | null,
   setState: (object: any) => void
-) => {
+): Promise<void> => {
   if (selectedRole) {
     const { data } = await axios.get(
       `${config.apiEndPoint}/Roles/${selectedRole}`,
@@ -161,23 +165,26 @@ export const getRolePermissions = async (
 
 // Dashboard User
 
-export const changeUserInfo = async (id: number, data: DashboardUserPage) => {
+export const changeUserInfo = async (
+  id: number,
+  data: DashboardUserPage
+): Promise<void> => {
   await axios.put(`${config.apiEndPoint}/Users/${id}`, data, header);
 };
-export const deleteUser = async (id: number) => {
+export const deleteUser = async (id: number): Promise<void> => {
   await axios.delete(`${config.apiEndPoint}/Users/${id}`, header);
 };
 
 // Dashboard Ad
 
-export const confirmAd = async (id: number) => {
+export const confirmAd = async (id: number): Promise<void> => {
   await axios.post(
     `${config.apiEndPoint}/Advertiesements/${id}/Management/Accept`,
     header
   );
 };
 
-export const rejectAd = async (id: number, reason: string) => {
+export const rejectAd = async (id: number, reason: string): Promise<void> => {
   await axios.post(
     `${config.apiEndPoint}/Advertiesements/${id}/Management/Deny`,
     { reason },
@@ -185,7 +192,7 @@ export const rejectAd = async (id: number, reason: string) => {
   );
 };
 
-export const deleteAd = async (id: number, reason: string) => {
+export const deleteAd = async (id: number, reason: string): Promise<void> => {
   await axios.post(
     `${config.apiEndPoint}/Advertiesements/${id}/Management/Delete`,
     { reason },
@@ -211,4 +218,23 @@ export const handleForbidden = (): void => {
   setTimeout(() => {
     window.location.replace("/");
   }, 2000);
+};
+
+// SSR Get States
+
+const getStates = async () => {
+  const { data } = await axios.get(`${config.apiEndPoint}/Locations/Cities`);
+  return data;
+};
+
+const getCategories = async () => {
+  const { data } = await axios.get(`${config.apiEndPoint}/Categories`);
+  return data;
+};
+
+export const getNavBarInfo = async (dispatch: Dispatch<AnyAction>) => {
+  const categories = await getCategories();
+  const states = await getStates();
+  dispatch(CATEGORY_RECEIVED(organaizeCategories(categories)));
+  dispatch(STATES_RECEIVED(states));
 };

@@ -16,23 +16,22 @@ import {
 import { Input } from "antd";
 import type { NextPage } from "next";
 import Head from "next/head";
-import CityModal from "../components/cityModal";
-
 import Image from "next/image";
-const Home: NextPage = () => {
-  const popular: string[] = [
-    "تهران",
-    "کرج",
-    "رشت",
-    "اصفهان",
-    "شیراز",
-    "مشهد",
-    "قم",
-    "تبریز",
-    "اهواز",
-    "یزد",
-  ];
 
+const popular: string[] = [
+  "تهران",
+  "کرج",
+  "رشت",
+  "اصفهان",
+  "شیراز",
+  "مشهد",
+  "قم",
+  "تبریز",
+  "اهواز",
+  "یزد",
+];
+
+const Home: NextPage = () => {
   return (
     <div>
       <Head>

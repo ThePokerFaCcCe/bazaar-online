@@ -12,7 +12,7 @@
   background: #fbfbfb;
 }
 
-@media screen and (min-width: 876px) {
+@media screen and (min-width: 830px) {
   .desktop__navBar {
     display: block;
   }
@@ -142,7 +142,7 @@
   width: 100%;
 }
 
-@media screen and (min-width: 876px) {
+@media screen and (min-width: 830px) {
   .mobile__nav {
     display: none;
   }

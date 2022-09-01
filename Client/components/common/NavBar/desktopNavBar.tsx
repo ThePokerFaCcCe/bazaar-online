@@ -153,9 +153,6 @@ const DesktopNavBar = (): JSX.Element => {
                 </Link>
               </Grid>
               <Grid item>
-                <Button className={styles.nav__items}>پشتیبانی</Button>
-              </Grid>
-              <Grid item>
                 {isLoggedIn ? (
                   <Link href="/ad/new">
                     <Button className={styles.navbar__btn} variant="contained">

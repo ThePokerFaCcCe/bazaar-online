@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { AppState } from "../configureStore";
 
 const { actions, reducer } = createSlice({
   name: "UI",
@@ -77,4 +78,5 @@ export const {
   DELETE_REASON_MODAL_OPEN,
   DELETE_REASON_MODAL_CLOSED,
 } = actions;
+
 export default reducer;
