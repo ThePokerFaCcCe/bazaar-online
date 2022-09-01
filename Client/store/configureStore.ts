@@ -1,8 +1,6 @@
 import { configureStore, ThunkAction } from "@reduxjs/toolkit";
 import reducer from "./reducer";
 import { Action } from "redux";
-import categoryApi from "./middleware/categories";
-import statesApi from "./middleware/states";
 import { createWrapper } from "next-redux-wrapper";
 
 const makeStore = () =>

@@ -31,7 +31,9 @@ const AdPageExtra = ({ ad, error }: AdPageExtraProps) => {
   const { push } = useRouter();
   const dispatch = useDispatch();
   // Redux Store
-  const { deleteReasonModalVisible, rejectReasonModalVisible } = useSelector(selectModals);
+  const { deleteReasonModalVisible, rejectReasonModalVisible } =
+    useSelector(selectModals);
+
   // Handle 404 ERROR
   const handle404Error = (response: any) => {
     if (response.status === 404) toast.error("آگهی با این شناسه یافت نشد");

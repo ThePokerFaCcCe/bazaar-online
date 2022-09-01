@@ -6,25 +6,21 @@ import {
   RadioGroup,
   Radio,
 } from "@mui/material";
-import { useMemo, useState, useEffect } from "react";
-import { handleGetData as getCategories } from "../../../services/httpService"; // Renaming Import Function
-import { Category } from "../../../types/type";
+import { useMemo, useState } from "react";
 import NewCategory from "./manageCategory/newCategory";
 import ChangeCategory from "./manageCategory/changeCategory";
 import RemoveCategory from "./manageCategory/removeCategory";
-
+import { useSelector } from "react-redux";
+import { selectDashboard } from "../../../store/state/dashboard";
 const ManageCategories = (): JSX.Element => {
+  // Redux Setup
+  const { categories } = useSelector(selectDashboard);
+
   // Local Store
   const [purpose, setPurpose] = useState("newCategory");
-  const [categories, setCategories] = useState<Category | []>([]);
-
-  // CDM
-  useEffect(() => {
-    getCategories("categories", setCategories);
-  }, []);
 
   //
-  const formToShow: JSX.Element | undefined = useMemo(() => {
+  const formToShow: JSX.Element = useMemo(() => {
     switch (purpose) {
       case "changeCategory":
         return <ChangeCategory categories={categories} />;

@@ -1,6 +1,7 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Menu, MenuProps } from "antd";
 import { Box } from "@mui/material";
+import { handleGetData } from "../../services/httpService";
 import {
   PeopleOutline,
   Key,
@@ -16,6 +17,21 @@ import ManageAds from "../../components/common/AdminPanel/manageAds";
 import ManageCategories from "../../components/common/AdminPanel/manageCategories";
 import ManageFields from "../../components/common/AdminPanel/manageFields";
 import Head from "next/head";
+import axios from "axios";
+import nookies from "nookies";
+import config from "../../config.json";
+import { GetServerSideProps } from "next";
+import { DashboardProps } from "../../types/type";
+import { wrapper } from "../../store/configureStore";
+import Store from "../../store/configureStore";
+import {
+  SET_ADS,
+  SET_CATEGORIES,
+  SET_ROLES,
+  SET_USERS,
+  SET_PERMISSIONS,
+} from "../../store/state/dashboard";
+import { useDispatch } from "react-redux";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -68,10 +84,27 @@ const items: MenuItem[] = [
   ),
 ];
 
-const App = (): JSX.Element => {
+const Dashboard = ({
+  ads,
+  categories,
+  roles,
+  users,
+  permissions,
+}: DashboardProps): JSX.Element => {
   // Local State
+  const dispatch = useDispatch();
   const [current, setCurrent] = useState("sub1");
-  const { query, push, pathname } = useRouter();
+  const { push, pathname } = useRouter();
+  // CDM
+
+  useEffect(() => {
+    dispatch(SET_USERS(users));
+    dispatch(SET_ADS(ads));
+    dispatch(SET_CATEGORIES(categories));
+    dispatch(SET_ROLES(roles));
+    dispatch(SET_PERMISSIONS(permissions));
+  }, []);
+
   //
   const categoryToShow = useMemo(() => {
     switch (current) {
@@ -105,21 +138,6 @@ const App = (): JSX.Element => {
       <div className="row">
         <div className="col-sm-9 order2">
           <Box sx={{ p: 2 }}>
-            {/* <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <Search placeholder="جستجوی کاربر" style={{ width: "100%" }} />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Select
-                  placeholder="مرتب سازی بر اساس"
-                  style={{ width: "100%" }}
-                  onChange={handleChange}
-                >
-                  <Option value="oldest">قدیمی ترین</Option>
-                  <Option value="newest">جدید ترین</Option>
-                </Select>
-              </Grid>
-            </Grid> */}
             <Box className={styles.users__holder}>{categoryToShow}</Box>
           </Box>
         </div>
@@ -140,16 +158,48 @@ const App = (): JSX.Element => {
   );
 };
 
-// export const getServerSideProps: GetServerSideProps = async () => {
-//   const { query } = useRouter();
-//   const { data: makes } = await axios.get(
-//     "https://jsonplaceholder.typicode.com/posts"
-//   );
-//   return {
-//     props: {
-//       make: makes,
-//     },
-//   };
-// };
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => async (context: any) => {
+    const { token } = nookies.get(context);
+    const header = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `bearer ${token}`,
+      },
+    };
 
-export default App;
+    const { data: ads } = await axios.get(
+      `${config.apiEndPoint}/Advertiesements/Management/List`,
+      header
+    );
+    const { data: users } = await axios.get(
+      `${config.apiEndPoint}/users`,
+      header
+    );
+    const { data: roles } = await axios.get(
+      `${config.apiEndPoint}/roles`,
+      header
+    );
+    const { data: categories } = await axios.get(
+      `${config.apiEndPoint}/categories`,
+      header
+    );
+
+    const { data: permissions } = await axios.get(
+      `${config.apiEndPoint}/permissions`,
+      header
+    );
+
+    return {
+      props: {
+        ads: ads.content,
+        users: users.content,
+        categories,
+        roles,
+        permissions,
+      },
+    };
+  }
+);
+
+export default Dashboard;

@@ -38,6 +38,13 @@ export type CategoryObjectWithChildren = {
 
 export interface Store {
   entities: {
+    dashboard: {
+      ads: Ad[];
+      users: UserDashboard;
+      categories: Category;
+      roles: Roles;
+      permissions: Permissions;
+    };
     isLoggedIn: boolean;
     ui: {
       modals: {
@@ -193,7 +200,7 @@ export interface RolePagesProps {
 }
 export interface ChangeRoleProps {
   roles: Roles | [];
-  permissions: Permissions[];
+  permissions: Permissions;
 }
 
 export interface ManageCategoriesProps {
@@ -205,7 +212,7 @@ export interface Permissions {
   permissions: { id: number; title: string }[];
 }
 export interface NewRoleProps {
-  permissions: Permissions[];
+  permissions: Permissions;
 }
 
 export interface NewRoleData {
@@ -348,4 +355,12 @@ export interface ControlledSelectProps {
   control: any;
   placeholder: string;
   options: { value: number; label: string }[];
+}
+
+export interface DashboardProps {
+  ads: Ad[];
+  users: UserDashboard;
+  categories: Category;
+  roles: Roles;
+  permissions: Permissions;
 }

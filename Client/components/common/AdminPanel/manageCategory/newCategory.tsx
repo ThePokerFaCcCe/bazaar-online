@@ -36,9 +36,9 @@ const NewCategory = ({ categories }: ManageCategoriesProps): JSX.Element => {
               style={{ width: "100%" }}
               placeholder="زیر مجموعه های خود را وارد کنید"
             >
-              <Option key={"salam1"}>Salam</Option>
-              <Option key={"salam2"}>Salam</Option>
-              <Option key={"salam3"}>Salam</Option>
+              {categories.map((ctg) => (
+                <Option key={ctg.id}>{ctg.title}</Option>
+              ))}
             </Select>
             <Button style={{ width: "40%", marginTop: "1rem" }} type="primary">
               ثبت دسته بندی جدید

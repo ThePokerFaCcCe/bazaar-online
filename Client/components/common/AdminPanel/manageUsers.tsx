@@ -1,25 +1,16 @@
-import { useEffect, useState } from "react";
-import { handleGetData as getUsers } from "../../../services/httpService"; // Renaming Import Function
-import { UserDashboard } from "../../../types/type";
-import isoToPersianDate from "../../../services/isoToPersianDate";
+import { useSelector } from "react-redux";
+import { selectDashboard } from "../../../store/state/dashboard";
 import UserCard from "./userCard";
+import isoToPersianDate from "../../../services/isoToPersianDate";
 
 const ManageUsers = (): JSX.Element => {
-  const [users, setUsers] = useState<UserDashboard | []>([]);
-
-  useEffect(() => {
-    // I await for it because the data is nested.
-    async function getUserList() {
-      const { content } = await getUsers("users", setUsers);
-      setUsers(content);
-    }
-    getUserList();
-  }, []);
+  // Redux Setup
+  const { users } = useSelector(selectDashboard);
 
   // Render
   return (
     <>
-      {users.map?.((user) => (
+      {users?.map?.((user) => (
         <UserCard
           name={user.fullName}
           key={user.id}

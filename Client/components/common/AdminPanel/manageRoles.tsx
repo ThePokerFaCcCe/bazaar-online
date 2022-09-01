@@ -6,28 +6,21 @@ import {
   RadioGroup,
   Radio,
 } from "@mui/material";
-import { useMemo, useState, useEffect } from "react";
-import {
-  getPermissionList,
-  handleGetData as getRoles,
-} from "../../../services/httpService"; // Renaming Import Function
-import { Roles } from "../../../types/type";
+import { useMemo, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectDashboard } from "../../../store/state/dashboard";
 import ChangeRole from "./manageRole/changeRole";
 import NewRole from "./manageRole/newRole";
 import RemoveRole from "./manageRole/removeRole";
 
 const ManageRoles = (): JSX.Element => {
+  // Redux Setup
+  const { roles, permissions } = useSelector(selectDashboard);
   // Local Store
   const [purpose, setPurpose] = useState("newRole");
-  const [roles, setRoles] = useState<Roles | []>([]);
-  const [permissions, setPermissions] = useState([]);
-  // CDM
-  useEffect(() => {
-    getRoles("roles", setRoles);
-    getPermissionList(setPermissions);
-  }, []);
+
   //
-  const formToShow: JSX.Element | undefined = useMemo(() => {
+  const formToShow: JSX.Element = useMemo(() => {
     switch (purpose) {
       case "changeRole":
         return <ChangeRole roles={roles} permissions={permissions} />;
