@@ -1,7 +1,6 @@
-import { useState } from "react";
 import { Box, Grid, Typography, Button } from "@mui/material";
-import { Input, Select } from "antd";
-import { StepsProp, Store } from "../../../../types/type";
+import { Select } from "antd";
+import { StepsProp } from "../../../../types/type";
 import UploadImg from "./upload";
 import styles from "../../../../styles/NewAd.module.css";
 import { useSelector } from "react-redux";
@@ -11,6 +10,7 @@ import { useForm } from "react-hook-form";
 import ControlledInput from "../../controlledInput";
 import ControlledTextArea from "./controlledTextArea";
 import ControlledSelect from "./controlledSelect";
+import { selectStore } from "../../../../store/state/ui";
 
 const { Option } = Select;
 
@@ -21,7 +21,7 @@ const StepFour = ({
   selectedSubChildCtg,
 }: StepsProp): JSX.Element => {
   // Redux Setup
-  const city = useSelector((state: Store) => state.entities.states);
+  const { states: city } = useSelector(selectStore);
 
   // CityList For Select OPTIONS
   const cityList: { value: number; label: string }[] = [];

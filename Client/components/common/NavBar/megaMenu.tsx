@@ -14,17 +14,21 @@ import {
   WorkOutline,
 } from "@mui/icons-material";
 import styles from "../../../styles/NavBar.module.css";
-import { CategoryObject, Category, Store } from "../../../types/type";
-import { MEGA_MENU_TOGGLE } from "../../../store/state/ui";
+import { CategoryObject } from "../../../types/type";
+import {
+  MEGA_MENU_OPEN,
+  MEGA_MENU_CLOSED,
+  selectStore,
+  selectNavBar,
+} from "../../../store/state/ui";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 
 const MegaMenu = () => {
   // Redux Setup
   const dispatch = useDispatch();
-  const category: Category = useSelector(
-    (state: Store) => state.entities.category
-  );
+  const { category } = useSelector(selectStore);
+  const { megaMenuVisible } = useSelector(selectNavBar);
   // Local State
   const [megaMenu2Display, setMegaMenu2Display] = useState<
     CategoryObject | any
@@ -37,7 +41,11 @@ const MegaMenu = () => {
           <Grid item xs={2.3} sx={{ borderLeft: "1px solid #ccc" }}>
             <Grid
               container
-              onClick={() => dispatch(MEGA_MENU_TOGGLE())}
+              onClick={() =>
+                megaMenuVisible
+                  ? dispatch(MEGA_MENU_CLOSED())
+                  : dispatch(MEGA_MENU_OPEN())
+              }
               direction="row"
               alignItems="center"
             >

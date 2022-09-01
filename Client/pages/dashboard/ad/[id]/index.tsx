@@ -21,6 +21,7 @@ import {
   DELETE_REASON_MODAL_CLOSED,
   REJECT_REASON_MODAL_CLOSED,
   REJECT_REASON_MODAL_OPEN,
+  selectModals,
 } from "../../../../store/state/ui";
 
 const AdPageExtra = ({ ad, error }: AdPageExtraProps) => {
@@ -30,9 +31,7 @@ const AdPageExtra = ({ ad, error }: AdPageExtraProps) => {
   const { push } = useRouter();
   const dispatch = useDispatch();
   // Redux Store
-  const { deleteReasonModalVisible, rejectReasonModalVisible } = useSelector(
-    (store: Store) => store.entities.ui.modals
-  );
+  const { deleteReasonModalVisible, rejectReasonModalVisible } = useSelector(selectModals);
   // Handle 404 ERROR
   const handle404Error = (response: any) => {
     if (response.status === 404) toast.error("آگهی با این شناسه یافت نشد");

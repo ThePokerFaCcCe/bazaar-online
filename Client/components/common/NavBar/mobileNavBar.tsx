@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { IconButton, Box, Grid, Button } from "@mui/material";
 import {
   Menu,
@@ -10,18 +9,21 @@ import {
   Logout,
   PeopleOutlined,
 } from "@mui/icons-material";
+import {
+  MOBILE_MENU_CLOSED,
+  MOBILE_MENU_OPEN,
+  selectNavBar,
+  selectStore,
+  SIGN_MODAL_OPEN,
+} from "../../../store/state/ui";
 import { Input } from "antd";
 import { Sidebar } from "primereact/sidebar";
 import { NavItems, Store } from "../../../types/type";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  MOBILE_MENU_CLOSED,
-  MOBILE_MENU_OPEN,
-  SIGN_MODAL_OPEN,
-} from "../../../store/state/ui";
-import styles from "../../../styles/NavBar.module.css";
-import Logo from "./logo";
 import { logout } from "../../../services/httpService";
+import Link from "next/link";
+import Logo from "./logo";
+import styles from "../../../styles/NavBar.module.css";
 
 const navItems: NavItems = [
   { title: "خانه", icon: <Home className={styles.navbar__icon} /> },
@@ -56,10 +58,8 @@ const MobileNavBar = (): JSX.Element => {
   // Redux Setup
   const dispatch = useDispatch();
   //
-  const { mobileMenuVisible } = useSelector(
-    (state: Store) => state.entities.ui.navbar
-  );
-  const { isLoggedIn } = useSelector((state: Store) => state.entities);
+  const { mobileMenuVisible } = useSelector(selectNavBar);
+  const { isLoggedIn } = useSelector(selectStore);
 
   //
   const navItemToShow = isLoggedIn ? navItemsLoggedIn : navItems;

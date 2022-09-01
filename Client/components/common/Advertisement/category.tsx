@@ -22,18 +22,17 @@ import {
   WorkOutline,
 } from "@mui/icons-material";
 import { Input } from "antd";
-import { Store } from "../../../types/type";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { selectStore } from "../../../store/state/ui";
 import styles from "../../../styles/Advertisement.module.css";
 import StepOne from "./Category/stepOne";
 import StepTwo from "./Category/stepTwo";
 import StepThree from "./Category/stepThree";
+
 const Category = (): JSX.Element => {
   // Redux Setup
-  const { category: categories } = useSelector(
-    (state: Store) => state.entities
-  );
+  const { category: categories } = useSelector(selectStore);
   // Local Setup
   const [step, setStep] = useState(1);
   const [selectedCategory, setSelectedGenre] = useState<any>(null);

@@ -16,6 +16,8 @@ import {
   DESKTOP_MENU_OPEN,
   MEGA_MENU_CLOSED,
   MEGA_MENU_OPEN,
+  selectNavBar,
+  selectStore,
   SIGN_MODAL_OPEN,
 } from "../../../store/state/ui";
 import { Store } from "../../../types/type";
@@ -25,11 +27,9 @@ import styles from "../../../styles/NavBar.module.css";
 const DesktopNavBar = (): JSX.Element => {
   // Redux Setup
   const dispatch = useDispatch();
-  //
-  const { desktopMenuVisible, megaMenuVisible } = useSelector(
-    (state: Store) => state.entities.ui.navbar
-  );
-  const { isLoggedIn } = useSelector((state: Store) => state.entities);
+  // Select From Store
+  const { desktopMenuVisible, megaMenuVisible } = useSelector(selectNavBar);
+  const { isLoggedIn } = useSelector(selectStore);
 
   // Render
   return (

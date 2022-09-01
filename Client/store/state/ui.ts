@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { AppState } from "../configureStore";
+import { Store } from "../../types/type";
 
 const { actions, reducer } = createSlice({
   name: "UI",
@@ -61,6 +61,12 @@ const { actions, reducer } = createSlice({
     },
   },
 });
+
+// Selector
+
+export const selectModals = (state: Store) => state.entities.ui.modals;
+export const selectNavBar = (state: Store) => state.entities.ui.navbar;
+export const selectStore = (state: Store) => state.entities;
 
 export const {
   SIGN_MODAL_OPEN,

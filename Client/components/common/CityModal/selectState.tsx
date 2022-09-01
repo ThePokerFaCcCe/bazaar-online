@@ -6,18 +6,20 @@ import styles from "../../../styles/CityModal.module.css";
 import { Store, City, CityObj } from "../../../types/type";
 import { useSelector } from "react-redux";
 import { useState } from "react";
+import { selectStore } from "../../../store/state/ui";
 
 const SelectState = ({ onSelectState }: any): JSX.Element => {
   // Redux Setup
-  const city = useSelector((state: Store) => state.entities.states);
+  const { states: city } = useSelector(selectStore);
   // Local State
   const [search, setSearch] = useState<string>("");
   let filtered: City = [];
 
   if (search !== null) {
-   city && city.forEach((item: CityObj) => {
-      if (item.name.startsWith(search)) filtered.push(item);
-    });
+    city &&
+      city.forEach((item: CityObj) => {
+        if (item.name.startsWith(search)) filtered.push(item);
+      });
   }
 
   const dataToShow =

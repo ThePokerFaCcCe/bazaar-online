@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { CITY_MODAL_CLOSED } from "../store/state/ui";
+import { CITY_MODAL_CLOSED, selectModals } from "../store/state/ui";
 import { CssBaseline } from "@mui/material";
 import { useState } from "react";
 import { Modal } from "antd";
@@ -10,9 +10,7 @@ import SelectCity from "./common/CityModal/selectCity";
 const CityModal = (): JSX.Element => {
   // Redux Setup
   const dispatch = useDispatch();
-  const { cityModalVisible } = useSelector(
-    (state: Store) => state.entities.ui.modals
-  );
+  const { cityModalVisible } = useSelector(selectModals);
   // Local State
   const [selectedState, setSelectedState] = useState<number | null>(null);
   // Render

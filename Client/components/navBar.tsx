@@ -1,7 +1,7 @@
 import { Modal, Tabs } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { Store } from "../types/type";
-import { SIGN_MODAL_CLOSED } from "../store/state/ui";
+import { selectModals, SIGN_MODAL_CLOSED } from "../store/state/ui";
 import CityModal from "./cityModal";
 import MobileNavBar from "./common/NavBar/mobileNavBar";
 import DesktopNavBar from "./common/NavBar/desktopNavBar";
@@ -15,9 +15,7 @@ const { TabPane } = Tabs;
 const NavBar = (): JSX.Element => {
   // Redux Setup
   const dispatch = useDispatch();
-  const { signModalVisible } = useSelector(
-    (state: Store) => state.entities.ui.modals
-  );
+  const { signModalVisible } = useSelector(selectModals);
 
   useEffect(() => {
     getNavBarInfo(dispatch);
@@ -30,7 +28,7 @@ const NavBar = (): JSX.Element => {
       {/* Modals */}
       <CityModal />
       <Modal
-        visible={signModalVisible}
+        // visible={signModalVisible}
         onCancel={() => dispatch(SIGN_MODAL_CLOSED())}
         footer={null}
       >

@@ -329,7 +329,7 @@ export interface ReasonModalProps {
 
 export interface ControlledTextAreaProps {
   name: string;
-  control: Control<FieldValues, any>;
+  control: any;
   placeholder: string;
 }
 
@@ -345,7 +345,7 @@ export interface ControlledInputProps {
 
 export interface ControlledSelectProps {
   name: string;
-  control: Control<FieldValues, any>;
+  control: any;
   placeholder: string;
   options: { value: number; label: string }[];
 }

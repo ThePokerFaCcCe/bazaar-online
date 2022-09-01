@@ -12,14 +12,13 @@ import {
   ChevronLeft,
   WorkOutline,
 } from "@mui/icons-material";
-import { Category, StepsProp, Store } from "../../../../types/type";
+import { StepsProp } from "../../../../types/type";
 import { useSelector } from "react-redux";
 import styles from "../../../../styles/Advertisement.module.css";
+import { selectStore } from "../../../../store/state/ui";
 const StepOne = ({ onNextStep }: StepsProp): JSX.Element => {
   // Redux Setup
-  const category: Category = useSelector(
-    (state: Store) => state.entities.category
-  );
+  const { category } = useSelector(selectStore);
 
   function Icons(title: string) {
     switch (title) {
