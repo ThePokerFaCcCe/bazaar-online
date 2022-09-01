@@ -116,31 +116,9 @@ export const isUserLoggedIn = (
 
 // Admin Dashboard
 
-export const handleGetData = async (path: string, setState?: GetRolesProp) => {
-  if (token) {
-    const { data } = await axios.get(`${config.apiEndPoint}/${path}`, header);
-    if (setState) {
-      setState(data);
-    }
-    return data;
-  }
-};
-
 export const handleRemove = async (urlPath: string, id: number) => {
   if (token) {
     await axios.delete(`${config.apiEndPoint}/${urlPath}/${id}`);
-  }
-};
-
-export const getPermissionList = async (setState: GetRolesProp) => {
-  if (token) {
-    const { data } = await axios.get(`${config.apiEndPoint}/permissions`, {
-      headers: {
-        Authorization: `bearer ${token}`,
-      },
-    });
-    setState(data);
-    return data;
   }
 };
 

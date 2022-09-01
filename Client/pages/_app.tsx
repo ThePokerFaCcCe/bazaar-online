@@ -15,14 +15,11 @@ import "primereact/resources/primereact.min.css"; //core css
 import "primeicons/primeicons.css";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/globals.css";
-import {
-  DirectionsCarFilledOutlined,
-  PhoneIphoneOutlined,
-} from "@mui/icons-material";
+
 function MyApp({ Component, pageProps }: AppProps) {
-  // CDM
   const dispatch = useDispatch();
 
+  // CDM
   useEffect(() => {
     isUserLoggedIn(dispatch, SET_USER_STATUS);
   }, []);

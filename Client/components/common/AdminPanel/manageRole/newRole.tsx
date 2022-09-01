@@ -33,6 +33,7 @@ const NewRole = ({ permissions }: NewRoleProps): JSX.Element => {
       })
     );
   };
+
   // Render
   return (
     <>

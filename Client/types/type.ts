@@ -43,7 +43,7 @@ export interface Store {
       users: UserDashboard;
       categories: Category;
       roles: Roles;
-      permissions: Permissions;
+      permissions: Permissions[];
     };
     isLoggedIn: boolean;
     ui: {
@@ -200,7 +200,7 @@ export interface RolePagesProps {
 }
 export interface ChangeRoleProps {
   roles: Roles | [];
-  permissions: Permissions;
+  permissions: Permissions[];
 }
 
 export interface ManageCategoriesProps {
@@ -212,7 +212,7 @@ export interface Permissions {
   permissions: { id: number; title: string }[];
 }
 export interface NewRoleProps {
-  permissions: Permissions;
+  permissions: Permissions[];
 }
 
 export interface NewRoleData {

@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Menu, MenuProps } from "antd";
 import { Box } from "@mui/material";
-import { handleGetData } from "../../services/httpService";
 import {
   PeopleOutline,
   Key,

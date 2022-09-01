@@ -1,6 +1,5 @@
 import { Box } from "@mui/material";
 import Card from "../Advertisement/card";
-import { handleGetData as getAds } from "../../../services/httpService";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Ad } from "../../../types/type";
