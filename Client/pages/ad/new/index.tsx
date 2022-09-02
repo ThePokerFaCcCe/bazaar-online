@@ -7,7 +7,7 @@ import { CategoryObject } from "../../../types/type";
 
 const NewAd = (): JSX.Element => {
   // Local States
-  const [step, setStep] = useState(4);
+  const [step, setStep] = useState(1);
   const [selectedCtg, setSelectedCtg] = useState<any>(null);
   const [selectedSubCtg, setSelectedSubCtg] = useState<any>(null);
   const [selectedSubChildCtg, setSelectedSubChildCtg] = useState<any>(null);

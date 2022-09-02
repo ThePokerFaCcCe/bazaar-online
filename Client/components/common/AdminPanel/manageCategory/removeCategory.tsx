@@ -19,9 +19,14 @@ const RemoveCategory = ({ categories }: ManageCategoriesProps): JSX.Element => {
 
   const handleSubmit = () => {
     if (selectedCategory) {
-      return removeCategory("category", selectedCategory);
+      return removeCategory(
+        "category",
+        selectedCategory,
+        "دسته بندی با موفقیت حذف شد",
+        "این دسته بندی قبلا حذف شده است"
+      );
     }
-    return toast.error("هیچ دسته بندی انتخاب نکردید");
+    toast.error("هیچ دسته بندی انتخاب نکردید");
   };
 
   // Render

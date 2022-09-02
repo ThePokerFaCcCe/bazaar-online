@@ -116,9 +116,34 @@ export const isUserLoggedIn = (
 
 // Admin Dashboard
 
-export const handleRemove = async (urlPath: string, id: number) => {
-  if (token) {
-    await axios.delete(`${config.apiEndPoint}/${urlPath}/${id}`);
+export const handleCreate = async (
+  urlPath: string,
+  data: object,
+  successText: string,
+  errorText: string
+) => {
+  try {
+    await axios.post(`${config.apiEndPoint}/${urlPath}`, data, header);
+    successText && toast.success(successText);
+  } catch ({ response }) {
+    (errorText && toast.error(errorText)) ||
+      toast.error("مشکلی در ایجاد به وجود آمد");
+  }
+};
+
+export const handleRemove = async (
+  urlPath: string,
+  id: number,
+  successText?: string,
+  errorText?: string
+) => {
+  try {
+    await axios.delete(`${config.apiEndPoint}/${urlPath}/${id}`, header);
+    successText && toast.success(successText);
+  } catch ({ response }) {
+    if (response && response.status === 404) {
+      (errorText && toast.error(errorText)) || toast.error("در سرور یافت نشد");
+    }
   }
 };
 
@@ -142,6 +167,38 @@ export const getRolePermissions = async (
 };
 
 // Dashboard User
+
+export const getDashboardData = async (ssrHeader: object) => {
+  const { data: ads } = await axios.get(
+    `${config.apiEndPoint}/Advertiesements/Management/List`,
+    ssrHeader
+  );
+  const { data: users } = await axios.get(
+    `${config.apiEndPoint}/users`,
+    ssrHeader
+  );
+  const { data: roles } = await axios.get(
+    `${config.apiEndPoint}/roles`,
+    ssrHeader
+  );
+  const { data: categories } = await axios.get(
+    `${config.apiEndPoint}/categories`,
+    ssrHeader
+  );
+
+  const { data: permissions } = await axios.get(
+    `${config.apiEndPoint}/permissions`,
+    ssrHeader
+  );
+
+  return {
+    ads,
+    users,
+    roles,
+    categories,
+    permissions,
+  };
+};
 
 export const changeUserInfo = async (
   id: number,

@@ -1,4 +1,3 @@
-import { Box, Grid, Typography } from "@mui/material";
 import {
   HouseOutlined,
   DirectionsCarFilledOutlined,
@@ -13,8 +12,6 @@ import {
   ChevronRight,
   WorkOutline,
 } from "@mui/icons-material";
-import styles from "../../../styles/NavBar.module.css";
-import { CategoryObject } from "../../../types/type";
 import {
   MEGA_MENU_OPEN,
   MEGA_MENU_CLOSED,
@@ -22,7 +19,10 @@ import {
   selectNavBar,
 } from "../../../store/state/ui";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Box, Grid, Typography } from "@mui/material";
+import { megaMenu2Show } from "../../../types/type";
+import styles from "../../../styles/NavBar.module.css";
 
 const MegaMenu = () => {
   // Redux Setup
@@ -30,10 +30,14 @@ const MegaMenu = () => {
   const { category } = useSelector(selectStore);
   const { megaMenuVisible } = useSelector(selectNavBar);
   // Local State
-  const [megaMenu2Display, setMegaMenu2Display] = useState<
-    CategoryObject | any
-  >(category?.[0]);
-
+  const [megaMenu2Show, setMegaMenu2Show] = useState<megaMenu2Show>(null);
+  // ComponentDidUpdate
+  useEffect(() => {
+    if (!megaMenu2Show) {
+      setMegaMenu2Show(category && category[0]);
+    }
+  }, [category]);
+  // Render
   return (
     <Box className={styles.megamenu__content}>
       <Box className={styles.navbar__category}>
@@ -63,7 +67,7 @@ const MegaMenu = () => {
                 <Grid
                   key={index}
                   container
-                  onMouseEnter={() => setMegaMenu2Display(item)}
+                  onMouseEnter={() => setMegaMenu2Show(item)}
                   direction="row"
                   justifyContent="space-between"
                   alignItems="center"
@@ -87,7 +91,7 @@ const MegaMenu = () => {
               ))}
           </Grid>
           <Grid item>
-            {megaMenu2Display?.children?.map((item: any, index: number) => {
+            {megaMenu2Show?.children?.map((item: any, index: number) => {
               return (
                 <Box className={styles.category__menu_holder} key={index}>
                   <a className={styles.category__menu_title}>{item.title}</a>

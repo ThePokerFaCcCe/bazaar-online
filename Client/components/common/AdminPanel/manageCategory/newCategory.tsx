@@ -6,18 +6,44 @@ import { InputOnChange, ManageCategoriesProps } from "../../../../types/type";
 
 const { Option } = Select;
 
+// Event Handler
 const NewCategory = ({ categories }: ManageCategoriesProps): JSX.Element => {
-  const [category, setCategory] = useState({
+  const [newCategory, setNewCategory] = useState({
     name: "",
     role: [""],
   });
 
   const handleChange = ({ target }: InputOnChange) => {
-    return setCategory((data) => ({
+    return setNewCategory((data) => ({
       ...data,
       name: target.value,
     }));
   };
+  // Todo
+  // New Category SCHEMA
+  // {
+  //   "title": "string",
+  //   "icon": "string",
+  //   "parentId": 0,
+  //   "children": [
+  //     {
+  //       "title": "string",
+  //       "icon": "string"
+  //     }
+  //   ]
+  // }
+
+  // const handleSubmit = () => {
+  //   if (newCategory.name && newCategory.role) {
+  //     return await handleNewRole(
+  //       "Roles",
+  //       newRole,
+  //       "نقش جدید با موفقیت ایجاد شد",
+  //       "مشکلی در ایجاد نقش به وجود آمد"
+  //     );
+  //   }
+  //   toast.error("لطفا اطلاعات مورد نیاز را پر کنید");
+  // };
 
   // Render
   return (

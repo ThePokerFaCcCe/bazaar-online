@@ -19,10 +19,8 @@ import Head from "next/head";
 import axios from "axios";
 import nookies from "nookies";
 import config from "../../config.json";
-import { GetServerSideProps } from "next";
 import { DashboardProps } from "../../types/type";
 import { wrapper } from "../../store/configureStore";
-import Store from "../../store/configureStore";
 import {
   SET_ADS,
   SET_CATEGORIES,
@@ -31,79 +29,14 @@ import {
   SET_PERMISSIONS,
 } from "../../store/state/dashboard";
 import { useDispatch } from "react-redux";
+import { getDashboardData } from "../../services/httpService";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
-function getItem(
-  label: React.ReactNode,
-  key?: React.Key | null,
-  icon?: React.ReactNode,
-  children?: MenuItem[],
-  type?: "group"
-): MenuItem {
-  return {
-    key,
-    icon,
-    children,
-    label,
-    type,
-  } as MenuItem;
-}
-
-const items: MenuItem[] = [
-  getItem(
-    "مدیریت کاربران",
-    "sub1",
-    <PeopleOutline style={{ fontSize: "1.3rem" }} />,
-    undefined
-  ),
-  getItem(
-    "مدیریت نقش ها",
-    "sub2",
-    <Key style={{ fontSize: "1.3rem" }} />,
-    undefined
-  ),
-  getItem(
-    "مدیریت آگهی ها",
-    "sub3",
-    <Newspaper style={{ fontSize: "1.3rem" }} />,
-    undefined
-  ),
-  getItem(
-    "مدیریت دسته بندی ها ",
-    "sub4",
-    <Category style={{ fontSize: "1.3rem" }} />,
-    undefined
-  ),
-  getItem(
-    "مدیریت فیلد ها",
-    "sub5",
-    <HistoryEdu style={{ fontSize: "1.3rem" }} />,
-    undefined
-  ),
-];
-
-const Dashboard = ({
-  ads,
-  categories,
-  roles,
-  users,
-  permissions,
-}: DashboardProps): JSX.Element => {
+const Dashboard = (): JSX.Element => {
   // Local State
-  const dispatch = useDispatch();
   const [current, setCurrent] = useState("sub1");
   const { push, pathname } = useRouter();
-  // CDM
-
-  useEffect(() => {
-    dispatch(SET_USERS(users));
-    dispatch(SET_ADS(ads));
-    dispatch(SET_CATEGORIES(categories));
-    dispatch(SET_ROLES(roles));
-    dispatch(SET_PERMISSIONS(permissions));
-  }, []);
-
   //
   const categoryToShow = useMemo(() => {
     switch (current) {
@@ -158,7 +91,7 @@ const Dashboard = ({
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  () => async (context: any) => {
+  (store) => async (context: any) => {
     const { token } = nookies.get(context);
     const header = {
       headers: {
@@ -167,28 +100,13 @@ export const getServerSideProps = wrapper.getServerSideProps(
       },
     };
 
-    const { data: ads } = await axios.get(
-      `${config.apiEndPoint}/Advertiesements/Management/List`,
-      header
-    );
-    const { data: users } = await axios.get(
-      `${config.apiEndPoint}/users`,
-      header
-    );
-    const { data: roles } = await axios.get(
-      `${config.apiEndPoint}/roles`,
-      header
-    );
-    const { data: categories } = await axios.get(
-      `${config.apiEndPoint}/categories`,
-      header
-    );
-
-    const { data: permissions } = await axios.get(
-      `${config.apiEndPoint}/permissions`,
-      header
-    );
-
+    const { ads, users, roles, categories, permissions } =
+      await getDashboardData(header);
+    store.dispatch(SET_USERS(users.content));
+    store.dispatch(SET_ADS(ads.content));
+    store.dispatch(SET_CATEGORIES(categories));
+    store.dispatch(SET_ROLES(roles));
+    store.dispatch(SET_PERMISSIONS(permissions));
     return {
       props: {
         ads: ads.content,
@@ -202,3 +120,52 @@ export const getServerSideProps = wrapper.getServerSideProps(
 );
 
 export default Dashboard;
+
+function getItem(
+  label: React.ReactNode,
+  key?: React.Key | null,
+  icon?: React.ReactNode,
+  children?: MenuItem[],
+  type?: "group"
+): MenuItem {
+  return {
+    key,
+    icon,
+    children,
+    label,
+    type,
+  } as MenuItem;
+}
+
+const items: MenuItem[] = [
+  getItem(
+    "مدیریت کاربران",
+    "sub1",
+    <PeopleOutline style={{ fontSize: "1.3rem" }} />,
+    undefined
+  ),
+  getItem(
+    "مدیریت نقش ها",
+    "sub2",
+    <Key style={{ fontSize: "1.3rem" }} />,
+    undefined
+  ),
+  getItem(
+    "مدیریت آگهی ها",
+    "sub3",
+    <Newspaper style={{ fontSize: "1.3rem" }} />,
+    undefined
+  ),
+  getItem(
+    "مدیریت دسته بندی ها ",
+    "sub4",
+    <Category style={{ fontSize: "1.3rem" }} />,
+    undefined
+  ),
+  getItem(
+    "مدیریت فیلد ها",
+    "sub5",
+    <HistoryEdu style={{ fontSize: "1.3rem" }} />,
+    undefined
+  ),
+];

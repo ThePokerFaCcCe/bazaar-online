@@ -24,7 +24,6 @@ const StepThree = ({
   console.log("category", category);
   return (
     <>
-      <div>step 3</div>
       <Box className="NewAd">
         <Grid
           container

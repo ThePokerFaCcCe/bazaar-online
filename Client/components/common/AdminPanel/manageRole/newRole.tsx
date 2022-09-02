@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Box } from "@mui/material";
-import { Input, Select, Button } from "antd";
+import { Input, Select, Button, Popconfirm } from "antd";
+import { handleCreate as handleNewRole } from "../../../../services/httpService";
 import {
   NewRoleProps,
   NewRoleData,
@@ -8,37 +9,51 @@ import {
 } from "../../../../types/type";
 import produce from "immer";
 import styles from "../../../../styles/Dashboard.module.css";
+import { toast } from "react-toastify";
 
 const { Option, OptGroup } = Select;
 
 const NewRole = ({ permissions }: NewRoleProps): JSX.Element => {
   // Local State
-  const [role, setRole] = useState<NewRoleData>({
+  const [newRole, setNewRole] = useState<NewRoleData>({
     title: "",
     permissions: [],
   });
   // Event Handlers
   const handleName = ({ target }: InputOnChange) => {
-    setRole(
-      produce(role, (draftState) => {
+    setNewRole(
+      produce(newRole, (draftState) => {
         draftState.title = target.value;
       })
     );
   };
 
   const handleRoleChange = (roleId: number[]) => {
-    setRole(
-      produce(role, (draftState) => {
+    setNewRole(
+      produce(newRole, (draftState) => {
         draftState.permissions = roleId;
       })
     );
+  };
+
+  const handleSubmit = async () => {
+    console.log("Handle Submit");
+    if (newRole.title && newRole.permissions) {
+      return await handleNewRole(
+        "Roles",
+        newRole,
+        "نقش جدید با موفقیت ایجاد شد",
+        "مشکلی در ایجاد نقش به وجود آمد"
+      );
+    }
+    toast.error("لطفا اطلاعات مورد نیاز را پر کنید");
   };
 
   // Render
   return (
     <>
       <Box sx={{ mt: 2 }}>
-        <form>
+        <form onSubmit={handleSubmit}>
           <Box className={styles.role__holder}>
             <Input onChange={handleName} placeholder="نام نقش جدید" />
             <Select
@@ -55,15 +70,27 @@ const NewRole = ({ permissions }: NewRoleProps): JSX.Element => {
                 permissions.map((item, index) => (
                   <OptGroup key={index} label={item.groupTitle}>
                     {item.permissions.map((subChild) => (
-                      <Option value={subChild.id}>{subChild.title}</Option>
+                      <Option key={subChild.id} value={subChild.id}>
+                        {subChild.title}
+                      </Option>
                     ))}
                   </OptGroup>
                 ))
               )}
             </Select>
-            <Button style={{ width: "30%", marginTop: "1rem" }} type="primary">
-              ثبت نقش جدید
-            </Button>
+            <Popconfirm
+              title="از ایجاد این نقش مطمئن هستید؟"
+              onConfirm={handleSubmit}
+              okText="بله"
+              cancelText="خیر"
+            >
+              <Button
+                style={{ width: "30%", marginTop: "1rem" }}
+                type="primary"
+              >
+                ثبت نقش جدید
+              </Button>
+            </Popconfirm>
           </Box>
         </form>
       </Box>

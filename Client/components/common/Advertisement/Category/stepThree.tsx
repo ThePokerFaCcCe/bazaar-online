@@ -1,55 +1,18 @@
+import { lazy, Suspense } from "react";
 import { Box, Typography } from "@mui/material";
-import {
-  HouseOutlined,
-  DirectionsCarFilledOutlined,
-  PhoneIphoneOutlined,
-  BlenderOutlined,
-  FormatPaintOutlined,
-  WatchOutlined,
-  PeopleOutlined,
-  CasinoOutlined,
-  HomeRepairServiceOutlined,
-  WorkOutline,
-} from "@mui/icons-material";
-import styles from "../../../../styles/Advertisement.module.css";
 import { Col, Row } from "antd";
 import { CategoryStepThreeProps } from "../../../../types/type";
+import styles from "../../../../styles/Advertisement.module.css";
 
 const StepThree = ({
   selectedChildren,
   selectedCategory,
 }: CategoryStepThreeProps): JSX.Element => {
-  // Icons
-  function Icons() {
-    switch (selectedCategory.title) {
-      case "املاک":
-        return <HouseOutlined className={styles.stepTwo_icon} />;
-      case "وسایل نقلیه":
-        return <DirectionsCarFilledOutlined className={styles.stepTwo_icon} />;
-      case "کالای دیجیتال":
-        return <PhoneIphoneOutlined className={styles.stepTwo_icon} />;
-      case "خانه و آشپزخانه":
-        return <BlenderOutlined className={styles.stepTwo_icon} />;
-      case "خدمات":
-        return <FormatPaintOutlined className={styles.stepTwo_icon} />;
-      case "وسایل شخصی":
-        return <WatchOutlined className={styles.stepTwo_icon} />;
-      case "سرگرمی و فراغت":
-        return <CasinoOutlined className={styles.stepTwo_icon} />;
-      case "اجتماعی":
-        return <PeopleOutlined className={styles.stepTwo_icon} />;
-      case "تجهیزات و صنعتی":
-        return <HomeRepairServiceOutlined className={styles.stepTwo_icon} />;
-      case "استخدام و کاریابی":
-        return <WorkOutline className={styles.stepTwo_icon} />;
-    }
-  }
-
   // Render
   return (
     <Box className="d-flex flex-column">
       <Row gutter={[5, 0]} align="middle">
-        <Col>{Icons()}</Col>
+        <Col>{Icons(selectedCategory.icon)}</Col>
         <Col>
           <Typography className={styles.subCategory__header}>
             {selectedCategory.title}
@@ -80,3 +43,19 @@ const StepThree = ({
 };
 
 export default StepThree;
+
+function Icons(icon: string | null) {
+  if (icon) {
+    const MuiIcon = lazy(() =>
+      import("@mui/icons-material").then((module: any) => ({
+        default: module[icon],
+      }))
+    );
+
+    return (
+      <Suspense fallback={<></>}>
+        <MuiIcon className={styles.newAd_icon} />
+      </Suspense>
+    );
+  }
+}

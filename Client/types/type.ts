@@ -59,13 +59,7 @@ export interface Store {
         megaMenuVisible: boolean;
       };
     };
-    category: {
-      id: number;
-      title: string;
-      children?: {}[];
-      icon: string | null;
-      parentId: number | null;
-    }[];
+    category: CategoryObject[];
     states: { id: number; name: string }[];
   };
 }
@@ -364,3 +358,5 @@ export interface DashboardProps {
   roles: Roles;
   permissions: Permissions;
 }
+
+export type megaMenu2Show = CategoryObject | null;

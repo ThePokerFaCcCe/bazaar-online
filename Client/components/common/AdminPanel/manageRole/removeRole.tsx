@@ -18,7 +18,12 @@ const RemoveRole = ({ roles }: RolePagesProps): JSX.Element => {
 
   const handleSubmit = () => {
     if (selectedRole) {
-      removeRole("roles", selectedRole);
+      removeRole(
+        "roles",
+        selectedRole,
+        "نقش با موفقیت حذف شد",
+        "این نقش قبلا حذف شده است"
+      );
     } else {
       toast.error("نقشی انتخاب نکردید");
     }

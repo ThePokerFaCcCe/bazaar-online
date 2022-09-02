@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { HYDRATE } from "next-redux-wrapper";
 import { Store } from "../../types/type";
 
 const { actions, reducer } = createSlice({
@@ -30,6 +31,14 @@ const { actions, reducer } = createSlice({
     SET_PERMISSIONS: (store, { payload }) => {
       store.permissions = payload;
       return store;
+    },
+  },
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      return {
+        ...state,
+        ...action.payload.entities.dashboard,
+      };
     },
   },
 });
