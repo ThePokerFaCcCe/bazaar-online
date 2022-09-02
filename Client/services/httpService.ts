@@ -1,19 +1,18 @@
-import { AnyAction, Dispatch } from "@reduxjs/toolkit";
-import axios from "axios";
-import nookies from "nookies";
-import { toast } from "react-toastify";
-import config from "../config.json";
-import { CATEGORY_RECEIVED } from "../store/state/category";
-import { STATES_RECEIVED } from "../store/state/states";
 import {
   StepTwoProps,
   User,
   UserActive,
   LoginUser,
-  GetRolesProp,
   DashboardUserPage,
 } from "../types/type";
+import { AnyAction, Dispatch } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
+import { CATEGORY_RECEIVED } from "../store/state/category";
+import { STATES_RECEIVED } from "../store/state/states";
 import { organaizeCategories } from "./orgCategories";
+import axios from "axios";
+import nookies from "nookies";
+import config from "../config.json";
 
 const { token } = nookies.get();
 

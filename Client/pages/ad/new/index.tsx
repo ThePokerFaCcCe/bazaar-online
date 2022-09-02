@@ -1,9 +1,9 @@
 import { useState } from "react";
-import StepOne from "../../../components/common/Advertisement/NewAd/stepOne";
-import StepTwo from "../../../components/common/Advertisement/NewAd/stepTwo";
-import StepThree from "../../../components/common/Advertisement/NewAd/stepThree";
-import StepFour from "../../../components/common/Advertisement/NewAd/stepFour";
 import { CategoryObject } from "../../../types/type";
+import StepOne from "../../../components/Advertisement/NewAd/stepOne";
+import StepTwo from "../../../components/Advertisement/NewAd/stepTwo";
+import StepThree from "../../../components/Advertisement/NewAd/stepThree";
+import StepFour from "../../../components/Advertisement/NewAd/stepFour";
 
 const NewAd = (): JSX.Element => {
   // Local States

@@ -1,21 +1,13 @@
-import { AdPageExtraProps, Store } from "../../../../types/type";
-import { GetServerSideProps } from "next";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import AdPage from "../../../../components/common/Advertisement/adPage";
-import Forbidden from "../../../../components/common/AdminPanel/forbidden";
-import config from "../../../../config.json";
-import AdButton from "../../../../components/common/AdminPanel/manageAd/adButton";
-import ReasonModal from "../../../../components/common/AdminPanel/manageAd/reasonModal";
+import { useSelector, useDispatch } from "react-redux";
+import { GetServerSideProps } from "next";
 import {
   confirmAd,
   deleteAd,
   rejectAd,
 } from "../../../../services/httpService";
-import axios from "axios";
-import nookies from "nookies";
-import { useSelector, useDispatch } from "react-redux";
 import {
   DELETE_REASON_MODAL_OPEN,
   DELETE_REASON_MODAL_CLOSED,
@@ -23,6 +15,14 @@ import {
   REJECT_REASON_MODAL_OPEN,
   selectModals,
 } from "../../../../store/state/ui";
+import { AdPageExtraProps } from "../../../../types/type";
+import AdPage from "../../../../components/Advertisement/adPage";
+import Forbidden from "../../../../components/AdminPanel/forbidden";
+import config from "../../../../config.json";
+import AdButton from "../../../../components/AdminPanel/manageAds/adButton";
+import ReasonModal from "../../../../components/AdminPanel/manageAds/reasonModal";
+import axios from "axios";
+import nookies from "nookies";
 
 const AdPageExtra = ({ ad, error }: AdPageExtraProps) => {
   // Local State

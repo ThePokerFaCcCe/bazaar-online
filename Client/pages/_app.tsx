@@ -7,7 +7,7 @@ import { SET_USER_STATUS } from "../store/state/user";
 import { wrapper } from "../store/configureStore";
 import { useDispatch } from "react-redux";
 import RTL from "../services/rtl";
-import NavBar from "../components/navBar";
+import NavBar from "../components/NavBar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "antd/dist/antd.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css"; //theme

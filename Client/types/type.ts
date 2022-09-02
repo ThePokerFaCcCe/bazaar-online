@@ -60,7 +60,7 @@ export interface Store {
       };
     };
     category: CategoryObject[];
-    states: { id: number; name: string }[];
+    states: CityObj[];
   };
 }
 

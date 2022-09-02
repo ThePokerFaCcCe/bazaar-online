@@ -1,6 +1,3 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { Menu, MenuProps } from "antd";
-import { Box } from "@mui/material";
 import {
   PeopleOutline,
   Key,
@@ -8,19 +5,6 @@ import {
   Category,
   HistoryEdu,
 } from "@mui/icons-material";
-import { useRouter } from "next/router";
-import styles from "../../styles/Dashboard.module.css";
-import ManageUsers from "../../components/common/AdminPanel/manageUsers";
-import ManageRoles from "../../components/common/AdminPanel/manageRoles";
-import ManageAds from "../../components/common/AdminPanel/manageAds";
-import ManageCategories from "../../components/common/AdminPanel/manageCategories";
-import ManageFields from "../../components/common/AdminPanel/manageFields";
-import Head from "next/head";
-import axios from "axios";
-import nookies from "nookies";
-import config from "../../config.json";
-import { DashboardProps } from "../../types/type";
-import { wrapper } from "../../store/configureStore";
 import {
   SET_ADS,
   SET_CATEGORIES,
@@ -28,8 +12,20 @@ import {
   SET_USERS,
   SET_PERMISSIONS,
 } from "../../store/state/dashboard";
-import { useDispatch } from "react-redux";
+import { useMemo, useState } from "react";
+import { Menu, MenuProps } from "antd";
+import { Box } from "@mui/material";
+import { useRouter } from "next/router";
+import { wrapper } from "../../store/configureStore";
 import { getDashboardData } from "../../services/httpService";
+import ManageUsers from "../../components/AdminPanel/manageUsers";
+import ManageRoles from "../../components/AdminPanel/manageRoles";
+import ManageAds from "../../components/AdminPanel/manageAds";
+import ManageCategories from "../../components/AdminPanel/manageCategories";
+import ManageFields from "../../components/AdminPanel/manageFields";
+import Head from "next/head";
+import nookies from "nookies";
+import styles from "../../styles/Dashboard.module.css";
 
 type MenuItem = Required<MenuProps>["items"][number];
 

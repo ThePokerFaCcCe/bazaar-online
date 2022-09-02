@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
-import ChatHeader from "../components/common/Chat/chatHeader";
-import ChatBody from "../components/common/Chat/chatBody";
+import ChatHeader from "../components/Chat/chatHeader";
+import ChatBody from "../components/Chat/chatBody";
 const Chat = (): JSX.Element => {
   return (
     <>
